@@ -1,3 +1,4 @@
 https://google-developers.appspot.com/maps/documentation/javascript/examples/directions-waypoints?hl=ru-RU
+http://stackoverflow.com/questions/3896871/google-map-driving-direction-source-code-for-their-example
 
 AIzaSyCaIaBi2tNjoT4GRI8ZSwZ1DM-5C6S04RQ

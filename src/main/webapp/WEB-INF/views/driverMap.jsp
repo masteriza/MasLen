@@ -10,11 +10,13 @@
 </head>
 <body>
 <div>
-    <input type="text" id="address-input">
+    <input type="text" id="address-input" size="50">
+    <input type="text" id="address-destination-input" size="50">
     <%--<button onclick="searchAddress();">search address</button>--%>
 </div>
 <div id="map_canvas"></div>
 
+<div id="panel" style="width: 300px; float: right;"></div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
