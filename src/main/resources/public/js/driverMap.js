@@ -36,6 +36,7 @@ function initMap() {
             map.setZoom(12);  // Why 17? Because it looks good.
         }
         marker.setIcon(/** @type {google.maps.Icon} */({
+            //url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
             //url: place.icon,
             //size: new google.maps.Size(71, 71),
             //origin: new google.maps.Point(0, 0),
@@ -114,11 +115,17 @@ function initMap() {
         //Trip route
         var rendererOptions = {map: map};
         var directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
+
+        directionsDisplay.draggable = true;
+        directionsDisplay.addListener('directions_changed', function () {
+            computeTotalDistance(directionsDisplay.getDirections());
+        });
+
+
         var point1 = new google.maps.LatLng(50.4591806, 30.618338600000016);
         var point2 = new google.maps.LatLng(50.4582408, 30.591287999999963);
 
         var wps = [{location: point1}, {location: point2}];
-
 
         var org = new google.maps.LatLng(marker.getPosition().lat(), marker.getPosition().lng());
         var dest = new google.maps.LatLng(marker_destination.getPosition().lat(), marker_destination.getPosition().lng());
@@ -126,18 +133,12 @@ function initMap() {
             origin: org,
             destination: dest,
             waypoints: wps,
+            provideRouteAlternatives: true,
             travelMode: google.maps.DirectionsTravelMode.DRIVING
-            // travelMode: google.maps.TravelMode.DRIVING
+
         };
-        //var directionsService = new google.maps.DirectionsService();
-        //var directionsService = new google.maps.DirectionsService;
+
         var directionsService = new google.maps.DirectionsService();
-        // alert(marker.getPosition().lat());
-        // alert(marker.position);
-        // alert(org);
-        // alert(request);
-
-
         directionsService.route(request, function (response, status) {
             if (status == google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(response);
@@ -145,49 +146,7 @@ function initMap() {
             else
                 alert('failed to get directions');
         });
-
-
-        // directionsDisplay = new google.maps.DirectionsRenderer();
-        // var request = {
-        //
-        //     // origin: new google.maps.LatLng(60.023539414725356, 30.283663272857666), //точка старта
-        //     // destination: new google.maps.LatLng(59.79530896374892, 30.410317182540894), //точка финиша
-        //     origin: new google.maps.LatLng(marker.position), //точка старта
-        //     destination: new google.maps.LatLng(marker_destination.position), //точка финиша
-        //
-        //     travelMode: google.maps.DirectionsTravelMode.DRIVING //режим прокладки маршрута
-        // };
-        //
-        // directionsService.route(request, function(response, status) {
-        //     if (status == google.maps.DirectionsStatus.OK) {
-        //         directionsDisplay.setDirections(response);
-        //     }
-        // });
-        //
-        // directionsDisplay.setMap(map);
-
-        // alert(marker_destination.latitude);
-        // alert(marker_destination.position);
-
-        // directionsDisplay.setMap(map);
-        // directionsDisplay.setPanel(document.getElementById('panel'));
-        //
-        // var request = {
-        //     origin: 'Chicago',
-        //     destination: 'New York',
-        //     travelMode: google.maps.DirectionsTravelMode.DRIVING
-        // };
-        //
-        // directionsService.route(request, function (response, status) {
-        //     if (status == google.maps.DirectionsStatus.OK) {
-        //         directionsDisplay.setDirections(response);
-        //     }
-        // });
-
-
     });
-
-
 }
 
 
