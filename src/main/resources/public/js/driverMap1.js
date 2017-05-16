@@ -1,5 +1,7 @@
-var directionsService = new google.maps.DirectionsService();
+var polylines = [];
+var polylineOptions = {};
 var map;
+var infowindow;
 
 function initialize() {
 
@@ -12,8 +14,8 @@ function initialize() {
 
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
-    var start = "Yamuna Nagar, Haryana, India";
-    var end = "New Delhi, India";
+    var start = "50.443886, 30.445449";
+    var end = "50.460841, 30.619999";
 
     plotDirections(start, end);
 }
@@ -29,6 +31,9 @@ function plotDirections(start, end) {
         provideRouteAlternatives: true
     };
 
+    infowindow = new google.maps.InfoWindow();
+
+    var directionsService = new google.maps.DirectionsService();
     directionsService.route(request, function (response, status) {
 
         if (status == google.maps.DirectionsStatus.OK) {
@@ -41,14 +46,23 @@ function plotDirections(start, end) {
             start = response.routes[0].legs[0].start_location;
             end = response.routes[0].legs[0].end_location;
 
+            ///123
+            renderDirectionsPolylines(response);
+
+
+            //123
+
             // Loop through each route
-            for (var i = 0; i < routes.length; i++) {
+            //for (var i = 0; i < routes.length; i++) {
+            for (var i = 0; i < 1; i++) {
 
                 var directionsDisplay = new google.maps.DirectionsRenderer({
                     map: map,
                     directions: response,
                     routeIndex: i,
                     draggable: true,
+                    suppressPolylines: false,
+                    infoWindow: infowindow,
                     polylineOptions: {
 
                         strokeColor: colors[i],
@@ -87,4 +101,30 @@ function plotDirections(start, end) {
     });
 }
 
-initialize();
+function renderDirectionsPolylines(response) {
+    for (var i = 0; i < polylines.length; i++) {
+        polylines[i].setMap(null);
+    }
+    var legs = response.routes[0].legs;
+    for (i = 0; i < legs.length; i++) {
+        var steps = legs[i].steps;
+        for (j = 0; j < steps.length; j++) {
+            var nextSegment = steps[j].path;
+            var stepPolyline = new google.maps.Polyline(polylineOptions);
+            for (k = 0; k < nextSegment.length; k++) {
+                stepPolyline.getPath().push(nextSegment[k]);
+            }
+            stepPolyline.setMap(map);
+            polylines.push(stepPolyline);
+            google.maps.event.addListener(stepPolyline, 'click', function (evt) {
+                infowindow.setContent("you clicked on the route<br>" + evt.latLng.toUrlValue(6));
+                infowindow.setPosition(evt.latLng);
+                infowindow.open(map);
+            })
+        }
+    }
+}
+
+$(document).ready(function () {
+    initialize();
+});

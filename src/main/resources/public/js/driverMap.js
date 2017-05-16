@@ -13,8 +13,9 @@ function initMap() {
 
     var infowindow = new google.maps.InfoWindow();
     var marker = new google.maps.Marker({
-        map: map,
-        anchorPoint: new google.maps.Point(0, -29)
+        map: map
+        // ,
+        // anchorPoint: new google.maps.Point(0, -29)
     });
 
     autocomplete.addListener('place_changed', function () {
@@ -35,15 +36,14 @@ function initMap() {
             map.setCenter(place.geometry.location);
             map.setZoom(12);  // Why 17? Because it looks good.
         }
-        marker.setIcon(/** @type {google.maps.Icon} */({
-            //url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-            //url: place.icon,
-            //size: new google.maps.Size(71, 71),
-            //origin: new google.maps.Point(0, 0),
-            //anchor: new google.maps.Point(17, 34),
-            //scaledSize: new google.maps.Size(35, 35)
-        }));
-
+        // marker.setIcon(/** @type {google.maps.Icon} */({
+        //     url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+        //     url: place.icon,
+        //     size: new google.maps.Size(71, 71),
+        //     origin: new google.maps.Point(0, 0),
+        //     anchor: new google.maps.Point(17, 34),
+        //     scaledSize: new google.maps.Size(35, 35)
+        // }));
 
         marker.setPosition(place.geometry.location);
         marker.setVisible(true);
@@ -68,13 +68,15 @@ function initMap() {
 
     var infowindow_destination = new google.maps.InfoWindow();
     var marker_destination = new google.maps.Marker({
-        map: map,
-        anchorPoint: new google.maps.Point(0, -29)
+        map: map
+        // ,
+        // anchorPoint: new google.maps.Point(0, -29)
     });
 
     autocomplete_destination.addListener('place_changed', function () {
         infowindow_destination.close();
         marker_destination.setVisible(false);
+
         var place_destination = autocomplete_destination.getPlace();
         if (!place_destination.geometry) {
             // User entered the name of a Place that was not suggested and
@@ -90,13 +92,13 @@ function initMap() {
             map.setCenter(place_destination.geometry.location);
             map.setZoom(12);  // Why 17? Because it looks good.
         }
-        marker_destination.setIcon(/** @type {google.maps.Icon} */({
-            url: place_destination.icon,
-            size: new google.maps.Size(71, 71),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(35, 35)
-        }));
+        // marker_destination.setIcon(/** @type {google.maps.Icon} */({
+        //     url: place_destination.icon,
+        //     size: new google.maps.Size(71, 71),
+        //     origin: new google.maps.Point(0, 0),
+        //     anchor: new google.maps.Point(17, 34),
+        //     scaledSize: new google.maps.Size(35, 35)
+        // }));
         marker_destination.setPosition(place_destination.geometry.location);
         marker_destination.setVisible(true);
 
@@ -112,15 +114,18 @@ function initMap() {
         infowindow_destination.setContent('<div><strong>' + place_destination.name + '</strong><br>' + address_destination);
         infowindow_destination.open(map, marker_destination);
 
+
+        marker.setVisible(false);
+        marker_destination.setVisible(false);
+
+
         //Trip route
-        var rendererOptions = {map: map};
+        var rendererOptions = {map: map, draggable: true,};
         var directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
 
-        directionsDisplay.draggable = true;
         directionsDisplay.addListener('directions_changed', function () {
-            computeTotalDistance(directionsDisplay.getDirections());
+            // computeTotalDistance(directionsDisplay.getDirections());
         });
-
 
         var point1 = new google.maps.LatLng(50.4591806, 30.618338600000016);
         var point2 = new google.maps.LatLng(50.4582408, 30.591287999999963);
@@ -135,17 +140,25 @@ function initMap() {
             waypoints: wps,
             provideRouteAlternatives: true,
             travelMode: google.maps.DirectionsTravelMode.DRIVING
-
         };
 
         var directionsService = new google.maps.DirectionsService();
         directionsService.route(request, function (response, status) {
             if (status == google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(response);
+                // var step = 2;
+                // var infowindow2 = new google.maps.InfoWindow();
+                // infowindow2.setContent(response.routes[0].legs[0].steps[step].distance.text + "<br>" + response.routes[0].legs[0].steps[step].duration.text + " ");
+                // infowindow2.setPosition(response.routes[0].legs[0].steps[step].end_location);
+                // infowindow2.open(map);
+
             }
             else
                 alert('failed to get directions');
         });
+        // marker = null;
+        // marker_destination = null;
+
     });
 }
 
