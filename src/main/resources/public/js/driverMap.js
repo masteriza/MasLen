@@ -1,3 +1,6 @@
+var map;
+var marker;
+
 function initMap() {
     var latlng = new google.maps.LatLng(50.4501, 30.5234);
     var options = {
@@ -5,17 +8,16 @@ function initMap() {
         center: latlng,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    var map = new google.maps.Map(document.getElementById("map_canvas"), options);
+    map = new google.maps.Map(document.getElementById("map_canvas"), options);
     var input = (document.getElementById('address-input'));
 
     var autocomplete = new google.maps.places.Autocomplete(input);
     autocomplete.bindTo('bounds', map);
 
     var infowindow = new google.maps.InfoWindow();
-    var marker = new google.maps.Marker({
+    marker = new google.maps.Marker({
         map: map
-        // ,
-        // anchorPoint: new google.maps.Point(0, -29)
+
     });
 
     autocomplete.addListener('place_changed', function () {
@@ -156,7 +158,7 @@ function initMap() {
             else
                 alert('failed to get directions');
         });
-        // marker = null;
+        //marker = null;
         // marker_destination = null;
 
     });
