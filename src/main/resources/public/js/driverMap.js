@@ -124,7 +124,8 @@ function routeTrip() {
     directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
 
     directionsDisplay.addListener('directions_changed', function () {
-        alert(marker.getPosition().lat());
+        alert(directionsDisplay.directions.routes[0].legs[0].start_location.lat());
+        //alert(marker.getPosition().lat());
         // computeTotalDistance(directionsDisplay.getDirections());
     });
 
@@ -162,3 +163,8 @@ function routeTrip() {
     // marker_destination = null;
 }
 
+$(document).ready(function () {
+    $('#save').on('click', function () {
+        alert(directionsDisplay.directions.routes[0].legs[0].start_location.lat());
+    });
+});
