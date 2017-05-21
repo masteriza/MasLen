@@ -124,7 +124,7 @@ function routeTrip() {
     directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
 
     directionsDisplay.addListener('directions_changed', function () {
-        alert(directionsDisplay.directions.routes[0].legs[0].start_location.lat());
+        alert(directionsDisplay.directions.routes[0].legs[0].end_location.lat());
         //alert(marker.getPosition().lat());
         // computeTotalDistance(directionsDisplay.getDirections());
     });
@@ -165,6 +165,25 @@ function routeTrip() {
 
 $(document).ready(function () {
     $('#save').on('click', function () {
-        alert(directionsDisplay.directions.routes[0].legs[0].start_location.lat());
+        $.ajax({
+            type: "POST",
+            url: "saveDriverRoute",
+            data: {
+                startRouteLatitude: directionsDisplay.directions.routes[0].legs[0].start_location.lat(),
+                startRouteLongitude: directionsDisplay.directions.routes[0].legs[0].start_location.lng(),
+
+                finishRouteLatitude: directionsDisplay.directions.routes[0].legs[0].end_location.lat(),
+                finishRouteLongitude: directionsDisplay.directions.routes[0].legs[0].end_location.lng()
+            },
+            success: function (responseData) {
+                // if (responseData != "") {
+                //     location.href = 'login.jsp';
+                // } else {
+                //     location.href = 'sec/useraccount.jsp';
+                // }
+            }
+        });
+
+        alert(directionsDisplay.directions.routes[0].legs[directionsDisplay.directions.routes[0].legs.length - 1].end_location.lat());
     });
 });
