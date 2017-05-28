@@ -162,19 +162,34 @@ function routeTrip() {
     // marker = null;
     // marker_destination = null;
 }
-
+//JSON.stringify(data),
 $(document).ready(function () {
     $('#save').on('click', function () {
+        var driver = {
+
+            "driverId": 0,
+            "userId": 0,
+            "startRouteLatitude": directionsDisplay.directions.routes[0].legs[0].start_location.lat(),
+            "startRouteLongitude": directionsDisplay.directions.routes[0].legs[0].start_location.lng(),
+            "finishRouteLatitude": directionsDisplay.directions.routes[0].legs[0].end_location.lat(),
+            "finishRouteLongitude": directionsDisplay.directions.routes[0].legs[0].end_location.lng()
+
+
+        }
+
+
         $.ajax({
             type: "POST",
+            contentType: 'application/json; charset=utf-8',
             url: "saveDriverRoute",
-            data: {
-                startRouteLatitude: directionsDisplay.directions.routes[0].legs[0].start_location.lat(),
-                startRouteLongitude: directionsDisplay.directions.routes[0].legs[0].start_location.lng(),
-
-                finishRouteLatitude: directionsDisplay.directions.routes[0].legs[0].end_location.lat(),
-                finishRouteLongitude: directionsDisplay.directions.routes[0].legs[0].end_location.lng()
-            },
+            data: JSON.stringify(driver),
+            //     {
+            //     startRouteLatitude: directionsDisplay.directions.routes[0].legs[0].start_location.lat(),
+            //     startRouteLongitude: directionsDisplay.directions.routes[0].legs[0].start_location.lng(),
+            //
+            //     finishRouteLatitude: directionsDisplay.directions.routes[0].legs[0].end_location.lat(),
+            //     finishRouteLongitude: directionsDisplay.directions.routes[0].legs[0].end_location.lng()
+            // },
             success: function (responseData) {
                 // if (responseData != "") {
                 //     location.href = 'login.jsp';
@@ -184,6 +199,6 @@ $(document).ready(function () {
             }
         });
 
-        alert(directionsDisplay.directions.routes[0].legs[directionsDisplay.directions.routes[0].legs.length - 1].end_location.lat());
+        //alert(directionsDisplay.directions.routes[0].legs[directionsDisplay.directions.routes[0].legs.length - 1].end_location.lat());
     });
 });
