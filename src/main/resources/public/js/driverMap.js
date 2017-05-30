@@ -1,6 +1,6 @@
 var map;
 var marker;
-var marker_destination;
+var finishRouteMarker;
 var org;
 var dest;
 
@@ -53,9 +53,9 @@ function initMap() {
         }
 
         //infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
-        //infowindow.open(map, marker);
+        //infowindow.open(map, startRouteMarker);
 
-        if (marker != null && marker_destination != null) {
+        if (marker != null && finishRouteMarker != null) {
             routeTrip();
         }
     });
@@ -68,11 +68,11 @@ function initMap() {
     var infowindow_destination = new google.maps.InfoWindow();
 
     autocomplete_destination.addListener('place_changed', function () {
-        marker_destination = new google.maps.Marker({
+        finishRouteMarker = new google.maps.Marker({
             map: map
         });
         infowindow_destination.close();
-        marker_destination.setVisible(false);
+        finishRouteMarker.setVisible(false);
 
         var place_destination = autocomplete_destination.getPlace();
         if (!place_destination.geometry) {
@@ -87,8 +87,8 @@ function initMap() {
             map.setZoom(12);
         }
 
-        marker_destination.setPosition(place_destination.geometry.location);
-        marker_destination.setVisible(true);
+        finishRouteMarker.setPosition(place_destination.geometry.location);
+        finishRouteMarker.setVisible(true);
 
         var address_destination = '';
         if (place_destination.address_components) {
@@ -100,16 +100,16 @@ function initMap() {
         }
 
         //infowindow_destination.setContent('<div><strong>' + place_destination.name + '</strong><br>' + address_destination);
-        //infowindow_destination.open(map, marker_destination);
+        //infowindow_destination.open(map, finishRouteMarker);
 
-        if (marker != null && marker_destination != null) {
+        if (marker != null && finishRouteMarker != null) {
             routeTrip();
         }
     });
 
 
-    // google.maps.event.addListener(marker, 'dragend', function () {
-    //     //geocodePosition(marker.getPosition());
+    // google.maps.event.addListener(startRouteMarker, 'dragend', function () {
+    //     //geocodePosition(startRouteMarker.getPosition());
     //     routeTrip();
     // });
 }
@@ -125,7 +125,7 @@ function routeTrip() {
 
     directionsDisplay.addListener('directions_changed', function () {
         alert(directionsDisplay.directions.routes[0].legs[0].end_location.lat());
-        //alert(marker.getPosition().lat());
+        //alert(startRouteMarker.getPosition().lat());
         // computeTotalDistance(directionsDisplay.getDirections());
     });
 
@@ -136,7 +136,7 @@ function routeTrip() {
     wps = null;
 
     org = new google.maps.LatLng(marker.getPosition().lat(), marker.getPosition().lng());
-    dest = new google.maps.LatLng(marker_destination.getPosition().lat(), marker_destination.getPosition().lng());
+    dest = new google.maps.LatLng(finishRouteMarker.getPosition().lat(), finishRouteMarker.getPosition().lng());
     var request = {
         origin: org,
         destination: dest,
@@ -154,13 +154,13 @@ function routeTrip() {
             alert('failed to get directions');
     });
     marker.setVisible(false);
-    marker_destination.setVisible(false);
+    finishRouteMarker.setVisible(false);
 
     alert(org);
 
 
-    // marker = null;
-    // marker_destination = null;
+    // startRouteMarker = null;
+    // finishRouteMarker = null;
 }
 //JSON.stringify(data),
 $(document).ready(function () {
