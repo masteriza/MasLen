@@ -1,130 +1,147 @@
-var polylines = [];
-var polylineOptions = {};
 var map;
-var infowindow;
+var startRouteMarker;
 
-function initialize() {
+var finishRouteMarker;
+var org;
+var dest;
 
-    var center = new google.maps.LatLng(0, 0);
-    var myOptions = {
-        zoom: 7,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        center: center
-    }
+var directionsDisplay;
 
-    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+function initMap() {
+    var geocoder = new google.maps.Geocoder();
 
-    var start = "50.443886, 30.445449";
-    var end = "50.460841, 30.619999";
-
-    plotDirections(start, end);
-}
-
-function plotDirections(start, end) {
-
-    var method = 'DRIVING';
-
-    var request = {
-        origin: start,
-        destination: end,
-        travelMode: google.maps.DirectionsTravelMode[method],
-        provideRouteAlternatives: true
+    var latlng = new google.maps.LatLng(50.4501, 30.5234);
+    var options = {
+        zoom: 8,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
     };
+    map = new google.maps.Map(document.getElementById("map_canvas"), options);
+    var input = (document.getElementById('address-input'));
 
-    infowindow = new google.maps.InfoWindow();
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.bindTo('bounds', map);
 
-    var directionsService = new google.maps.DirectionsService();
-    directionsService.route(request, function (response, status) {
-
-        if (status == google.maps.DirectionsStatus.OK) {
-
-            var routes = response.routes;
-            var colors = ['red', 'green', 'blue', 'orange', 'yellow', 'black'];
-            var directionsDisplays = [];
-
-            // Reset the start and end variables to the actual coordinates
-            start = response.routes[0].legs[0].start_location;
-            end = response.routes[0].legs[0].end_location;
-
-            ///123
-            renderDirectionsPolylines(response);
-
-
-            //123
-
-            // Loop through each route
-            //for (var i = 0; i < routes.length; i++) {
-            for (var i = 0; i < 1; i++) {
-
-                var directionsDisplay = new google.maps.DirectionsRenderer({
-                    map: map,
-                    directions: response,
-                    routeIndex: i,
-                    draggable: true,
-                    suppressPolylines: false,
-                    infoWindow: infowindow,
-                    polylineOptions: {
-
-                        strokeColor: colors[i],
-                        strokeWeight: 4,
-                        strokeOpacity: .3
-                    }
-                });
-
-                // Push the current renderer to an array
-                directionsDisplays.push(directionsDisplay);
-
-                // Listen for the directions_changed event for each route
-                google.maps.event.addListener(directionsDisplay, 'directions_changed', (function (directionsDisplay, i) {
-
-                    return function () {
-
-                        var directions = directionsDisplay.getDirections();
-                        var new_start = directions.routes[0].legs[0].start_location;
-                        var new_end = directions.routes[0].legs[0].end_location;
-
-                        if ((new_start.toString() !== start.toString()) || (new_end.toString() !== end.toString())) {
-
-                            // Remove every route from map
-                            for (var j = 0; j < directionsDisplays.length; j++) {
-
-                                directionsDisplays[j].setMap(null);
-                            }
-
-                            // Redraw routes with new start/end coordinates
-                            plotDirections(new_start, new_end);
-                        }
-                    }
-                })(directionsDisplay, i)); // End listener
-            } // End route loop
+    autocomplete.addListener('place_changed', function () {
+        if (!startRouteMarker) {
+            startRouteMarker = new google.maps.Marker({
+                map: map,
+                draggable: true
+            });
         }
+        var place = autocomplete.getPlace();
+        if (!place.geometry) {
+            window.alert("No details available for input: '" + place.name + "'");
+            return;
+        }
+
+        if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+
+        } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);
+        }
+
+        startRouteMarker.setPosition(place.geometry.location);
+        startRouteMarker.setVisible(true);
+
+        if (startRouteMarker != null && finishRouteMarker != null) {
+            //routeTrip();
+        }
+
+        google.maps.event.addListener(startRouteMarker, 'dragend', function () {
+            geocoder.geocode({'latLng': startRouteMarker.getPosition()}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[0]) {
+                        $('#address-input').val(results[0].formatted_address);
+                    }
+                }
+            });
+        });
+
+
     });
-}
 
-function renderDirectionsPolylines(response) {
-    for (var i = 0; i < polylines.length; i++) {
-        polylines[i].setMap(null);
-    }
-    var legs = response.routes[0].legs;
-    for (i = 0; i < legs.length; i++) {
-        var steps = legs[i].steps;
-        for (j = 0; j < steps.length; j++) {
-            var nextSegment = steps[j].path;
-            var stepPolyline = new google.maps.Polyline(polylineOptions);
-            for (k = 0; k < nextSegment.length; k++) {
-                stepPolyline.getPath().push(nextSegment[k]);
-            }
-            stepPolyline.setMap(map);
-            polylines.push(stepPolyline);
-            google.maps.event.addListener(stepPolyline, 'click', function (evt) {
-                infowindow.setContent("you clicked on the route<br>" + evt.latLng.toUrlValue(6));
-                infowindow.setPosition(evt.latLng);
-                infowindow.open(map);
-            })
+
+    // google.maps.event.addListener(startRouteMarker, 'dragend', function () {
+    //     geocoder.geocode({'latLng': startRouteMarker.getPosition()}, function (results, status) {
+    //         if (status == google.maps.GeocoderStatus.OK) {
+    //             if (results[0]) {
+    //                 $('#address-input').val(results[0].formatted_address);
+    //             }
+    //         }
+    //     });
+    // });
+
+    //Destination point
+    var input_destination = (document.getElementById('address-destination-input'));
+    var autocomplete_destination = new google.maps.places.Autocomplete(input_destination);
+    autocomplete_destination.bindTo('bounds', map);
+
+    autocomplete_destination.addListener('place_changed', function () {
+        finishRouteMarker = new google.maps.Marker({
+            map: map,
+            draggable: true
+        });
+
+        finishRouteMarker.setVisible(false);
+
+        var place_destination = autocomplete_destination.getPlace();
+        if (!place_destination.geometry) {
+            window.alert("No details available for input: '" + place_destination.name + "'");
+            return;
         }
-    }
-}
 
+        if (place_destination.geometry.viewport) {
+            map.fitBounds(place_destination.geometry.viewport);
+        } else {
+            map.setCenter(place_destination.geometry.location);
+            map.setZoom(12);
+        }
+
+        finishRouteMarker.setPosition(place_destination.geometry.location);
+        finishRouteMarker.setVisible(true);
+
+
+        if (marker != null && finishRouteMarker != null) {
+            //routeTrip();
+        }
+
+        google.maps.event.addListener(finishRouteMarker, 'dragend', function () {
+            geocoder.geocode({'latLng': finishRouteMarker.getPosition()}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[0]) {
+                        $('#address-destination-input').val(results[0].formatted_address);
+                    }
+                }
+            });
+        });
+
+    });
+
+
+}
 $(document).ready(function () {
-    initialize();
+
+
+    $('#save').on('click', function () {
+        var driver = {
+            "driverId": 0,
+            "userId": 0,
+            "startRouteLatitude": directionsDisplay.directions.routes[0].legs[0].start_location.lat(),
+            "startRouteLongitude": directionsDisplay.directions.routes[0].legs[0].start_location.lng(),
+            "finishRouteLatitude": directionsDisplay.directions.routes[0].legs[0].end_location.lat(),
+            "finishRouteLongitude": directionsDisplay.directions.routes[0].legs[0].end_location.lng()
+        }
+
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            url: "saveDriverRoute",
+            data: JSON.stringify(driver),
+            success: function (responseData) {
+            }
+        });
+    });
 });
