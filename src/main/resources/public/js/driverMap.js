@@ -201,4 +201,6 @@ $(document).ready(function () {
 
         //alert(directionsDisplay.directions.routes[0].legs[directionsDisplay.directions.routes[0].legs.length - 1].end_location.lat());
     });
+
+
 });
