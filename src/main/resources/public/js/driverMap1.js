@@ -166,13 +166,22 @@ $(document).ready(function () {
 
 
     $('#save').on('click', function () {
+        var steps = directionsDisplay.directions.routes[0].legs[0].steps;
+
+        for (var i = 0; i <= steps.length - 1; i++) {
+            steps[i].end_location.lat();
+            steps[i].end_location.lng();
+        }
+
         var driver = {
             "driverId": 0,
             "userId": 0,
             "startRouteLatitude": directionsDisplay.directions.routes[0].legs[0].start_location.lat(),
             "startRouteLongitude": directionsDisplay.directions.routes[0].legs[0].start_location.lng(),
             "finishRouteLatitude": directionsDisplay.directions.routes[0].legs[0].end_location.lat(),
-            "finishRouteLongitude": directionsDisplay.directions.routes[0].legs[0].end_location.lng()
+            "finishRouteLongitude": directionsDisplay.directions.routes[0].legs[0].end_location.lng(),
+            "legs": legs
+
         }
 
         $.ajax({
@@ -183,5 +192,7 @@ $(document).ready(function () {
             success: function (responseData) {
             }
         });
+        alert(directionsDisplay.directions.routes[0].legs[directionsDisplay.directions.routes[0].legs.length - 1].end_location.lat());
     });
+
 });

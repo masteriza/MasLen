@@ -10,6 +10,8 @@ public class Driver {
     private double finishRouteLatitude;
     private double finishRouteLongitude;
 
+    private String legs;
+
     public Driver() {
     }
 
@@ -20,6 +22,16 @@ public class Driver {
         this.startRouteLongitude = startRouteLongitude;
         this.finishRouteLatitude = finishRouteLatitude;
         this.finishRouteLongitude = finishRouteLongitude;
+    }
+
+    public Driver(int driverId, int userId, double startRouteLatitude, double startRouteLongitude, double finishRouteLatitude, double finishRouteLongitude, String legs) {
+        this.driverId = driverId;
+        this.userId = userId;
+        this.startRouteLatitude = startRouteLatitude;
+        this.startRouteLongitude = startRouteLongitude;
+        this.finishRouteLatitude = finishRouteLatitude;
+        this.finishRouteLongitude = finishRouteLongitude;
+        this.legs = legs;
     }
 
     public int getDriverId() {
@@ -68,5 +80,13 @@ public class Driver {
 
     public void setFinishRouteLongitude(double finishRouteLongitude) {
         this.finishRouteLongitude = finishRouteLongitude;
+    }
+
+    public String getLegs() {
+        return legs;
+    }
+
+    public void setLegs(String legs) {
+        this.legs = legs;
     }
 }
