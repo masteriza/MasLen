@@ -162,15 +162,24 @@ function routeTrip() {
     finishRouteMarker.setVisible(false);
 }
 
+function routePointz() {
+    this.index = 0;
+    this.latitude = 0;
+    this.longitude = 0;
+}
+
 $(document).ready(function () {
 
 
     $('#save').on('click', function () {
         var steps = directionsDisplay.directions.routes[0].legs[0].steps;
-
+        var routePoints = [];
         for (var i = 0; i <= steps.length - 1; i++) {
-            steps[i].end_location.lat();
-            steps[i].end_location.lng();
+            var routePoint = new routePointz();
+            routePoint.index = i;
+            routePoint.latitude = steps[i].end_location.lat();
+            routePoint.longitude = steps[i].end_location.lng();
+            routePoints.push(routePoint);
         }
 
         var driver = {
@@ -180,7 +189,7 @@ $(document).ready(function () {
             "startRouteLongitude": directionsDisplay.directions.routes[0].legs[0].start_location.lng(),
             "finishRouteLatitude": directionsDisplay.directions.routes[0].legs[0].end_location.lat(),
             "finishRouteLongitude": directionsDisplay.directions.routes[0].legs[0].end_location.lng(),
-            "legs": legs
+            "routePoints": routePoints
 
         }
 

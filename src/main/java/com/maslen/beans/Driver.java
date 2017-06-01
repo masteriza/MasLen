@@ -1,5 +1,7 @@
 package com.maslen.beans;
 
+import java.util.ArrayList;
+
 public class Driver {
     private int driverId;
     private int userId;
@@ -10,7 +12,7 @@ public class Driver {
     private double finishRouteLatitude;
     private double finishRouteLongitude;
 
-    private String legs;
+    private ArrayList<RoutePoint> routePoints;
 
     public Driver() {
     }
@@ -31,7 +33,7 @@ public class Driver {
         this.startRouteLongitude = startRouteLongitude;
         this.finishRouteLatitude = finishRouteLatitude;
         this.finishRouteLongitude = finishRouteLongitude;
-        this.legs = legs;
+        this.routePoints = routePoints;
     }
 
     public int getDriverId() {
@@ -82,11 +84,11 @@ public class Driver {
         this.finishRouteLongitude = finishRouteLongitude;
     }
 
-    public String getLegs() {
-        return legs;
+    public ArrayList getRoutePoints() {
+        return routePoints;
     }
 
-    public void setLegs(String legs) {
-        this.legs = legs;
+    public void setRoutePoints(ArrayList routePoints) {
+        this.routePoints = routePoints;
     }
 }
