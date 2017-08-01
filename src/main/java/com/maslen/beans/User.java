@@ -1,15 +1,34 @@
 package com.maslen.beans;
 
-public class User {
+import javax.persistence.*;
 
+@Entity
+@Table(name = "Users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private int userId;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Transient
     private String password;
+
+    @Transient
     private String repeatPassword;
+
+    @Column(unique = true, nullable = false)
     private String firstName;
+
+    @Column(unique = true, nullable = false)
     private String lastName;
-    private String photo;
+
+    @Column(unique = true, nullable = false)
     private String phone;
+
+    @Column(nullable = false)
     private String status;
 
     public User() {
@@ -39,7 +58,6 @@ public class User {
         this.password = password;
     }
 
-//    @Transient
     public String getRepeatPassword() {
         return repeatPassword;
     }
@@ -62,14 +80,6 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
     }
 
     public String getPhone() {

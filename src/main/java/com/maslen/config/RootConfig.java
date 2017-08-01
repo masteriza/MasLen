@@ -1,24 +1,24 @@
 package com.maslen.config;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.commons.dbcp.BasicDataSourceFactory;
-import org.springframework.beans.factory.config.PropertiesFactoryBean;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.util.Properties;
 
 
 @SpringBootApplication(exclude = HibernateJpaAutoConfiguration.class, scanBasePackages = "com.maslen")
 public class RootConfig {
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(RootConfig.class, args);
+    }
+
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
@@ -29,7 +29,7 @@ public class RootConfig {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sfb = new LocalSessionFactoryBean();
         sfb.setDataSource(dataSource());
-        sfb.setPackagesToScan("com.maslen.models");
+        sfb.setPackagesToScan("com.maslen.beans");
         sfb.setHibernateProperties(properties());
         return sfb;
     }
