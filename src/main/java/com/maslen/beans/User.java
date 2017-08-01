@@ -11,23 +11,8 @@ public class User {
     private String photo;
     private String phone;
     private String status;
-    private String role;
 
     public User() {
-    }
-
-    public User(int userId, String email, String password, String repeatPassword, String firstName, String lastName,
-                String photo, String phone, String status, String role) {
-        this.userId = userId;
-        this.email = email;
-        this.password = password;
-        this.repeatPassword = repeatPassword;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.photo = photo;
-        this.phone = phone;
-        this.status = status;
-        this.role = role;
     }
 
     public int getUserId() {
@@ -54,6 +39,7 @@ public class User {
         this.password = password;
     }
 
+//    @Transient
     public String getRepeatPassword() {
         return repeatPassword;
     }
@@ -100,13 +86,5 @@ public class User {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 }

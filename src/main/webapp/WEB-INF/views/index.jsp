@@ -29,7 +29,7 @@
 </form:form>
 
 
-<form:form action="registrationUser" method="post" commandName="user">
+<form:form action="user" method="post" commandName="user">
     <table>
         <tr>
             Registration new user
@@ -59,11 +59,11 @@
             <td><form:input placeholder="Last name" path="lastName"/></td>
             <td><form:errors path="lastName"/></td>
         </tr>
-            <%--<tr>--%>
-            <%--<td>Phone:</td>--%>
-            <%--<td><form:input placeholder="Phone" path="phone"/></td>--%>
-            <%--<td><form:errors path="phone"/></td>--%>
-            <%--</tr>--%>
+        <tr>
+            <td>Phone:</td>
+            <td><form:input placeholder="Phone" path="phone"/></td>
+            <td><form:errors path="phone"/></td>
+        </tr>
         <tr>
             <td><input type="submit" value="Sing up"/></td>
         </tr>

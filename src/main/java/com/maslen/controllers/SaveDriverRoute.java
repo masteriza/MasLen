@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
-public class saveDriverRoute {
+public class SaveDriverRoute {
     @PostMapping("/saveDriverRoute")
     public ModelAndView indexPage(@RequestBody Driver driver) {
 
