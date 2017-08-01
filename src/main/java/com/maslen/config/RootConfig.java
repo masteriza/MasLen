@@ -3,6 +3,7 @@ package com.maslen.config;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.dbcp.BasicDataSourceFactory;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -19,6 +20,11 @@ import java.util.Properties;
 
 @SpringBootApplication(exclude = HibernateJpaAutoConfiguration.class, scanBasePackages = "com.maslen")
 public class RootConfig {
+
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(RootConfig.class, args);
+    }
+
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
