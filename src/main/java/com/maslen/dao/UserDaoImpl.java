@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Repository
 @Transactional
 public class UserDaoImpl implements UserDao {
@@ -25,20 +24,18 @@ public class UserDaoImpl implements UserDao {
 
 
     @Override
-    public int addUser() {
-        return 0;
+    public User addUser(User user) {
+        user.setStatus("I");
+        user.setUserId((int) currentSession().save(user));
+        return user;
     }
 
     @Override
     public User findUserById(int userId) {
-        //currentSession().beginTransaction();
-        User user = (User) currentSession().load(User.class, userId);
-        //currentSession().getTransaction().commit();
-        //currentSession().close();
 
-//        return currentSession()
-//                .createQuery("from User where user_id =:userId", User.class)
-//                .setParameter("user_id", userId).uniqueResult();
+        User user = (User) currentSession().get(User.class, userId);
+//        user.setFirstName(String.valueOf(new java.util.Date()));
+//        currentSession().save(user);
 
         return user;
     }

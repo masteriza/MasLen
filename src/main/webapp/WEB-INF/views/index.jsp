@@ -64,6 +64,7 @@
             <td><form:input placeholder="Phone" path="phone"/></td>
             <td><form:errors path="phone"/></td>
         </tr>
+        <form:hidden path="status" value="${user.status}"/>
         <tr>
             <td><input type="submit" value="Sing up"/></td>
         </tr>

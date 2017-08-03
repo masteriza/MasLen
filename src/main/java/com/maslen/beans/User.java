@@ -10,25 +10,27 @@ public class User {
     @Column(name = "user_id")
     private int userId;
 
-    @Column(unique = true, nullable = false)
+    @Column
     private String email;
 
-    @Transient
+    //@Transient
+    @Column
     private String password;
 
-    @Transient
+    //@Transient
+    @Column
     private String repeatPassword;
 
-    @Column(unique = true, nullable = false)
+    @Column
     private String firstName;
 
-    @Column(unique = true, nullable = false)
+    @Column
     private String lastName;
 
-    @Column(unique = true, nullable = false)
+    @Column
     private String phone;
 
-    @Column(nullable = false)
+    @Column
     private String status;
 
     public User() {

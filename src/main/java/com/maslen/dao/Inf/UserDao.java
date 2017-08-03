@@ -3,7 +3,7 @@ package com.maslen.dao.Inf;
 import com.maslen.beans.User;
 
 public interface UserDao {
-    int addUser();
+    User addUser(User user);
 
     User findUserById(int userId);
 }
