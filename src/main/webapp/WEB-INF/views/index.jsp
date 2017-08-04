@@ -1,74 +1,29 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Welcome to MASLEN (=</title>
+    <link rel="stylesheet" href="public/css/bootstrap.min.css">
 </head>
 <body>
-<form:form action="userLogin" method="post" commandName="user">
-    <table>
-        <tr>
-            Sing in
-        </tr>
-        <tr>
-            <td>E-mail:</td>
-            <td><form:input placeholder="E-mail" path="email"/></td>
-            <td><form:errors path="email"/></td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><form:password placeholder="Password" path="password"/></td>
-            <td><form:errors path="password"/></td>
-        </tr>
-        <tr>
-            <td><input type="submit" value="Sing in"/></td>
-        </tr>
-    </table>
-</form:form>
+<p><label>E-mail</label><input id="email"></p>
 
+<p><label>Password</label><input type="password" id="rawPassword"></p>
 
-<form:form action="user" method="post" commandName="user">
-    <table>
-        <tr>
-            Registration new user
-        </tr>
-        <tr>
-            <td>E-mail:</td>
-            <td><form:input placeholder="E-mail" path="email"/></td>
-            <td><form:errors path="email"/></td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><form:password placeholder="Password" path="rawPassword"/></td>
-            <td><form:errors path="rawPassword"/></td>
-        </tr>
-        <tr>
-            <td>Repeat password:</td>
-            <td><form:password placeholder="Confirm password" path="repeatRawPassword"/></td>
-            <td><form:errors path="repeatRawPassword"/></td>
-        </tr>
-        <tr>
-            <td>First name:</td>
-            <td><form:input placeholder="First name" path="firstName"/></td>
-            <td><form:errors path="firstName"/></td>
-        </tr>
-        <tr>
-            <td>Last name:</td>
-            <td><form:input placeholder="Last name" path="lastName"/></td>
-            <td><form:errors path="lastName"/></td>
-        </tr>
-        <tr>
-            <td>Phone:</td>
-            <td><form:input placeholder="Phone" path="phone"/></td>
-            <td><form:errors path="phone"/></td>
-        </tr>
-        <form:hidden path="status" value="${user.status}"/>
-        <tr>
-            <td><input type="submit" value="Sing up"/></td>
-        </tr>
-    </table>
-</form:form>
+<p><label>Confirm password</label><input type="password" id="repeatRawPassword"></p>
+
+<p><label>First name</label><input id="firstName"></p>
+
+<p><label>Last name</label><input id="lastName"></p>
+
+<p><label>Phone</label><input id="phone"></p>
+
+<div id="btSingUp"><input type="button" value="Sign Up"></div>
+
+<br>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+
 </body>
 </html>

@@ -1,59 +1,32 @@
 package com.maslen.controllers;
 
+import com.maslen.utils.Validators;
 import com.maslen.dao.Inf.UserDao;
 import com.maslen.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller
+@RestController
 public class UsersController {
-
-    //    @Autowired
-//    @Qualifier("passwordValidator")
-    private Validator validator;
-
     private final UserDao userDao;
 
+    private final Validators validators;
 
     @Autowired
-    public UsersController(UserDao userDao, @Qualifier("passwordValidator") Validator validator) {
+    public UsersController(UserDao userDao, Validators validators) {
         this.userDao = userDao;
-        this.validator = validator;
-
+        this.validators = validators;
     }
 
-    @InitBinder
-    private void initBinder(WebDataBinder binder) {
-        binder.setValidator(validator);
-    }
+    @RequestMapping(value = "/user")
+    public User addUser(@RequestBody User user) {
 
 
-    @GetMapping(value = "/")
-    public ModelAndView indexPage() {
-        return new ModelAndView("index", "user", new User());
-    }
-
-    @PostMapping(value = "/user")
-    public ModelAndView addUser(@ModelAttribute("user") User user, BindingResult bindingResult, ModelAndView modelAndView) {
+        return null;
 
 
-        if (!bindingResult.hasErrors()) {
-
-
-            userDao.isRegisteredEmail(user.getEmail());
-
-            userDao.addUser(user);
-        }
-
-        return modelAndView;
     }
 }
