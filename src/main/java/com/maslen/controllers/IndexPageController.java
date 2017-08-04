@@ -1,6 +1,6 @@
 package com.maslen.controllers;
 
-import com.maslen.beans.User;
+import com.maslen.models.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;

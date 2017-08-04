@@ -1,4 +1,4 @@
-package com.maslen.beans;
+package com.maslen.models;
 
 import java.util.ArrayList;
 

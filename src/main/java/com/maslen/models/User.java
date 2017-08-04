@@ -1,4 +1,4 @@
-package com.maslen.beans;
+package com.maslen.models;
 
 import javax.persistence.*;
 
@@ -10,16 +10,18 @@ public class User {
     @Column(name = "user_id")
     private int userId;
 
+    //@Email(message = "E-mail address format is incorrect")
     @Column
     private String email;
 
-    //@Transient
     @Column
     private String password;
 
-    //@Transient
-    @Column
-    private String repeatPassword;
+    @Transient
+    private String rawPassword;
+
+    @Transient
+    private String repeatRawPassword;
 
     @Column
     private String firstName;
@@ -60,12 +62,20 @@ public class User {
         this.password = password;
     }
 
-    public String getRepeatPassword() {
-        return repeatPassword;
+    public String getRawPassword() {
+        return rawPassword;
     }
 
-    public void setRepeatPassword(String repeatPassword) {
-        this.repeatPassword = repeatPassword;
+    public void setRawPassword(String rawPassword) {
+        this.rawPassword = rawPassword;
+    }
+
+    public String getRepeatRawPassword() {
+        return repeatRawPassword;
+    }
+
+    public void setRepeatRawPassword(String repeatRawPassword) {
+        this.repeatRawPassword = repeatRawPassword;
     }
 
     public String getFirstName() {

@@ -1,4 +1,4 @@
-package com.maslen.beans;
+package com.maslen.models;
 
 public class RoutePoint {
     private int index;

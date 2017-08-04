@@ -41,13 +41,13 @@
         </tr>
         <tr>
             <td>Password:</td>
-            <td><form:password placeholder="Password" path="password"/></td>
-            <td><form:errors path="password"/></td>
+            <td><form:password placeholder="Password" path="rawPassword"/></td>
+            <td><form:errors path="rawPassword"/></td>
         </tr>
         <tr>
             <td>Repeat password:</td>
-            <td><form:password placeholder="Confirm password" path="repeatPassword"/></td>
-            <td><form:errors path="repeatPassword"/></td>
+            <td><form:password placeholder="Confirm password" path="repeatRawPassword"/></td>
+            <td><form:errors path="repeatRawPassword"/></td>
         </tr>
         <tr>
             <td>First name:</td>

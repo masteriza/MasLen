@@ -1,4 +1,4 @@
-package com.maslen.beans;
+package com.maslen.models;
 
 public class UsersRoles {
     private int id;

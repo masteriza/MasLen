@@ -1,7 +1,7 @@
 package com.maslen.controllers;
 
 
-import com.maslen.beans.Driver;
+import com.maslen.models.Driver;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

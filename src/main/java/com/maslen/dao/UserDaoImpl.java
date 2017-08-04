@@ -1,7 +1,7 @@
 package com.maslen.dao;
 
-import com.maslen.beans.User;
 import com.maslen.dao.Inf.UserDao;
+import com.maslen.models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +38,12 @@ public class UserDaoImpl implements UserDao {
 //        currentSession().save(user);
 
         return user;
+    }
+
+    @Override
+    public long isRegisteredEmail(String email) {
+        return (long) currentSession()
+                .createQuery("select count(*) from User where email =:email")
+                .setParameter("email", email).uniqueResult();
     }
 }

@@ -29,7 +29,7 @@ public class RootConfig {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sfb = new LocalSessionFactoryBean();
         sfb.setDataSource(dataSource());
-        sfb.setPackagesToScan("com.maslen.beans");
+        sfb.setPackagesToScan("com.maslen.models");
         sfb.setHibernateProperties(properties());
         return sfb;
     }
@@ -49,6 +49,4 @@ public class RootConfig {
         transactionManager.setSessionFactory(sessionFactory().getObject());
         return transactionManager;
     }
-
-
 }
