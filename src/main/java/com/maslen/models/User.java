@@ -1,6 +1,9 @@
 package com.maslen.models;
 
+import org.hibernate.validator.constraints.Email;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "Users")
@@ -10,16 +13,17 @@ public class User {
     @Column(name = "user_id")
     private int userId;
 
-    //@Email(message = "E-mail address format is incorrect")
+    @Email(message = "E-mail address format is incorrect")
     @Column
     private String email;
 
+    @Size()
     @Column
     private String password;
-
+    @Size(max = 1)
     @Transient
     private String rawPassword;
-
+    @Size(max = 1)
     @Transient
     private String repeatRawPassword;
 
@@ -30,7 +34,8 @@ public class User {
     private String lastName;
 
     @Column
-    private String phone;
+
+    private long phone;
 
     @Column
     private String status;
@@ -94,11 +99,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getPhone() {
+    public long getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(long phone) {
         this.phone = phone;
     }
 

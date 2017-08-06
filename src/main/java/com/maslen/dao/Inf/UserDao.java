@@ -8,4 +8,6 @@ public interface UserDao {
     User findUserById(int userId);
 
     long isRegisteredEmail(String email);
+
+    long isRegisteredPhone(long phone);
 }

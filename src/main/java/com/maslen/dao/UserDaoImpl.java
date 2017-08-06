@@ -46,4 +46,9 @@ public class UserDaoImpl implements UserDao {
                 .createQuery("select count(*) from User where email =:email")
                 .setParameter("email", email).uniqueResult();
     }
+
+    @Override
+    public long isRegisteredPhone(long phone) {
+        return 0;
+    }
 }
