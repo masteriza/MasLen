@@ -8,6 +8,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -15,6 +17,9 @@ import java.util.Properties;
 
 @SpringBootApplication(exclude = HibernateJpaAutoConfiguration.class, scanBasePackages = "com.maslen")
 public class RootConfig {
+
+    private static final int ENCRYPTION_STRENGTH = 12;
+
     public static void main(String[] args) throws Exception {
         SpringApplication.run(RootConfig.class, args);
     }
@@ -38,7 +43,7 @@ public class RootConfig {
     Properties properties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        properties.setProperty("hibernate.hbm2ddl.auto", "validate");
         properties.setProperty("hibernate.show_sql", "true");
         return properties;
     }
@@ -48,5 +53,15 @@ public class RootConfig {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
         transactionManager.setSessionFactory(sessionFactory().getObject());
         return transactionManager;
+    }
+
+    @Bean
+    public BCryptPasswordEncoder encoder() {
+        return new BCryptPasswordEncoder(ENCRYPTION_STRENGTH);
+    }
+
+    @Bean
+    public WebSecurityConfigurerAdapter webSecurityConfigurerAdapter() {
+        return new ApplicationSecurity();
     }
 }
