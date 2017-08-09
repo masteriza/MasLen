@@ -49,6 +49,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public long isRegisteredPhone(long phone) {
-        return 0;
+        return (long) currentSession()
+                .createQuery("select count(*) from User where phone =:phone")
+                .setParameter("phone", phone).uniqueResult();
     }
 }
