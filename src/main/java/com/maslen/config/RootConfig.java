@@ -8,7 +8,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.sql.DataSource;
@@ -60,8 +59,4 @@ public class RootConfig {
         return new BCryptPasswordEncoder(ENCRYPTION_STRENGTH);
     }
 
-    @Bean
-    public WebSecurityConfigurerAdapter webSecurityConfigurerAdapter() {
-        return new ApplicationSecurity();
-    }
 }
