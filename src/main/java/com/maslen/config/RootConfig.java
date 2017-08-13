@@ -58,5 +58,4 @@ public class RootConfig {
     public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder(ENCRYPTION_STRENGTH);
     }
-
 }
