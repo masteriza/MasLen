@@ -1,6 +1,5 @@
 package com.maslen.controllers;
 
-import com.maslen.dao.Inf.UserDao;
 import com.maslen.models.User;
 import com.maslen.utils.interfaces.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +12,14 @@ import javax.validation.Valid;
 
 @RestController
 public class UsersController {
-    private final UserDao userDao;
+//    private final UserDao userDao;
 
     private final RegistrationService registrationService;
 
 
     @Autowired
-    public UsersController(UserDao userDao, RegistrationService registrationService) {
-        this.userDao = userDao;
+    public UsersController(/*UserDao userDao,*/ RegistrationService registrationService) {
+//        this.userDao = userDao;
         this.registrationService = registrationService;
     }
 
@@ -28,8 +27,8 @@ public class UsersController {
     public User addUser(@Valid @RequestBody User user, BindingResult bindingResult) {
 
         if (registrationService.validateForm(user, bindingResult)) {
-            user.setPassword(registrationService.encodePassword(user.getRawPassword()));
-            userDao.addUser(user);
+//            user.setPassword(registrationService.encodePassword(user.getRawPassword()));
+//            userDao.addUser(user);
         } else {
 
         }

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Repository
 @Transactional
 public class UserDaoImpl implements UserDao {
@@ -25,8 +27,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User addUser(User user) {
-        user.setStatus("I");
-        user.setUserId((int) currentSession().save(user));
+//        user.setStatus("I");
+//        user.setUserId((int) currentSession().save(user));
         return user;
     }
 
@@ -38,6 +40,22 @@ public class UserDaoImpl implements UserDao {
 //        currentSession().save(user);
 
         return user;
+    }
+
+    @Override
+    public Optional<User> findUserByUsername(String username) {
+//        return Optional.ofNullable(currentSession().get(User.class, username));
+
+//        return currentSession()
+//                .createQuery("select new User() " +
+//                        "from Users where username =:username", User.class)
+//                .setParameter("username", username).uniqueResultOptional();
+
+        return currentSession()
+                .createQuery("select new User(username, password) " +
+                        "from User where username =:username", User.class)
+                .setParameter("username", username).uniqueResultOptional();
+
     }
 
     @Override
@@ -53,4 +71,6 @@ public class UserDaoImpl implements UserDao {
                 .createQuery("select count(*) from User where phone =:phone")
                 .setParameter("phone", phone).uniqueResult();
     }
+
+
 }

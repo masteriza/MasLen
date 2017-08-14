@@ -1,117 +1,44 @@
 package com.maslen.models;
 
-import org.hibernate.validator.constraints.Email;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
+import java.util.List;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "Users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "UserId")
     private int userId;
 
-    @Email(message = "E-mail address format is incorrect")
-    @Column
-    private String email;
-
-    @Size()
-    @Column
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "UsersRoles",
+            joinColumns = {@JoinColumn(name = "UserId")},
+            inverseJoinColumns = {@JoinColumn(name = "RoleId")})
+    private List<Role> authorities;
     private String password;
-    @Size(max = 1)
+    private String username;
     @Transient
-    private String rawPassword;
-    @Size(max = 1)
+    private boolean accountNonExpired;
     @Transient
-    private String repeatRawPassword;
+    private boolean accountNonLocked;
+    @Transient
+    private boolean credentialsNonExpired;
+    @Transient
+    private boolean enabled;
 
-    @Column
-    private String firstName;
-
-    @Column
-    private String lastName;
-
-    @Column
-
-    private long phone;
-
-    @Column
-    private String status;
-
-    public User() {
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
+    public User(String password, String username) {
         this.password = password;
-    }
-
-    public String getRawPassword() {
-        return rawPassword;
-    }
-
-    public void setRawPassword(String rawPassword) {
-        this.rawPassword = rawPassword;
-    }
-
-    public String getRepeatRawPassword() {
-        return repeatRawPassword;
-    }
-
-    public void setRepeatRawPassword(String repeatRawPassword) {
-        this.repeatRawPassword = repeatRawPassword;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public long getPhone() {
-        return phone;
-    }
-
-    public void setPhone(long phone) {
-        this.phone = phone;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+        this.username = username;
     }
 }

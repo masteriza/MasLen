@@ -28,18 +28,18 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public boolean validateForm(User user, BindingResult bindingResult) {
         boolean isValidData = true;
-        if (!isRegisteredEmail(user.getEmail())) {
-            bindingResult.rejectValue("email", "error.user.email.nonUnique", EMAIL_NOT_UNIQUE);
-        }
-        if (!isPasswordMatch(user.getRawPassword(), user.getRepeatRawPassword(), bindingResult)) {
-            bindingResult.rejectValue("rawPassword", "error.user.password.missMatch", PASSWORDS_NOT_MATCH);
-        }
-        if (!isRegisteredPhone(user.getPhone())) {
-            bindingResult.rejectValue("phone", "error.user.phone.nonUnique", PHONE_NOT_UNIQUE);
-        }
-        if (bindingResult.hasErrors()) {
-            isValidData = false;
-        }
+//        if (!isRegisteredEmail(user.getEmail())) {
+//            bindingResult.rejectValue("email", "error.user.email.nonUnique", EMAIL_NOT_UNIQUE);
+//        }
+//        if (!isPasswordMatch(user.getRawPassword(), user.getRepeatRawPassword(), bindingResult)) {
+//            bindingResult.rejectValue("rawPassword", "error.user.password.missMatch", PASSWORDS_NOT_MATCH);
+//        }
+//        if (!isRegisteredPhone(user.getPhone())) {
+//            bindingResult.rejectValue("phone", "error.user.phone.nonUnique", PHONE_NOT_UNIQUE);
+//        }
+//        if (bindingResult.hasErrors()) {
+//            isValidData = false;
+//        }
         return isValidData;
     }
 
