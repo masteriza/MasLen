@@ -1,4 +1,4 @@
-package com.maslen.dao.Inf;
+package com.maslen.dao.interfaces;
 
 import com.maslen.models.User;
 
@@ -9,9 +9,9 @@ public interface UserDao {
 
     User findUserById(int userId);
 
+    Optional<User> findUserByUsername(String uesrname);
+
     long isRegisteredEmail(String email);
 
     long isRegisteredPhone(long phone);
-
-    Optional<User> findUserByUsername(String uesrname);
 }

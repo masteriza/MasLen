@@ -4,38 +4,26 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Users")
-public class User implements UserDetails {
+@Table(name = "users")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "UserId")
+    @Column(name = "user_id")
     private int userId;
     private String password;
     private String username;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "UsersRoles",
-            joinColumns = {@JoinColumn(name = "UserId")},
-            inverseJoinColumns = {@JoinColumn(name = "RoleId")})
-    private Set<Role> authorities;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
-    @Transient
-    private boolean accountNonExpired;
-    @Transient
-    private boolean accountNonLocked;
-    @Transient
-    private boolean credentialsNonExpired;
-    @Transient
-    private boolean enabled;
 
     public User(String password, String username) {
         this.password = password;

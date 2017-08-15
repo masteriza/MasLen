@@ -1,6 +1,6 @@
 package com.maslen.utils;
 
-import com.maslen.dao.Inf.UserDao;
+import com.maslen.dao.interfaces.UserDao;
 import com.maslen.models.User;
 import com.maslen.utils.interfaces.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;

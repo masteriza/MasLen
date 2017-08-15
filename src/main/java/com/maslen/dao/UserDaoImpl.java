@@ -1,6 +1,6 @@
 package com.maslen.dao;
 
-import com.maslen.dao.Inf.UserDao;
+import com.maslen.dao.interfaces.UserDao;
 import com.maslen.models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -53,7 +53,7 @@ public class UserDaoImpl implements UserDao {
 
 
         return currentSession()
-                .createQuery("select new User(userId, username, password, authorities) " +
+                .createQuery("select new User( username, password) " +
                         "from User where username =:username", User.class)
                 .setParameter("username", username).uniqueResultOptional();
 

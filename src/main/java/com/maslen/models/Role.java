@@ -1,23 +1,17 @@
 package com.maslen.models;
 
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "Roles")
-public class Role implements GrantedAuthority {
+@Table(name = "roles")
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "RoleId")
+    @Column(name = "role_id")
     private int roleId;
+    @Column(name = "role_name")
     private String roleName;
-
-    @Override
-    public String getAuthority() {
-        return this.roleName;
-    }
-
 }

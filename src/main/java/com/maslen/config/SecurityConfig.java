@@ -1,7 +1,6 @@
 package com.maslen.config;
 
-import com.maslen.dao.Inf.UserDao;
-import com.maslen.services.UserService;
+import com.maslen.services.SpringDataUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,13 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private UserService userService;
-    private UserDao userDao;
 
-    @Autowired
-    public SecurityConfig(UserService userService, UserDao userDao) {
-        this.userService = userService;
-        this.userDao = userDao;
+    @Bean
+    public SpringDataUserDetailsService springDataUserDetailsService() {
+        return new SpringDataUserDetailsService();
     }
 
     @Bean
@@ -42,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
+//        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
+        auth.userDetailsService(springDataUserDetailsService()).passwordEncoder(bCryptPasswordEncoder());
     }
 }
