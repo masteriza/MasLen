@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -20,14 +20,14 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "UserId")
     private int userId;
-
-    @ManyToMany(fetch = FetchType.LAZY)
+    private String password;
+    private String username;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "UsersRoles",
             joinColumns = {@JoinColumn(name = "UserId")},
             inverseJoinColumns = {@JoinColumn(name = "RoleId")})
-    private List<Role> authorities;
-    private String password;
-    private String username;
+    private Set<Role> authorities;
+
     @Transient
     private boolean accountNonExpired;
     @Transient
