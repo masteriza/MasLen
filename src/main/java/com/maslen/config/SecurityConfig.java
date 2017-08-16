@@ -10,10 +10,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private static final int VALIDITY_SECONDS = 604800;
+
 
     @Bean
     public SpringDataUserDetailsService springDataUserDetailsService() {
@@ -27,13 +31,46 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        filter.setForceEncoding(true);
+        http.addFilterBefore(filter, CsrfFilter.class);
+
         http.authorizeRequests()
-                .antMatchers("/").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
+
                 .and()
-                .formLogin().permitAll()
+                .formLogin()
+                //.loginPage("/logIn")
+                .successForwardUrl("/driverMap")
+//                .failureHandler((request, response, e) -> {
+//                    if (e instanceof BadCredentialsException) {
+//                        response.sendRedirect("/logIn?error");
+//                    } else {
+//                        response.sendRedirect("/error");
+//                    }
+//                })
+                .permitAll()
                 .and()
-                .logout().permitAll();
+                .logout()
+                .logoutUrl("/logOut")
+                .logoutSuccessUrl("/")
+
+                .and()
+                .rememberMe()
+                .tokenValiditySeconds(VALIDITY_SECONDS)
+
+                .and()
+                .exceptionHandling().accessDeniedPage("/403")
+        ;
+
+
+//                .antMatchers("/").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin().permitAll()
+//                .and()
+//                .logout().permitAll();
     }
 
     @Autowired

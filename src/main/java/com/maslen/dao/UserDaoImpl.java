@@ -53,7 +53,7 @@ public class UserDaoImpl implements UserDao {
 
 
         return currentSession()
-                .createQuery("select new User( username, password) " +
+                .createQuery("select new User( username, password, role) " +
                         "from User where username =:username", User.class)
                 .setParameter("username", username).uniqueResultOptional();
 

@@ -1,6 +1,7 @@
 package com.maslen.controllers;
 
 import com.maslen.models.User;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +16,8 @@ public class IndexPageController {
     private static final String NAME_MODEL = "user";
 
     @RequestMapping("/")
+    @PreAuthorize("hasRole('USER')")
+    //@PreAuthorize("hasAnyRole('OWNER', 'ADMIN')")
     public ModelAndView indexPage() {
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();
