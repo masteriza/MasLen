@@ -20,8 +20,8 @@ public class User {
     private int userId;
     private String password;
     private String username;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "FK_users_role_id"))
     private Role role;
 
 

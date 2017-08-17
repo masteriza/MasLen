@@ -62,6 +62,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .exceptionHandling().accessDeniedPage("/403")
+
+                .and()
+                .csrf()
+                .disable()//отключить все
+        //.ignoringAntMatchers("путь где отключено")
         ;
 
 

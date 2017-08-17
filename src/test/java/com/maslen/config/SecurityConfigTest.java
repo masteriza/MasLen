@@ -7,6 +7,7 @@ public class SecurityConfigTest {
     @Test
     public void bCryptPasswordEncoder() throws Exception {
         System.out.println(new BCryptPasswordEncoder().encode("1"));
+        System.out.println(new BCryptPasswordEncoder().encode("1"));
     }
 
 }
