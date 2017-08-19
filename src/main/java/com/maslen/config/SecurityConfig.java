@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .formLogin()
-                //.loginPage("/logIn")
+                .loginPage("/logIn")
                 .successForwardUrl("/driverMap")
 //                .failureHandler((request, response, e) -> {
 //                    if (e instanceof BadCredentialsException) {
