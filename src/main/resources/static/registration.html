@@ -7,29 +7,7 @@
     <link href="css/logIn.css" rel="stylesheet">
 </head>
 <body>
-<a href="logIn.html">
-    <button type="button" class="btn btn-primary">Вход</button>
-</a>
-<a href="registration.html">
-    <button type="button" class="btn btn-info">Регистрация</button>
-</a>
 
-
-<div class="container">
-    <form class="form-signin" role="form">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="email" class="form-control" placeholder="Email address" required autofocus>
-        <input type="password" class="form-control" placeholder="Password" required>
-        <label class="checkbox">
-            <input type="checkbox" value="remember-me"> Remember me
-        </label>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
-</div>
-<br>
-<br>
-<br>
-<br>
 <h2>Регистрация</h2>
 <form class="form-horizontal">
     <div class="form-group">
@@ -54,17 +32,64 @@
         <label class="control-label col-xs-3">Дата рождения:</label>
         <div class="col-xs-3">
             <select class="form-control">
-                <option>Дата</option>
+                <option disabled selected>Дата</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+                <option>13</option>
+                <option>14</option>
+                <option>15</option>
+                <option>16</option>
+                <option>17</option>
+                <option>18</option>
+                <option>19</option>
+                <option>20</option>
+                <option>21</option>
+                <option>22</option>
+                <option>23</option>
+                <option>24</option>
+                <option>25</option>
+                <option>26</option>
+                <option>27</option>
+                <option>28</option>
+                <option>29</option>
+                <option>30</option>
+                <option>31</option>
             </select>
         </div>
         <div class="col-xs-3">
             <select class="form-control">
-                <option>Месяц</option>
+                <option disabled selected>Месяц</option>
+                <option value="1">Январь</option>
+                <option value="2">Февраль</option>
+                <option value="3">Март</option>
+                <option value="4">Апрель</option>
+                <option value="5">Май</option>
+                <option value="6">Июнь</option>
+                <option value="7">Июль</option>
+                <option value="8">Август</option>
+                <option value="9">Сентябрь</option>
+                <option value="10">Октябрь</option>
+                <option value="11">Ноябрь</option>
+                <option value="12">Декабрь</option>
             </select>
         </div>
         <div class="col-xs-3">
             <select class="form-control">
-                <option>Год</option>
+                <option disabled selected>Год</option>
+                <option>2017</option>
+                <option>2016</option>
+                <option>2015</option>
+                <option>2014</option>
             </select>
         </div>
     </div>
@@ -93,12 +118,6 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-xs-3" for="postalAddress">Адрес:</label>
-        <div class="col-xs-9">
-            <textarea rows="3" class="form-control" id="postalAddress" placeholder="Введите адрес"></textarea>
-        </div>
-    </div>
-    <div class="form-group">
         <label class="control-label col-xs-3">Пол:</label>
         <div class="col-xs-2">
             <label class="radio-inline">
@@ -121,30 +140,13 @@
     <br/>
     <div class="form-group">
         <div class="col-xs-offset-3 col-xs-9">
-            <input type="submit" class="btn btn-primary" value="Регистрация">
+            <input id="btnRegistration" type="submit" class="btn btn-primary" value="Регистрация">
             <input type="reset" class="btn btn-default" value="Очистить форму">
         </div>
     </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/js/registration.js"></script>
 </form>
-<p><label>E-mail</label><input id="email"></p>
-
-<p><label>Password</label><input type="password" id="rawPassword"></p>
-
-<p><label>Confirm password</label><input type="password" id="repeatRawPassword"></p>
-
-<p><label>First name</label><input id="firstName"></p>
-
-<p><label>Last name</label><input id="lastName"></p>
-
-<p><label>Phone</label><input id="phone"></p>
-
-<div id="btSingUp"><input type="button" value="Sign Up"></div>
-
-<br>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="/js/index.js"></script>
-
 </body>
 </html>
