@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Welcome to MASLEN (=</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css.map" rel="stylesheet">
     <link href="css/logIn.css" rel="stylesheet">
 </head>
 <body>
@@ -13,25 +14,25 @@
     <div class="form-group">
         <label class="control-label col-xs-3" for="lastName">Фамилия:</label>
         <div class="col-xs-9">
-            <input type="text" class="form-control" id="lastName" placeholder="Введите фамилию">
+            <input type="text" class="form-control" id="lastName" placeholder="Введите фамилию" required>
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-xs-3" for="firstName">Имя:</label>
         <div class="col-xs-9">
-            <input type="text" class="form-control" id="firstName" placeholder="Введите имя">
+            <input type="text" class="form-control" id="firstName" placeholder="Введите имя" required>
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-xs-3" for="middleName">Отчество:</label>
         <div class="col-xs-9">
-            <input type="text" class="form-control" id="middleName" placeholder="Введите отчество">
+            <input type="text" class="form-control" id="middleName" placeholder="Введите отчество" required>
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-xs-3">Дата рождения:</label>
         <div class="col-xs-3">
-            <select id="birthday_Day" class="form-control">
+            <select id="birthday_Day" class="form-control" required>
                 <option disabled selected>Дата</option>
                 <option>1</option>
                 <option>2</option>
@@ -67,7 +68,7 @@
             </select>
         </div>
         <div class="col-xs-3">
-            <select id="birthday_Month" class="form-control">
+            <select id="birthday_Month" class="form-control" required>
                 <option disabled selected>Месяц</option>
                 <option value="0">Январь</option>
                 <option value="1">Февраль</option>
@@ -84,7 +85,7 @@
             </select>
         </div>
         <div class="col-xs-3">
-            <select id="birthday_Year" class="form-control">
+            <select id="birthday_Year" class="form-control" required>
                 <option disabled selected>Год</option>
                 <option>2017</option>
                 <option>2016</option>
@@ -96,32 +97,33 @@
     <div class="form-group">
         <label class="control-label col-xs-3" for="email">Email:</label>
         <div class="col-xs-9">
-            <input id="email" type="email" class="form-control" id="email" placeholder="Email">
+            <input id="email" type="email" class="form-control" placeholder="Email" required>
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-xs-3" for="rawPassword">Пароль:</label>
         <div class="col-xs-9">
-            <input type="password" class="form-control" id="rawPassword" placeholder="Введите пароль">
+            <input id="rawPassword" type="password" class="form-control" placeholder="Введите пароль" required>
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-xs-3" for="repeatRawPassword">Подтвердите пароль:</label>
         <div class="col-xs-9">
-            <input type="password" class="form-control" id="repeatRawPassword" placeholder="Введите пароль ещё раз">
+            <input id="repeatRawPassword" type="password" class="form-control" placeholder="Введите пароль ещё раз"
+                   required>
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-xs-3" for="phone">Телефон:</label>
         <div class="col-xs-9">
-            <input type="tel" class="form-control" id="phone" placeholder="Введите номер телефона">
+            <input id="phone" type="tel" class="form-control" placeholder="Введите номер телефона" required>
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-xs-3">Пол:</label>
         <div class="col-xs-2">
             <label class="radio-inline">
-                <input type="radio" name="genderRadios" value="M"> Мужской
+                <input type="radio" name="genderRadios" value="M" required> Мужской
             </label>
         </div>
         <div class="col-xs-2">
@@ -133,20 +135,19 @@
     <div class="form-group">
         <div class="col-xs-offset-3 col-xs-9">
             <label class="checkbox-inline">
-                <input id="agree" type="checkbox"> Я согласен с <a href="#">условиями</a>.
+                <input id="agree" type="checkbox" required> Я согласен с <a href="#">условиями</a>.
             </label>
         </div>
     </div>
     <br/>
     <div class="form-group">
         <div class="col-xs-offset-3 col-xs-9">
-            <input id="btnRegistration" type="submit" class="btn btn-primary" value="Регистрация">
+            <input id="btnRegistration" type="button" class="btn btn-primary" value="Регистрация">
             <input type="reset" class="btn btn-default" value="Очистить форму">
         </div>
     </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="/js/registration.js"></script>
 </form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/registration.js"></script>
 </body>
 </html>
