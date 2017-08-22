@@ -32,6 +32,12 @@ $(document).ready(function () {
             data: JSON.stringify(user),
             dataType: 'json',
             success: function (responseData) {
+                for (i = 0; i < responseData.errorList.length; i++) {
+                    responseData.errorList[i].code;
+                    responseData.errorList[i].field;
+                }
+                //$("#tagscloud span").text("Your text here");
+
                 if (responseData != "") {
                     $(".errorSummary").empty().append(responseData);
                 } else {

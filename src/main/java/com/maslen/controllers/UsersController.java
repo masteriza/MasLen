@@ -1,6 +1,7 @@
 package com.maslen.controllers;
 
-import com.maslen.models.User;
+import com.maslen.models.RegistrationUserDto;
+import com.maslen.models.ValidationResponse;
 import com.maslen.utils.interfaces.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -24,18 +25,28 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/user")
-    public User addUser(@Valid @RequestBody User user, BindingResult bindingResult) {
 
-        if (registrationService.validateForm(user, bindingResult)) {
-//            user.setPassword(registrationService.encodePassword(user.getRawPassword()));
-//            userDao.addUser(user);
+
+    public ValidationResponse addUser(@Valid @RequestBody RegistrationUserDto registrationUserDto, BindingResult bindingResult) {
+
+        ValidationResponse res = new ValidationResponse();
+        if (!bindingResult.hasErrors()) {
+//            userList.add(user);
+            res.setStatus("SUCCESS");
+//            res.setResult(userList);
         } else {
-
+            res.setStatus("FAIL");
+            res.setErrorList(bindingResult.getAllErrors());
         }
 
+        return res;
 
-        return null;
 
-
+//        if (registrationService.validateForm(user, bindingResult)) {
+//            user.setPassword(registrationService.encodePassword(user.getRawPassword()));
+//            userDao.addUser(user);
+//        } else {
+//
+//        }
     }
 }
