@@ -36,6 +36,10 @@ $(document).ready(function () {
                     responseData.errorList[i].code;
                     responseData.errorList[i].field;
                 }
+
+                alert($(".sss").find("span").text());
+
+                alert($("#lastName").siblings("span").html());
                 //$("#tagscloud span").text("Your text here");
 
                 if (responseData != "") {
