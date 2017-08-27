@@ -1,14 +1,14 @@
 package com.maslen.utils.interfaces;
 
-import com.maslen.models.User;
+import com.maslen.models.RegistrationUserDto;
 import org.springframework.validation.BindingResult;
 
 public interface RegistrationService {
-    boolean validateForm(User user, BindingResult bindingResult);
+    boolean validateForm(RegistrationUserDto registrationUserDto, BindingResult bindingResult);
 
     boolean isRegisteredEmail(String email);
 
-    boolean isRegisteredPhone(long phone);
+    boolean isRegisteredPhone(String phone);
 
     boolean isPasswordMatch(String rawPassword, String repeatPassword, BindingResult bindingResult);
 

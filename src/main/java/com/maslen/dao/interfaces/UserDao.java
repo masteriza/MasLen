@@ -13,5 +13,5 @@ public interface UserDao {
 
     long isRegisteredEmail(String email);
 
-    long isRegisteredPhone(long phone);
+    long isRegisteredPhone(String phone);
 }

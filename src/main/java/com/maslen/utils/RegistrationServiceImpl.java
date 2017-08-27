@@ -1,7 +1,7 @@
 package com.maslen.utils;
 
 import com.maslen.dao.interfaces.UserDao;
-import com.maslen.models.User;
+import com.maslen.models.RegistrationUserDto;
 import com.maslen.utils.interfaces.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,20 +26,20 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 
     @Override
-    public boolean validateForm(User user, BindingResult bindingResult) {
+    public boolean validateForm(RegistrationUserDto registrationUserDto, BindingResult bindingResult) {
         boolean isValidData = true;
-//        if (!isRegisteredEmail(user.getEmail())) {
-//            bindingResult.rejectValue("email", "error.user.email.nonUnique", EMAIL_NOT_UNIQUE);
-//        }
-//        if (!isPasswordMatch(user.getRawPassword(), user.getRepeatRawPassword(), bindingResult)) {
-//            bindingResult.rejectValue("rawPassword", "error.user.password.missMatch", PASSWORDS_NOT_MATCH);
-//        }
-//        if (!isRegisteredPhone(user.getPhone())) {
-//            bindingResult.rejectValue("phone", "error.user.phone.nonUnique", PHONE_NOT_UNIQUE);
-//        }
-//        if (bindingResult.hasErrors()) {
-//            isValidData = false;
-//        }
+        if (!isRegisteredEmail(registrationUserDto.getEmail())) {
+            bindingResult.rejectValue("email", "error.user.email.nonUnique", EMAIL_NOT_UNIQUE);
+        }
+        if (!isPasswordMatch(registrationUserDto.getRawPassword(), registrationUserDto.getRepeatRawPassword(), bindingResult)) {
+            bindingResult.rejectValue("rawPassword", "error.user.password.missMatch", PASSWORDS_NOT_MATCH);
+        }
+        if (!isRegisteredPhone(registrationUserDto.getPhone())) {
+            bindingResult.rejectValue("phone", "error.user.phone.nonUnique", PHONE_NOT_UNIQUE);
+        }
+        if (bindingResult.hasErrors()) {
+            isValidData = false;
+        }
         return isValidData;
     }
 
@@ -58,7 +58,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 
     @Override
-    public boolean isRegisteredPhone(long phone) {
+    public boolean isRegisteredPhone(String phone) {
         return userDao.isRegisteredPhone(phone) == 0;
     }
 

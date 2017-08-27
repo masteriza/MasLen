@@ -67,10 +67,10 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public long isRegisteredPhone(long phone) {
+    public long isRegisteredPhone(String number) {
         return (long) currentSession()
-                .createQuery("select count(*) from User where phone =:phone")
-                .setParameter("phone", phone).uniqueResult();
+                .createQuery("select count(*) from Phone where number =:number")
+                .setParameter("number", number).uniqueResult();
     }
 
 

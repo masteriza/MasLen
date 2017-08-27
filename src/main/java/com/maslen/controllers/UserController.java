@@ -5,41 +5,39 @@ import com.maslen.models.ValidationResponse;
 import com.maslen.utils.interfaces.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
 @RestController
-public class UsersController {
+public class UserController {
 //    private final UserDao userDao;
 
     private final RegistrationService registrationService;
 
 
     @Autowired
-    public UsersController(/*UserDao userDao,*/ RegistrationService registrationService) {
+    public UserController(/*UserDao userDao,*/ RegistrationService registrationService) {
 //        this.userDao = userDao;
         this.registrationService = registrationService;
     }
 
-    @RequestMapping(value = "/user")
+    @PostMapping(value = "/user")
 
 
     public ValidationResponse addUser(@Valid @RequestBody RegistrationUserDto registrationUserDto, BindingResult bindingResult) {
 
-        ValidationResponse res = new ValidationResponse();
-        if (!bindingResult.hasErrors()) {
-//            userList.add(user);
-            res.setStatus("SUCCESS");
-//            res.setResult(userList);
+        ValidationResponse response = new ValidationResponse();
+//        if (!bindingResult.hasErrors()) {
+        if (registrationService.validateForm(registrationUserDto, bindingResult)) {
+            response.setStatus("SUCCESS");
         } else {
-            res.setStatus("FAIL");
-            res.setErrorList(bindingResult.getAllErrors());
+            response.setStatus("FAIL");
+            response.setErrorList(bindingResult.getAllErrors());
         }
-
-        return res;
+        return response;
 
 
 //        if (registrationService.validateForm(user, bindingResult)) {
