@@ -22,10 +22,10 @@ public class IndexPageController {
 //        ModelAndView modelAndView = new ModelAndView();
 //        User user = new User();
 //        modelAndView.addObject(user);
-//        modelAndView.setViewName("redirect:/index.html");
-        //return "index";
-        return "redirect:/index.html";
-        //return "redirect:/index.html";
+//        modelAndView.setViewName("redirect:/index.jsp");
+        return "index";
+        //return "redirect:/index.jsp";
+
     }
 
     //    @RequestMapping("/registrationUser")
