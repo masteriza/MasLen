@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class AuthenticationController {
-    private static final String LOGIN = "logging/logIn";
+    private static final String LOGIN = "logIn";
     private static final String LOGOUT = "logging/logOut";
     private static final String LOGIN_SUCCESS = "logging/logInSuccessful";
     private static final String LOGOUT_SUCCESS = "logging/logOutSuccessful";
@@ -23,6 +23,7 @@ public class AuthenticationController {
             view = LOGIN_SUCCESS;
         }
         return view;
+        //return "redirect:/driverMap.html";
     }
 
     @PostMapping(value = "/loggedIn")
