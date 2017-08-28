@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class DriverMapController {
     @RequestMapping("/driverMap")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     public ModelAndView indexPage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("driverMap");
