@@ -16,14 +16,16 @@ public class IndexPageController {
     private static final String NAME_MODEL = "user";
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
+    //@ResponseBody
     //@PreAuthorize("hasRole('USER')")
     //@PreAuthorize("hasAnyRole('OWNER', 'ADMIN')")
     public String indexPage() {
-//        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView();
 //        User user = new User();
 //        modelAndView.addObject(user);
-//        modelAndView.setViewName("redirect:/index.jsp");
+        //modelAndView.setViewName("index");
         return "index";
+        //return modelAndView;
         //return "redirect:/index.jsp";
 
     }

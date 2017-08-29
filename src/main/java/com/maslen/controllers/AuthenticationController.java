@@ -23,7 +23,7 @@ public class AuthenticationController {
             view = LOGIN_SUCCESS;
         }
         return view;
-        //return "redirect:/driverMap.html";
+        //return "redirect:/driverMap.jsp";
     }
 
     @PostMapping(value = "/loggedIn")

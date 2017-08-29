@@ -8,10 +8,10 @@
     <link href="css/logIn.css" rel="stylesheet">
 </head>
 <body>
-<a href="logInq.html">
+<a href="logIn.html">
     <button type="button" class="btn btn-primary">Вход</button>
 </a>
-<a href="registration.html">
+<a href="registration.jsp">
     <button type="button" class="btn btn-info">Регистрация</button>
 </a>
 

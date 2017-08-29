@@ -55,6 +55,12 @@
             <version>8.5.13</version>
         </dependency>
 
+        <!--JSTL-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+        
         <!--Lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -63,13 +69,6 @@
             <scope>provided</scope>
         </dependency>
 
-
-        <!--&lt;!&ndash;JWT&ndash;&gt;-->
-        <!--<dependency>-->
-        <!--<groupId>io.jsonwebtoken</groupId>-->
-        <!--<artifactId>jjwt</artifactId>-->
-        <!--<version>RELEASE</version>-->
-        <!--</dependency>-->
 
         <!--ORM-->
         <dependency>
