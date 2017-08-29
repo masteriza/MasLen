@@ -22,9 +22,9 @@ public class IndexPageController {
 //        ModelAndView modelAndView = new ModelAndView();
 //        User user = new User();
 //        modelAndView.addObject(user);
-//        modelAndView.setViewName("redirect:/index.jsp");
+//        modelAndView.setViewName("redirect:/index.html");
         return "index";
-        //return "redirect:/index.jsp";
+        //return "redirect:/index.html";
 
     }
 
