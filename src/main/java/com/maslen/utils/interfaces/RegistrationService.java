@@ -1,6 +1,7 @@
 package com.maslen.utils.interfaces;
 
 import com.maslen.models.RegistrationUserDto;
+import com.maslen.models.User;
 import org.springframework.validation.BindingResult;
 
 public interface RegistrationService {
@@ -14,5 +15,5 @@ public interface RegistrationService {
 
     String encodePassword(String rawPassword);
 
-
+    User userDtoToUser(RegistrationUserDto registrationUserDto);
 }

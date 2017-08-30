@@ -2,6 +2,7 @@ package com.maslen.utils;
 
 import com.maslen.dao.interfaces.UserDao;
 import com.maslen.models.RegistrationUserDto;
+import com.maslen.models.User;
 import com.maslen.utils.interfaces.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -66,4 +67,19 @@ public class RegistrationServiceImpl implements RegistrationService {
     public String encodePassword(String rawPassword) {
         return encoder.encode(rawPassword);
     }
+
+    @Override
+    public User userDtoToUser(RegistrationUserDto registrationUserDto) {
+        User user = User.builder()
+                .email(registrationUserDto.getEmail())
+                .password(registrationUserDto.getRawPassword())
+                .sex(registrationUserDto.getGender().charAt(0))
+                .birthday(registrationUserDto.getBirthday())
+                //.phone(registrationUserDto.getPhone())
+
+                .build();
+        return user;
+    }
+
+
 }

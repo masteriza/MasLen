@@ -11,15 +11,12 @@
     <link href="/css/logIn.css" rel="stylesheet">
 </head>
 <body>
-<a href="/logIn.jsp">
+<a href="/logIn">
     <button type="button" class="btn btn-primary">Вход</button>
 </a>
-<a href="registration.jsp">
+<a href="/registration">
     <button type="button" class="btn btn-info">Регистрация</button>
 </a>
-<a href="<c:url value="/WEB-INF/jsp/registration.jsp"/>">111111111111111111111</a>
-<a href="<c:url value="registration.jsp"/>">222222222222222222222</a>
-<a href="${pageContext.request.contextPath}/registration.jsp"/>">3333</a>
 
 <div class="container">
     <form class="form-signin" role="form">

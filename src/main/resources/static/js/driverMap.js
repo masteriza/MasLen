@@ -175,7 +175,7 @@ $(document).ready(function () {
             "finishRouteLongitude": directionsDisplay.directions.routes[0].legs[0].end_location.lng()
 
 
-        }
+        };
 
 
         $.ajax({

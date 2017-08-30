@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     $('#btSingUp').click(function () {
-        var user = {}
+        var user = {};
         user["userId"] = 0;
         user["email"] = $("#email").val();
         user["rawPassword"] = $("#rawPassword").val();
