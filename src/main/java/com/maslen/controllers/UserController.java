@@ -6,7 +6,9 @@ import com.maslen.models.ValidationResponse;
 import com.maslen.utils.interfaces.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -24,7 +26,7 @@ public class UserController {
         this.registrationService = registrationService;
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    //    @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public ModelAndView registrationPage() {
         return new ModelAndView("registration");
     }
