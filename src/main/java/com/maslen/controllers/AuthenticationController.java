@@ -15,7 +15,7 @@ public class AuthenticationController {
     private static final String LOGOUT_SUCCESS = "logging/logOutSuccessful";
     private static final String INDEX = "index";
 
-    //    @GetMapping(value = "/logIn")
+    @GetMapping(value = "/logIn")
     public String showLogInForm() {
         String view = LOGIN;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

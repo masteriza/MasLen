@@ -35,14 +35,15 @@ $(document).ready(function () {
             data: JSON.stringify(user),
             dataType: 'json',
             success: function (responseData) {
-                for (i = 0; i < responseData.errorList.length; i++) {
-                    // responseData.errorList[i].code;
-                    // responseData.errorList[i].dafaultMessage;
-                    // responseData.errorList[i].field;
-                    $("#" + responseData.errorList[i].field).siblings(".errorspan").text();
-                    $("#" + responseData.errorList[i].field).siblings(".errorspan").text(responseData.errorList[i].defaultMessage);
+                if (responseData != "" || responseData != null) {
+                    for (i = 0; i < responseData.errorList.length; i++) {
+                        // responseData.errorList[i].code;
+                        // responseData.errorList[i].dafaultMessage;
+                        // responseData.errorList[i].field;
+                        $("#" + responseData.errorList[i].field).siblings(".errorspan").text();
+                        $("#" + responseData.errorList[i].field).siblings(".errorspan").text(responseData.errorList[i].defaultMessage);
+                    }
                 }
-
                 //alert($("#lastName").siblings("span").text());
 
 //                $("#lastName").siblings("span").text("zzzzzzzzzzzzz");
@@ -55,6 +56,9 @@ $(document).ready(function () {
                 // } else {
                 //     location.href = 'message.jsp';
                 // }
+
+                console.log("SUCCESS : ", responseData);
+                window.location.replace("/driverMap");
             }
         });
     });

@@ -1,7 +1,9 @@
 package com.maslen.utils;
 
 import com.maslen.dao.interfaces.UserDao;
+import com.maslen.models.Phone;
 import com.maslen.models.RegistrationUserDto;
+import com.maslen.models.Role;
 import com.maslen.models.User;
 import com.maslen.utils.interfaces.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,15 +72,20 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public User userDtoToUser(RegistrationUserDto registrationUserDto) {
-        User user = User.builder()
+        Phone phone = new Phone();
+        phone.setNumber(registrationUserDto.getPhone());
+
+        Role role = new Role();
+        role.setRoleName("USER");
+        return User.builder()
                 .email(registrationUserDto.getEmail())
                 .password(registrationUserDto.getRawPassword())
                 .sex(registrationUserDto.getGender().charAt(0))
                 .birthday(registrationUserDto.getBirthday())
-                //.phone(registrationUserDto.getPhone())
-
+                .phone(phone)
+                .role(role)
+                .status("I".charAt(0))
                 .build();
-        return user;
     }
 
 

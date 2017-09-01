@@ -29,6 +29,7 @@ public class User {
     @JoinColumn(name = "phone_id", foreignKey = @ForeignKey(name = "FK_users_phone_id"))
     private Phone phone;
 
+    @Column(name = "status", nullable = false, columnDefinition = "CHAR(1) default 'I'")
     private char status;
 
     @OneToOne(cascade = CascadeType.ALL)
