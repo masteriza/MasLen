@@ -18,6 +18,7 @@
     <button type="button" class="btn btn-info">Регистрация</button>
 </a>
 
+
 <div class="container">
     <form class="form-signin" role="form">
         <h2 class="form-signin-heading">Please sign in</h2>
