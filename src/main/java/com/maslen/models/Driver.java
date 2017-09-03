@@ -12,7 +12,7 @@ public class Driver {
     private double finishRouteLatitude;
     private double finishRouteLongitude;
 
-    private ArrayList<RoutePoint> routePoints;
+    private ArrayList routePoints;
 
     public Driver() {
     }

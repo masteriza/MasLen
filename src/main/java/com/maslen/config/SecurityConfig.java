@@ -69,14 +69,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()//отключить все
         //.ignoringAntMatchers("путь где отключено")
         ;
-
-
-//                .antMatchers("/").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin().permitAll()
-//                .and()
-//                .logout().permitAll();
     }
 
     @Autowired

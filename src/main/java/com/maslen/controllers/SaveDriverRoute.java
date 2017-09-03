@@ -16,7 +16,6 @@ public class SaveDriverRoute {
 //        String lastName = request.getParameter("lastName");
 //        String email = request.getParameter("email");
 
-        ModelAndView modelAndView = new ModelAndView();
-        return modelAndView;
+        return new ModelAndView();
     }
 }
