@@ -41,6 +41,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll()
 
                 .and()
+//                .formLogin()
+//                .loginProcessingUrl("/logIn")
+//                //.successHandler(authSuccess)
+//                .usernameParameter("username")
+//                .passwordParameter("password")
+//                .permitAll()
+
+
                 .formLogin()
                 .loginPage("/logIn")
                 .successForwardUrl("/driverMap")

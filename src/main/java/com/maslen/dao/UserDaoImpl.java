@@ -44,18 +44,31 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> findUserByUsername(String username) {
-//        return Optional.ofNullable(currentSession().get(User.class, username));
+        Optional user = currentSession()
+                .createQuery("select new User( u.email, u.password, u.role) from User u " +
+                        "inner join Role r on u.role=r.roleId " +
+                        "WHERE u.email =:username")
+                .setParameter("username", username)
+                //.uniqueResult();
+                .uniqueResultOptional();
+        return user;
 
 //        return currentSession()
-//                .createQuery("select new User() " +
-//                        "from Users where username =:username", User.class)
+//                .createQuery("select new User( u.username, u.password, u.role) " +
+//                        "from User u inner join Role r on u.role=r.roleId where username =:username", User.class)
 //                .setParameter("username", username).uniqueResultOptional();
 
+//        return currentSession()
+//                .createQuery("select new User( u.username, u.password, u.role)" +
+//                        "from Role r inner join User u on u.role=r.roleId", Role.class);
 
-        return currentSession()
-                .createQuery("select new User( username, password, role) " +
-                        "from User where username =:username", User.class)
-                .setParameter("username", username).uniqueResultOptional();
+        //.list();
+
+
+//        return currentSession()
+//                .createQuery("select new User( username, password, role) " +
+//                        "from User where username =:username", User.class)
+//                .setParameter("username", username).uniqueResultOptional();
 
     }
 
