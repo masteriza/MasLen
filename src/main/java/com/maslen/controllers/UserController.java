@@ -54,4 +54,10 @@ public class UserController {
 //
 //        }
     }
+
+    @RequestMapping(value = "/userPanel", method = RequestMethod.GET)
+    public ModelAndView userPanelPage() {
+        return new ModelAndView("userPanel");
+    }
+
 }
