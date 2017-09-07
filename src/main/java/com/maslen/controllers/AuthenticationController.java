@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class AuthenticationController {
     private static final String LOGIN = "logIn";
-    private static final String LOGOUT = "logging/logOut";
+    private static final String LOGOUT = "logOut";
     private static final String LOGIN_SUCCESS = "userPanel";
-    private static final String LOGOUT_SUCCESS = "logging/logOutSuccessful";
+    private static final String LOGOUT_SUCCESS = "logOutSuccessful";
     private static final String INDEX = "index";
     private static final String ERROR = "error";
 
@@ -47,7 +47,7 @@ public class AuthenticationController {
     }
 
     @GetMapping(value = "/error")
-    public String error(){
+    public String error() {
         return ERROR;
     }
 }
