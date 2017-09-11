@@ -14,11 +14,12 @@ public class RoutePoint {
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "routePoints")
+//    @JoinColumn(name = "routePoints", referencedColumnName = "route_id")
+    @JoinColumn(name = "route_id")
     private Route route;
-    private int index;
-    private double latitude;
-    private double longitude;
+//    private int index;
+//    private double latitude;
+//    private double longitude;
 
 
 

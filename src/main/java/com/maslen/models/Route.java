@@ -29,6 +29,8 @@ public class Route {
     private double finishRouteLatitude;
     private double finishRouteLongitude;
 
-    @OneToMany(mappedBy = "route")
+    //    @OneToMany(mappedBy = "route")
+    @OneToMany
+    @JoinColumn(name = "route_id", foreignKey = @ForeignKey(name = "FK_routes_points_route_id"))
     private List<RoutePoint> routePoints = new ArrayList<>();
 }
