@@ -5,14 +5,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Driver {
-    private int driverId;
+@Entity
+@Table(name = "routes")
+public class Route {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "route_id")
+    private int routeId;
+
     private int userId;
 
     private double startRouteLatitude;
@@ -21,5 +29,6 @@ public class Driver {
     private double finishRouteLatitude;
     private double finishRouteLongitude;
 
-    private ArrayList routePoints;
+    @OneToMany(mappedBy = "route")
+    private List<RoutePoint> routePoints = new ArrayList<>();
 }
