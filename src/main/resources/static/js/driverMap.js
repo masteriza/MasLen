@@ -174,8 +174,15 @@ $(document).ready(function () {
     $('#save').on('click', function () {
         var steps = directionsDisplay.directions.routes[0].legs[0].steps;
         var routePoints = [];
-        for (var i = 0; i <= steps.length - 1; i++) {
-            var routePoint = new routePointz();
+        var routePoint = new routePointz();
+
+        routePoint.index = 0;
+        routePoint.latitude = steps[0].start_location.lat();
+        routePoint.longitude = steps[0].start_location.lng();
+        routePoints.push(routePoint);
+
+        for (var i = 1; i <= steps.length - 1; i++) {
+            routePoint = new routePointz();
             routePoint.index = i;
             routePoint.latitude = steps[i].end_location.lat();
             routePoint.longitude = steps[i].end_location.lng();
