@@ -114,7 +114,7 @@
         <label class="control-label col-xs-3" for="rawPassword">Пароль:</label>
         <div class="col-xs-9">
             <input id="rawPassword" type="password" class="form-control" placeholder="Введите пароль" required><span
-                class="errorspan">1111</span>
+                class="errorspan">111</span>
         </div>
     </div>
     <div class="form-group">
@@ -128,7 +128,7 @@
         <label class="control-label col-xs-3" for="phone">Телефон:</label>
         <div class="col-xs-9">
             <input id="phone" class="form-control" type="tel" placeholder="+38(___) ___ __ __" required><span
-                class="errorspan">Ошибка. Проверьте номер телефона!</span>
+                class="errorspan">Ошибка. Проверьте номер телефона!!!</span>
         </div>
     </div>
     <div class="form-group">
