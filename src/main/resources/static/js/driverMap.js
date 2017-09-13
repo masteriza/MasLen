@@ -189,7 +189,7 @@ $(document).ready(function () {
             routePoints.push(routePoint);
         }
 
-        var driver = {
+        var driverRoute = {
             "driverId": 0,
             "userId": 0,
             "startRouteLatitude": directionsDisplay.directions.routes[0].legs[0].start_location.lat(),
@@ -204,7 +204,7 @@ $(document).ready(function () {
             type: "POST",
             contentType: 'application/json; charset=utf-8',
             url: "saveDriverRoute",
-            data: JSON.stringify(driver),
+            data: JSON.stringify(driverRoute),
             success: function (responseData) {
             }
         });
