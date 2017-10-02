@@ -22,9 +22,9 @@ public class IndexPageController {
 //        ModelAndView modelAndView = new ModelAndView();
 //        User user = new User();
 //        modelAndView.addObject(user);
-//        modelAndView.setViewName("redirect:/index.html");
-        return "index";
-        //return "redirect:/index.html";
+//        modelAndView.setViewName("redirect:/indexPoint.html");
+        return "indexPoint";
+        //return "redirect:/indexPoint.html";
 
     }
 
@@ -33,7 +33,7 @@ public class IndexPageController {
     public ModelAndView registrationUser(@Valid @ModelAttribute(NAME_MODEL)
                                                  User user, BindingResult bindingResult, ModelAndView modelAndView) {
 
-        modelAndView.setViewName("index");
+        modelAndView.setViewName("indexPoint");
         return modelAndView;
     }
 
@@ -41,7 +41,7 @@ public class IndexPageController {
     public ModelAndView loginUser(@Valid @ModelAttribute(NAME_MODEL)
                                           User user, BindingResult bindingResult, ModelAndView modelAndView) {
 
-        modelAndView.setViewName("index");
+        modelAndView.setViewName("indexPoint");
         return modelAndView;
     }
 

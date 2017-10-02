@@ -163,7 +163,7 @@ function routeTrip() {
 }
 
 function routePointz() {
-    this.index = 0;
+    this.indexPoint = 0;
     this.latitude = 0;
     this.longitude = 0;
 }
@@ -176,14 +176,14 @@ $(document).ready(function () {
         var routePoints = [];
         var routePoint = new routePointz();
 
-        routePoint.index = 0;
+        routePoint.indexPoint = 0;
         routePoint.latitude = steps[0].start_location.lat();
         routePoint.longitude = steps[0].start_location.lng();
         routePoints.push(routePoint);
 
         for (var i = 1; i <= steps.length - 1; i++) {
             routePoint = new routePointz();
-            routePoint.index = i;
+            routePoint.indexPoint = i;
             routePoint.latitude = steps[i].end_location.lat();
             routePoint.longitude = steps[i].end_location.lng();
             routePoints.push(routePoint);

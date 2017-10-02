@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -32,5 +33,6 @@ public class Route {
     //    @OneToMany(mappedBy = "route")
     @OneToMany
     @JoinColumn(name = "route_id", foreignKey = @ForeignKey(name = "FK_routes_points_route_id"))
+    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
     private List<RoutePoint> routePoints = new ArrayList<>();
 }

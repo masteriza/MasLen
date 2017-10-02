@@ -15,10 +15,9 @@ import javax.validation.Valid;
 
 @RestController
 public class UserController {
+
     private final UserDao userDao;
-
     private final RegistrationService registrationService;
-
 
     @Autowired
     public UserController(UserDao userDao, RegistrationService registrationService) {

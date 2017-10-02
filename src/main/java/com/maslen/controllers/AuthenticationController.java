@@ -13,7 +13,7 @@ public class AuthenticationController {
     private static final String LOGOUT = "logOut";
     private static final String LOGIN_SUCCESS = "userPanel";
     private static final String LOGOUT_SUCCESS = "logOutSuccessful";
-    private static final String INDEX = "index";
+    private static final String INDEX = "indexPoint";
     private static final String ERROR = "error";
 
     @GetMapping(value = "/logIn")
