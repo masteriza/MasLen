@@ -24,11 +24,12 @@ public class DriverDaoImpl implements DriverDao {
 
     @Override
     public Route addRoute(Route route) {
-        route.setUserId((int) currentSession().save(route));
+//        route.setUserId((int) currentSession().save(route));
+//        route.setUserId((int) currentSession().persist(route););
+        currentSession().persist(route);
         currentSession().flush();
         return route;
 
-//        currentSession().save(route);
 
     }
 
