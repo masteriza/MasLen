@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class DriverController {
@@ -34,6 +35,8 @@ public class DriverController {
         ValidationResponse response = new ValidationResponse();
 
         driverDao.addRoute(route);
+
+        List<Route> routes = driverDao.getAllRoute();
 //        ModelAndView modelAndView = new ModelAndView();
 //        modelAndView.setViewName("driverMap");
 //        return modelAndView;

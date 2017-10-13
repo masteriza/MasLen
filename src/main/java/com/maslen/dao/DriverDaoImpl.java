@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 @Transactional
 public class DriverDaoImpl implements DriverDao {
@@ -24,9 +26,9 @@ public class DriverDaoImpl implements DriverDao {
 
     @Override
     public Route addRoute(Route route) {
-//        route.setUserId((int) currentSession().save(route));
+        route.setUserId((int) currentSession().save(route));
 //        route.setUserId((int) currentSession().persist(route););
-        currentSession().persist(route);
+//        currentSession().persist(route);
         currentSession().flush();
         return route;
 
@@ -35,6 +37,11 @@ public class DriverDaoImpl implements DriverDao {
 
     @Override
     public Route getRoute(int userId) {
+        return null;
+    }
+
+    @Override
+    public List<Route> getAllRoute() {
         return null;
     }
 }

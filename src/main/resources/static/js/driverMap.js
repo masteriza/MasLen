@@ -170,7 +170,6 @@ function routePointz() {
 
 $(document).ready(function () {
 
-
     $('#save').on('click', function () {
         var steps = directionsDisplay.directions.routes[0].legs[0].steps;
         var routePoints = [];
@@ -208,7 +207,11 @@ $(document).ready(function () {
             success: function (responseData) {
             }
         });
-        alert(directionsDisplay.directions.routes[0].legs[directionsDisplay.directions.routes[0].legs.length - 1].end_location.lat());
+        //alert(directionsDisplay.directions.routes[0].legs[directionsDisplay.directions.routes[0].legs.length - 1].end_location.lat());
     });
 
+    $('#getAllRoutes').on('click', function () {
+
+
+    });
 });
