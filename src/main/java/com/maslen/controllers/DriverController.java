@@ -37,6 +37,8 @@ public class DriverController {
         driverDao.addRoute(route);
 
         List<Route> routes = driverDao.getAllRoute();
+
+
 //        ModelAndView modelAndView = new ModelAndView();
 //        modelAndView.setViewName("driverMap");
 //        return modelAndView;

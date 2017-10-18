@@ -26,9 +26,10 @@ public class DriverDaoImpl implements DriverDao {
 
     @Override
     public Route addRoute(Route route) {
+        System.out.println(route);
+        System.out.println(route.toString());
+
         route.setUserId((int) currentSession().save(route));
-//        route.setUserId((int) currentSession().persist(route););
-//        currentSession().persist(route);
         currentSession().flush();
         return route;
 
@@ -42,6 +43,10 @@ public class DriverDaoImpl implements DriverDao {
 
     @Override
     public List<Route> getAllRoute() {
-        return null;
+        List<Route> routes = currentSession().createQuery("from Route").list();
+//        List<Route> routez = query.list();
+
+        System.out.println(routes);
+        return routes;
     }
 }

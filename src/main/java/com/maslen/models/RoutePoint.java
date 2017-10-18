@@ -7,13 +7,13 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "routes_points")
+//@ToString(exclude = "route")
 public class RoutePoint {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "routePoints", referencedColumnName = "route_id")
     @JoinColumn(name = "route_id")
     private Route route;
 
@@ -25,6 +25,4 @@ public class RoutePoint {
 
     @Column(nullable = false)
     private double longitude;
-
-
 }
