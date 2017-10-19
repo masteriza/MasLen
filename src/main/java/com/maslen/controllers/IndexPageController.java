@@ -23,7 +23,7 @@ public class IndexPageController {
 //        User user = new User();
 //        modelAndView.addObject(user);
 //        modelAndView.setViewName("redirect:/indexPoint.html");
-        return "indexPoint";
+        return "index";
         //return "redirect:/indexPoint.html";
 
     }

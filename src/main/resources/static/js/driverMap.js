@@ -204,9 +204,22 @@ $(document).ready(function () {
             contentType: 'application/json; charset=utf-8',
             url: "saveDriverRoute",
             data: JSON.stringify(driverRoute),
+            dataType: 'json',
+            timeout: 100000,
             success: function (responseData) {
+                console.log("SUCCESS: ", responseData);
+                display(responseData);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+                display(e);
+            },
+            done: function (e) {
+                console.log("DONE");
             }
+
         });
+        var a = 0;
         //alert(directionsDisplay.directions.routes[0].legs[directionsDisplay.directions.routes[0].legs.length - 1].end_location.lat());
     });
 

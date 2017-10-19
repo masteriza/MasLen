@@ -1,8 +1,8 @@
 package com.maslen.controllers;
 
 import com.maslen.dao.interfaces.DriverDao;
+import com.maslen.models.AjaxResponseBody;
 import com.maslen.models.Route;
-import com.maslen.models.ValidationResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -30,18 +30,20 @@ public class DriverController {
 
     @PostMapping(value = "/saveDriverRoute")
     @PreAuthorize("hasRole('USER')")
-    public ValidationResponse saveDriverRoute(@Valid @RequestBody Route route, BindingResult bindingResult) {
 
-        ValidationResponse response = new ValidationResponse();
+    public AjaxResponseBody saveDriverRoute(@Valid @RequestBody Route route, BindingResult bindingResult) {
+
+//        ValidationResponse response = new ValidationResponse();
+        AjaxResponseBody response = new AjaxResponseBody();
 
         driverDao.addRoute(route);
 
         List<Route> routes = driverDao.getAllRoute();
 
+        response.setMsg("Жиробасина!");
+        response.setCode("200");
+        response.setResult(routes);
 
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("driverMap");
-//        return modelAndView;
 
         return response;
     }
