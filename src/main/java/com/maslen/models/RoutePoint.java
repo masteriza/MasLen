@@ -13,8 +13,10 @@ public class RoutePoint {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "route_id")
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "route_id")
     private Route route;
 
     @Column(name = "index_point", nullable = false)
