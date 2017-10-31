@@ -18,7 +18,7 @@ import java.util.List;
 //@ToString(exclude = "routePoints")
 public class Route {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "route_id")
     private int routeId;
 
@@ -30,8 +30,8 @@ public class Route {
     private double finishRouteLatitude;
     private double finishRouteLongitude;
 
-    //    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "route_id", foreignKey = @ForeignKey(name = "FK_routes_points_route_id"),referencedColumnName = "route_id")
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "route")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "route_id", foreignKey = @ForeignKey(name = "FK_routes_points_route_id"), referencedColumnName = "route_id")
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "route", cascade = CascadeType.ALL)
     private List<RoutePoint> routePoints = new ArrayList<>();
 }

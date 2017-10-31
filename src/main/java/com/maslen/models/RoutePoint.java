@@ -10,13 +10,15 @@ import javax.persistence.*;
 //@ToString(exclude = "route")
 public class RoutePoint {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private int pointId;
 
-//    @ManyToOne(fetch = FetchType.EAGER)
+//    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "route_id")
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "route_id")
     private Route route;
 
     @Column(name = "index_point", nullable = false)
