@@ -26,11 +26,7 @@ public class RegistrationUserDtoDeserializer extends JsonDeserializer {
         String gender = node.get("gender").textValue();
         boolean agree = node.get("agree").booleanValue();
 
-
         return new RegistrationUserDto(lastName, firstName, middleName, birthday, email,
                 rawPassword, repeatRawPassword, phone, gender, agree);
-
-
-        // return null;
     }
 }
