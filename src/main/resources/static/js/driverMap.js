@@ -129,7 +129,7 @@ function routeTrip() {
     directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
 
     directionsDisplay.addListener('directions_changed', function () {
-        alert(directionsDisplay.directions.routes[0].legs[0].end_location.lat());
+        //alert(directionsDisplay.directions.routes[0].legs[0].end_location.lat());
         //alert(startRouteMarker.getPosition().lat());
         // computeTotalDistance(directionsDisplay.getDirections());
     });
@@ -207,15 +207,36 @@ $(document).ready(function () {
             dataType: 'json',
             timeout: 100000,
             success: function (responseData) {
-                console.log("SUCCESS: ", responseData);
-                display(responseData);
+                // var parsedJSON = JSON.parse(responseData.result);
+                // for (var i = 0; i < parsedJSON.length; i++) {
+                //     alert(parsedJSON[i].routeId);
+                // }
+                //for (var i = 0; i < 10; i++) {
+                // alert(responseData.result[i].routeId, +'         ' + responseData.result[i].userId);
+                //      driverRoute = JSON.parse(responseData.result[i]);
+                //      alert(driverRoute);
+                // }
+                // driverRoute = JSON.parse(responseData.result);
+
+
+                // alert(driverRoute);
+                alert('dfg');
+                // private double startRouteLatitude;
+                // private double startRouteLongitude;
+                //
+                // private double finishRouteLatitude;
+                // private double finishRouteLongitude;
+                // console.log("SUCCESS: ", responseData);
+                // display(responseData);
             },
             error: function (e) {
-                console.log("ERROR: ", e);
-                display(e);
+                alert('2');
+                // console.log("ERROR: ", e);
+                // display(e);
             },
             done: function (e) {
-                console.log("DONE");
+                alert('3');
+                // console.log("DONE");
             }
 
         });

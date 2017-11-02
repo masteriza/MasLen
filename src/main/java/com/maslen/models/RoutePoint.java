@@ -14,24 +14,19 @@ public class RoutePoint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-//    @JsonView(Views.Public.class)
     private int pointId;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "route_id")
-//    @JsonView(Views.Public.class)
     private Route route;
 
     @Column(name = "index_point", nullable = false)
-//    @JsonView(Views.Public.class)
     private int indexPoint;
 
     @Column(nullable = false)
-//    @JsonView(Views.Public.class)
     private double latitude;
 
     @Column(nullable = false)
-//    @JsonView(Views.Public.class)
     private double longitude;
 }

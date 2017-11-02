@@ -43,7 +43,7 @@ public class DriverDaoImpl implements DriverDao {
 
     @Override
     public List<Route> getAllRoute() {
-        List<Route> routes = currentSession().createQuery("from Route").list();
+        List<Route> routes = currentSession().createQuery("from Route r join fetch r.routePoints").list();
 //        List<Route> routez = query.list();
 
         System.out.println(routes);
