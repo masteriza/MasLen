@@ -168,6 +168,24 @@ function routePointz() {
     this.longitude = 0;
 }
 
+function Route() {
+    this.driverId = 0;
+    this.userId = 0;
+    this.startRouteLatitude = 0;
+    this.startRouteLongitude = 0;
+    this.finishRouteLatitude = 0;
+    this.finishRouteLongitude = 0;
+    this.routePoints = [];
+}
+
+function RoutePoint() {
+    this.pointId = 0;
+    this.indexPoint = 0;
+    this.latitude = 0;
+    this.longitude = 0;
+}
+
+
 $(document).ready(function () {
 
     $('#save').on('click', function () {
@@ -207,23 +225,33 @@ $(document).ready(function () {
             dataType: 'json',
             timeout: 100000,
             success: function (responseData) {
-
+                console.dir(responseData.result);
+                var routes = [];
                 for (var i = 0; i < responseData.result.length; i++) {
-                    // driverRoute.driverId = responseData.result[i].routePoints[j].pointId;
-                    // driverRoute.userId = responseData.result[i].routePoints[j].userId;
-                    // driverRoute.startRouteLatitude = responseData.result[i].routePoints[j].startRouteLatitude;
-                    // driverRoute.startRouteLongitude = responseData.result[i].routePoints[j].startRouteLongitude;
-                    // driverRoute.finishRouteLatitude = responseData.result[i].routePoints[j].finishRouteLatitude;
-                    // driverRoute.finishRouteLongitude = responseData.result[i].routePoints[j].finishRouteLongitude;
-                    // driverRoute.routePoints
+                    var route = new Route();
+                    route.routeId = responseData.result[i].routeId;
+                    route.userId = responseData.result[i].userId;
+                    route.startRouteLatitude = responseData.result[i].startRouteLatitude;
+                    route.startRouteLongitude = responseData.result[i].startRouteLongitude;
+                    route.finishRouteLatitude = responseData.result[i].finishRouteLatitude;
+                    route.finishRouteLongitude = responseData.result[i].finishRouteLongitude;
+                    route.routePoints = [];
 
                     for (var j = 0; j < responseData.result[i].routePoints.length; j++) {
-                        console.log(responseData.result[i].routePoints[j].pointId);
+                        var routePoint = new RoutePoint();
+                        routePoint.pointId = responseData.result[i].routePoints[j].pointId;
+                        routePoint.indexPoint = responseData.result[i].routePoints[j].indexPoint;
+                        routePoint.latitude = responseData.result[i].routePoints[j].latitude;
+                        routePoint.longitude = responseData.result[i].routePoints[j].longitude;
+                        route.routePoints.push(routePoint);
+                        //console.log(responseData.result[i].routePoints[j].pointId);
                         // console.log(responseData.result[i].routePoints[j].indexPoint);
-                    }
-                }
 
-                //alert('dfg');
+                    }
+                    routes.push(route);
+                }
+                //console.log(routes);
+                alert('dfg');
 
             },
             error: function (e) {
