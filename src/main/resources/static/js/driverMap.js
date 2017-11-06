@@ -207,27 +207,24 @@ $(document).ready(function () {
             dataType: 'json',
             timeout: 100000,
             success: function (responseData) {
-                // var parsedJSON = JSON.parse(responseData.result);
-                // for (var i = 0; i < parsedJSON.length; i++) {
-                //     alert(parsedJSON[i].routeId);
-                // }
-                //for (var i = 0; i < 10; i++) {
-                // alert(responseData.result[i].routeId, +'         ' + responseData.result[i].userId);
-                //      driverRoute = JSON.parse(responseData.result[i]);
-                //      alert(driverRoute);
-                // }
-                // driverRoute = JSON.parse(responseData.result);
 
+                for (var i = 0; i < responseData.result.length; i++) {
+                    // driverRoute.driverId = responseData.result[i].routePoints[j].pointId;
+                    // driverRoute.userId = responseData.result[i].routePoints[j].userId;
+                    // driverRoute.startRouteLatitude = responseData.result[i].routePoints[j].startRouteLatitude;
+                    // driverRoute.startRouteLongitude = responseData.result[i].routePoints[j].startRouteLongitude;
+                    // driverRoute.finishRouteLatitude = responseData.result[i].routePoints[j].finishRouteLatitude;
+                    // driverRoute.finishRouteLongitude = responseData.result[i].routePoints[j].finishRouteLongitude;
+                    // driverRoute.routePoints
 
-                // alert(driverRoute);
-                alert('dfg');
-                // private double startRouteLatitude;
-                // private double startRouteLongitude;
-                //
-                // private double finishRouteLatitude;
-                // private double finishRouteLongitude;
-                // console.log("SUCCESS: ", responseData);
-                // display(responseData);
+                    for (var j = 0; j < responseData.result[i].routePoints.length; j++) {
+                        console.log(responseData.result[i].routePoints[j].pointId);
+                        // console.log(responseData.result[i].routePoints[j].indexPoint);
+                    }
+                }
+
+                //alert('dfg');
+
             },
             error: function (e) {
                 alert('2');
@@ -249,3 +246,6 @@ $(document).ready(function () {
 
     });
 });
+
+
+
