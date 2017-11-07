@@ -20,7 +20,10 @@ function initMap() {
     var input = (document.getElementById('address-input'));
 
     //google.maps.event.addDomListener(document.getElementById('routebtn'), 'click', calcRoute);
-    google.maps.event.addDomListener($('#driver_routes').on('click', '.route', addRouteOnMap(this.id)));
+    // google.maps.event.addDomListener($('#driver_routes').on('click', '.route', addRouteOnMap));
+    google.maps.event.addDomListener($('#driver_routes').on('click', '.route', function () {
+        addRouteOnMap(this.id);
+    }));
 
     var autocomplete = new google.maps.places.Autocomplete(input);
     autocomplete.bindTo('bounds', map);
@@ -122,25 +125,26 @@ function initMap() {
     });
 }
 
-function addRouteOnMap(id) {
+function addRouteOnMap(routeId) {
 
-    if (id == null) {
+    if (routeId == null) {
         return;
     }
-    alert(id);
-    // var routeId = $(this).attr('id');
-    // var routez = JSON.parse(sessionStorage.getItem("DRIVER_ROUTE"));
-    // // for (var i = 0; i < routez.length; i++) {
-    // //     routez[i].routeId =
-    // // }
-    // $.each(routez, function (i, v) {
-    //     if (v.routeId == routeId) {
-    //         alert(v.routeId);
-    //         return;
-    //     } else {
-    //         alert('Sorry, something went wrong.');
-    //     }
-    // });
+    //alert(routeId);
+    //var routeId = $(this).attr('id');
+    var routez = JSON.parse(sessionStorage.getItem("DRIVER_ROUTE"));
+    // for (var i = 0; i < routez.length; i++) {
+    //     routez[i].routeId =
+    // }
+    $.each(routez, function (i, v) {
+        if (v.routeId == routeId) {
+
+            alert(v.routeId);
+            return;
+        } else {
+            alert('Sorry, something went wrong.');
+        }
+    });
 
 
     //alert("ololo");
