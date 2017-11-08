@@ -9,6 +9,8 @@ var directionsDisplay;
 
 var directionsService;
 
+var wps = [];
+
 function initMap() {
     var geocoder = new google.maps.Geocoder();
 
@@ -132,23 +134,21 @@ function addRouteOnMap(routeId) {
     //var routeId = $(this).attr('id');
     var routez = JSON.parse(sessionStorage.getItem("DRIVER_ROUTE"));
 
-    var wps = [];
+    wps = [];
     $.each(routez, function (i, v) {
         if (v.routeId == routeId) {
-            for (var i = 0; i < v.routePoints.length; i++) {
-
-                if (v.routePoints[i].indexPoint == 0) {
-                    var g = 0;
-                    org = new google.maps.LatLng(v.routePoints[i].latitude, v.routePoints[i].longitude);
-                    var g = 0;
-                } else if (v.routePoints[i].indexPoint == v.routePoints.length - 1) {
-                    dest = new google.maps.LatLng(v.routePoints[i].latitude, v.routePoints[i].longitude);
-                    break;
-                } else {
-                    wps.push(new google.maps.LatLng(v.routePoints[i].latitude, v.routePoints[i].longitude));
-                }
+            org = new google.maps.LatLng(v.routePoints[0].latitude, v.routePoints[0].longitude);
+            dest = new google.maps.LatLng(v.routePoints[v.routePoints.length - 1].latitude, v.routePoints[v.routePoints.length - 1].longitude);
+            for (var i = 1; i < v.routePoints.length - 1; i++) {
+                wps.push({location: new google.maps.LatLng(v.routePoints[i].latitude, v.routePoints[i].longitude)});
+                // if (v.routePoints[i].indexPoint == 0) {
+                //     //org = new google.maps.LatLng(v.routePoints[i].latitude, v.routePoints[i].longitude);
+                // } else if (v.routePoints[i].indexPoint == v.routePoints.length - 1) {
+                //     //dest = new google.maps.LatLng(v.routePoints[i].latitude, v.routePoints[i].longitude);
+                // } else {
+                //     wps.push({location: new google.maps.LatLng(v.routePoints[i].latitude, v.routePoints[i].longitude)});
+                // }
             }
-            alert(v.routeId);
         }
     });
 
@@ -165,26 +165,16 @@ function addRouteOnMap(routeId) {
         // computeTotalDistance(directionsDisplay.getDirections());
     });
 
-    // var point1 = new google.maps.LatLng(50.4591806, 30.618338600000016);
-    // var point2 = new google.maps.LatLng(50.4582408, 30.591287999999963);
-    //
-    // var wps = [{location: point1}, {location: point2}];
-    // wps = null;
-    //
     // org = new google.maps.LatLng(50.4531806, 30.618338600000016);
     // dest = new google.maps.LatLng(50.4582408, 30.591287999999963);
     // org = new google.maps.LatLng(startRouteMarker.getPosition().lat(), startRouteMarker.getPosition().lng());
     // dest = new google.maps.LatLng(finishRouteMarker.getPosition().lat(), finishRouteMarker.getPosition().lng());
 
-
-    org = new google.maps.LatLng(50.4531806, 30.618338600000016);
-    dest = new google.maps.LatLng(50.4582408, 30.591287999999963);
-
     var request = {
         origin: org,
         destination: dest,
-        // waypoints: wps,
-        // provideRouteAlternatives: true,
+        waypoints: wps,
+        provideRouteAlternatives: true,
         travelMode: google.maps.DirectionsTravelMode.DRIVING
     };
 
@@ -200,8 +190,6 @@ function addRouteOnMap(routeId) {
     });
     startRouteMarker.setVisible(false);
     finishRouteMarker.setVisible(false);
-
-
 }
 
 
@@ -220,11 +208,11 @@ function routeTrip() {
         // computeTotalDistance(directionsDisplay.getDirections());
     });
 
-    var point1 = new google.maps.LatLng(50.4591806, 30.618338600000016);
-    var point2 = new google.maps.LatLng(50.4582408, 30.591287999999963);
-
-    var wps = [{location: point1}, {location: point2}];
-    wps = null;
+    // var point1 = new google.maps.LatLng(50.4591806, 30.618338600000016);
+    // var point2 = new google.maps.LatLng(50.4582408, 30.591287999999963);
+    //
+    // var wps = [{location: point1}, {location: point2}];
+    // wps = null;
 
     org = new google.maps.LatLng(startRouteMarker.getPosition().lat(), startRouteMarker.getPosition().lng());
     dest = new google.maps.LatLng(finishRouteMarker.getPosition().lat(), finishRouteMarker.getPosition().lng());
