@@ -7,6 +7,8 @@ var dest;
 
 var directionsDisplay;
 
+var directionsService;
+
 function initMap() {
     var geocoder = new google.maps.Geocoder();
 
@@ -65,8 +67,6 @@ function initMap() {
                 }
             });
         });
-
-
     });
 
 
@@ -126,29 +126,33 @@ function initMap() {
 }
 
 function addRouteOnMap(routeId) {
-
     if (routeId == null) {
         return;
     }
-    //alert(routeId);
     //var routeId = $(this).attr('id');
     var routez = JSON.parse(sessionStorage.getItem("DRIVER_ROUTE"));
-    // for (var i = 0; i < routez.length; i++) {
-    //     routez[i].routeId =
-    // }
+
+    var wps = [];
     $.each(routez, function (i, v) {
         if (v.routeId == routeId) {
+            for (var i = 0; i < v.routePoints.length; i++) {
 
+                if (v.routePoints[i].indexPoint == 0) {
+                    var g = 0;
+                    org = new google.maps.LatLng(v.routePoints[i].latitude, v.routePoints[i].longitude);
+                    var g = 0;
+                } else if (v.routePoints[i].indexPoint == v.routePoints.length - 1) {
+                    dest = new google.maps.LatLng(v.routePoints[i].latitude, v.routePoints[i].longitude);
+                    break;
+                } else {
+                    wps.push(new google.maps.LatLng(v.routePoints[i].latitude, v.routePoints[i].longitude));
+                }
+            }
             alert(v.routeId);
-            return;
-        } else {
-            alert('Sorry, something went wrong.');
         }
     });
 
-
-    //alert("ololo");
-
+    var i = 0;
     if (directionsDisplay != null) {
         directionsDisplay.setMap(null);
     }
@@ -161,26 +165,33 @@ function addRouteOnMap(routeId) {
         // computeTotalDistance(directionsDisplay.getDirections());
     });
 
-    var point1 = new google.maps.LatLng(50.4591806, 30.618338600000016);
-    var point2 = new google.maps.LatLng(50.4582408, 30.591287999999963);
+    // var point1 = new google.maps.LatLng(50.4591806, 30.618338600000016);
+    // var point2 = new google.maps.LatLng(50.4582408, 30.591287999999963);
+    //
+    // var wps = [{location: point1}, {location: point2}];
+    // wps = null;
+    //
+    // org = new google.maps.LatLng(50.4531806, 30.618338600000016);
+    // dest = new google.maps.LatLng(50.4582408, 30.591287999999963);
+    // org = new google.maps.LatLng(startRouteMarker.getPosition().lat(), startRouteMarker.getPosition().lng());
+    // dest = new google.maps.LatLng(finishRouteMarker.getPosition().lat(), finishRouteMarker.getPosition().lng());
 
-    var wps = [{location: point1}, {location: point2}];
-    wps = null;
 
     org = new google.maps.LatLng(50.4531806, 30.618338600000016);
     dest = new google.maps.LatLng(50.4582408, 30.591287999999963);
-    // org = new google.maps.LatLng(startRouteMarker.getPosition().lat(), startRouteMarker.getPosition().lng());
-    // dest = new google.maps.LatLng(finishRouteMarker.getPosition().lat(), finishRouteMarker.getPosition().lng());
+
     var request = {
         origin: org,
         destination: dest,
-        waypoints: wps,
-        provideRouteAlternatives: true,
+        // waypoints: wps,
+        // provideRouteAlternatives: true,
         travelMode: google.maps.DirectionsTravelMode.DRIVING
     };
 
-    var directionsService = new google.maps.DirectionsService();
+    //var directionsService = new google.maps.DirectionsService();
+    directionsService = new google.maps.DirectionsService();
     directionsService.route(request, function (response, status) {
+        var i = 0;
         if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
         }
@@ -225,7 +236,8 @@ function routeTrip() {
         travelMode: google.maps.DirectionsTravelMode.DRIVING
     };
 
-    var directionsService = new google.maps.DirectionsService();
+    // var directionsService = new google.maps.DirectionsService();
+    directionsService = new google.maps.DirectionsService();
     directionsService.route(request, function (response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
@@ -330,7 +342,7 @@ $(document).ready(function () {
                         sessionStorage.setItem('DRIVER_ROUTE', JSON.stringify(routes));
                     } catch (e) {
                         if (e == QUOTA_EXCEEDED_ERR) {
-                            alert('Sorry, something went wrong.\n' +
+                            alert('Sorry, something went wrong_\n' +
                                 'SessionStorage is full\n' +
                                 'Let us know about it, we will be grateful to you.');
                             //todo: залогировать это в БД
