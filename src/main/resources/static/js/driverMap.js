@@ -319,8 +319,6 @@ $(document).ready(function () {
                         routePoint.latitude = responseData.result[i].routePoints[j].latitude;
                         routePoint.longitude = responseData.result[i].routePoints[j].longitude;
                         route.routePoints.push(routePoint);
-                        //console.log(responseData.result[i].routePoints[j].pointId);
-                        // console.log(responseData.result[i].routePoints[j].indexPoint);
                     }
                     routes.push(route);
                 }
@@ -343,9 +341,13 @@ $(document).ready(function () {
                 var routez = JSON.parse(sessionStorage.getItem("DRIVER_ROUTE"));
 
                 for (var i = 0; i < routez.length; i++) {
+                    // $('#driver_routes').append('' +
+                    //     '<div id="' + routez[i].routeId + '" ' + 'class="route">' + 'ID Route' +
+                    //     routez[i].routeId + ' - ' + routez[i].userId + '</div>' );
                     $('#driver_routes').append('' +
-                        '<div id="' + routez[i].routeId + '" ' + 'class="route">' +
-                        routez[i].routeId + ' - ' + routez[i].userId + '</div>');
+                        '<div id="' + routez[i].routeId + '" ' + 'class="route">' + 'ID Route - ' +
+                        routez[i].routeId + ' - ' + routez[i].userId + '</div><div id="' + routez[i].routeId + '" ' + 'class="del_route"> X </div>');
+
                     //console.log(routez[i].routeId);
                 }
 
@@ -369,6 +371,13 @@ $(document).ready(function () {
     $('#getAllRoutes').on('click', function () {
 
     });
+
+
+    // $('.del_route').on('click', function () {
+    $('#driver_routes').on('click', '.del_route', function () {
+        alert($(this).attr('id'));
+    });
+
 
     // $('#driver_routes').on('click', '.route', function () {
     //     //alert($(this).attr('id'));
