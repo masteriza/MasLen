@@ -57,33 +57,13 @@ public class DriverDaoImpl implements DriverDao {
         return routes;
     }
 
-
-//----------
-
-
-//    List<Person> personList = session.createQuery("FROM Person").list();
-//
-//
-//                for(
-//    Iterator iterator = personList.iterator();
-//    iterator.hasNext();
-//    )
-//
-//    {
-//        Person person = (Person) iterator.next();
-//        Set<Phone> ph = new HashSet<Phone>();
-//        ph = person.getPersonPhoneNumbers();
-//        for (Phone p : ph) {
-//            System.out.println("***************************");
-//            System.out.println(person.getName());
-//            System.out.println(" Phone Type: " + p.getPhonetype());
-//            System.out.println(" Phone Number: " + p.getContactnumber());
-//            System.out.println("***************************");
-//        }
-//    }
+    @Override
+    public int deleteRoute(int routeId) {
+        return currentSession().createQuery("delete Route where routeId =:routeId")
+                .setParameter("routeId", routeId).executeUpdate();
+    }
 
 
-//----------
 }
 
 

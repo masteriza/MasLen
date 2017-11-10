@@ -282,7 +282,7 @@ $(document).ready(function () {
         }
 
         var driverRoute = {
-            "driverId": 0,
+            "routeId": 0,
             "userId": 0,
             "startRouteLatitude": directionsDisplay.directions.routes[0].legs[0].start_location.lat(),
             "startRouteLongitude": directionsDisplay.directions.routes[0].legs[0].start_location.lng(),
@@ -301,6 +301,99 @@ $(document).ready(function () {
             timeout: 100000,
             success: function (responseData) {
                 console.dir(responseData.result);
+                var routes = [];
+
+                for (var i = 0; i < responseData.result.length; i++) {
+                    var route = new Route();
+                    route.routeId = responseData.result[i].routeId;
+                    route.userId = responseData.result[i].userId;
+                    route.startRouteLatitude = responseData.result[i].startRouteLatitude;
+                    route.startRouteLongitude = responseData.result[i].startRouteLongitude;
+                    route.finishRouteLatitude = responseData.result[i].finishRouteLatitude;
+                    route.finishRouteLongitude = responseData.result[i].finishRouteLongitude;
+                    route.routePoints = [];
+
+                    for (var j = 0; j < responseData.result[i].routePoints.length; j++) {
+                        var routePoint = new RoutePoint();
+                        routePoint.pointId = responseData.result[i].routePoints[j].pointId;
+                        routePoint.indexPoint = responseData.result[i].routePoints[j].indexPoint;
+                        routePoint.latitude = responseData.result[i].routePoints[j].latitude;
+                        routePoint.longitude = responseData.result[i].routePoints[j].longitude;
+                        route.routePoints.push(routePoint);
+                    }
+                    routes.push(route);
+                }
+
+                if (sessionStorage) {
+                    try {
+                        sessionStorage.setItem('DRIVER_ROUTE', JSON.stringify(routes));
+                    } catch (e) {
+                        if (e == QUOTA_EXCEEDED_ERR) {
+                            alert('Sorry, something went wrong_\n' +
+                                'SessionStorage is full\n' +
+                                'Let us know about it, we will be grateful to you.');
+                            //todo: залогировать это в БД
+                        }
+                    }
+                } else {
+                    alert("Sorry, your browser do not support session storage.");
+                }
+
+                var routez = JSON.parse(sessionStorage.getItem("DRIVER_ROUTE"));
+                $("#driver_routes").empty();
+
+                for (var i = 0; i < routez.length; i++) {
+                    // $('#driver_routes').append('' +
+                    //     '<div id="' + routez[i].routeId + '" ' + 'class="route">' + 'ID Route' +
+                    //     routez[i].routeId + ' - ' + routez[i].userId + '</div>' );
+
+                    $('#driver_routes').append('' +
+                        '<div class="unit_route"></div> ' +
+                        '<div id="' + routez[i].routeId + '" ' + 'class="route">' + 'ID Route - ' +
+                        routez[i].routeId + ' - ' + routez[i].userId + '</div>' +
+                        '<div id="' + routez[i].routeId + '" ' + 'class="edit_route"> Edit </div>' +
+                        '<div id="' + routez[i].routeId + '" ' + 'class="del_route"> X </div>' +
+                        '</div> ');
+
+                    //console.log(routez[i].routeId);
+                }
+
+
+                //alert('dfg');
+
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+                display(e);
+            },
+            done: function (e) {
+                console.log("DONE");
+            }
+
+        });
+        var a = 0;
+        //alert(directionsDisplay.directions.routes[0].legs[directionsDisplay.directions.routes[0].legs.length - 1].end_location.lat());
+    });
+
+    $('#getAllRoutes').on('click', function () {
+
+    });
+
+
+    // $('.del_route').on('click', function () {
+    $('#driver_routes').on('click', '.del_route', function () {
+        alert($(this).attr('id'));
+
+        var routeId = $(this).attr('id');
+
+        $.ajax({
+            type: "DELETE",
+            contentType: 'application/json; charset=utf-8',
+            url: "deleteDriverRoute/" + routeId,
+            //data: JSON.stringify(driverRoute),
+            dataType: 'json',
+            timeout: 100000,
+            success: function (responseData) {
                 var routes = [];
                 for (var i = 0; i < responseData.result.length; i++) {
                     var route = new Route();
@@ -339,43 +432,25 @@ $(document).ready(function () {
                 }
 
                 var routez = JSON.parse(sessionStorage.getItem("DRIVER_ROUTE"));
-
+                $("#driver_routes").empty();
                 for (var i = 0; i < routez.length; i++) {
-                    // $('#driver_routes').append('' +
-                    //     '<div id="' + routez[i].routeId + '" ' + 'class="route">' + 'ID Route' +
-                    //     routez[i].routeId + ' - ' + routez[i].userId + '</div>' );
                     $('#driver_routes').append('' +
+                        '<div class="unit_route"></div> ' +
                         '<div id="' + routez[i].routeId + '" ' + 'class="route">' + 'ID Route - ' +
-                        routez[i].routeId + ' - ' + routez[i].userId + '</div><div id="' + routez[i].routeId + '" ' + 'class="del_route"> X </div>');
-
-                    //console.log(routez[i].routeId);
+                        routez[i].routeId + ' - ' + routez[i].userId + '</div>' +
+                        '<div id="' + routez[i].routeId + '" ' + 'class="edit_route"> Edit </div>' +
+                        '<div id="' + routez[i].routeId + '" ' + 'class="del_route"> X </div>' +
+                        '</div> ');
                 }
-
-
-                //alert('dfg');
-
             },
             error: function (e) {
                 console.log("ERROR: ", e);
-                display(e);
             },
             done: function (e) {
                 console.log("DONE");
             }
 
         });
-        var a = 0;
-        //alert(directionsDisplay.directions.routes[0].legs[directionsDisplay.directions.routes[0].legs.length - 1].end_location.lat());
-    });
-
-    $('#getAllRoutes').on('click', function () {
-
-    });
-
-
-    // $('.del_route').on('click', function () {
-    $('#driver_routes').on('click', '.del_route', function () {
-        alert($(this).attr('id'));
     });
 
 

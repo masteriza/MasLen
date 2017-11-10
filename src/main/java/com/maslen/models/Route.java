@@ -27,7 +27,7 @@ public class Route {
     private double finishRouteLatitude;
     private double finishRouteLongitude;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "route_id", foreignKey = @ForeignKey(name = "FK_routes_points_route_id"), referencedColumnName = "route_id")
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "route", cascade = CascadeType.ALL)
     //@JsonIgnore

@@ -33,20 +33,32 @@ public class DriverController {
 
     public AjaxResponseBody saveDriverRoute(@Valid @RequestBody Route route, BindingResult bindingResult) {
 
-//        ValidationResponse response = new ValidationResponse();
         AjaxResponseBody response = new AjaxResponseBody();
 
         driverDao.addRoute(route);
 
         List<Route> routes = driverDao.getAllRoute();
 
-        response.setMsg("Жиробасина!");
+        response.setMsg("OK");
         response.setCode("200");
         response.setResult(routes);
-
 
         return response;
     }
 
+    @DeleteMapping(value = "/deleteDriverRoute/{routeId}")
+    @PreAuthorize("hasRole('USER')")
+
+    public AjaxResponseBody deleteDriverRoute(/*@Valid*/ @PathVariable int routeId/*, BindingResult bindingResult*/) {
+
+        AjaxResponseBody response = new AjaxResponseBody();
+
+        driverDao.deleteRoute(routeId);
+
+        List<Route> routes = driverDao.getAllRoute();
+
+        response.setResult(routes);
+        return response;
+    }
 
 }

@@ -10,4 +10,6 @@ public interface DriverDao {
     Route getRoute(int userId);
 
     List<Route> getAllRoute();
+
+    int deleteRoute(int routeId);
 }
