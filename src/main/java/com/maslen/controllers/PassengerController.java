@@ -1,64 +1,26 @@
 package com.maslen.controllers;
 
-import com.maslen.dao.interfaces.DriverDao;
-import com.maslen.models.AjaxResponseBody;
-import com.maslen.models.Route;
+import com.maslen.dao.interfaces.PassengerDao;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 public class PassengerController {
-    private final DriverDao driverDao;
+    private final PassengerDao passengerDao;
 
-    public PassengerController(DriverDao driverDao) {
-        this.driverDao = driverDao;
+    public PassengerController(PassengerDao passengerDao) {
+        this.passengerDao = passengerDao;
     }
 
-
-    @RequestMapping(value = "/driverMap", method = RequestMethod.GET)
+    @RequestMapping(value = "/passengerMap", method = RequestMethod.GET)
     @PreAuthorize("hasRole('USER')")
-    public ModelAndView indexPage() {
+    public ModelAndView indexPassengerPage() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("driverMap");
+        modelAndView.setViewName("passengerMap");
         return modelAndView;
-    }
-
-    @PostMapping(value = "/saveDriverRoute")
-    @PreAuthorize("hasRole('USER')")
-
-    public AjaxResponseBody saveDriverRoute(@Valid @RequestBody Route route, BindingResult bindingResult) {
-
-        AjaxResponseBody response = new AjaxResponseBody();
-
-        driverDao.addRoute(route);
-
-        List<Route> routes = driverDao.getAllRoute();
-
-        response.setMsg("OK");
-        response.setCode("200");
-        response.setResult(routes);
-
-        return response;
-    }
-
-    @DeleteMapping(value = "/deleteDriverRoute/{routeId}")
-    @PreAuthorize("hasRole('USER')")
-
-    public AjaxResponseBody deleteDriverRoute(/*@Valid*/ @PathVariable int routeId/*, BindingResult bindingResult*/) {
-
-        AjaxResponseBody response = new AjaxResponseBody();
-
-        driverDao.deleteRoute(routeId);
-
-        List<Route> routes = driverDao.getAllRoute();
-
-        response.setResult(routes);
-        return response;
     }
 
 }
