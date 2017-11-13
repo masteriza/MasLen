@@ -59,6 +59,11 @@ public class DriverDaoImpl implements DriverDao {
 
     @Override
     public int deleteRoute(int routeId) {
+        Route route = (Route) currentSession().createQuery("from Route where routeId = :routeId ").setParameter("routeId", routeId).list().get(0);
+//        Stock stock = (Stock)q.list().get(0);
+        currentSession().delete(route);
+
+
         return currentSession().createQuery("delete Route where routeId =:routeId")
                 .setParameter("routeId", routeId).executeUpdate();
     }

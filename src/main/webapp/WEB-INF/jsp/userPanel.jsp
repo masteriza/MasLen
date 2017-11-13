@@ -16,6 +16,11 @@ Security zone
 <a href="/driverMap">
     <button type="button" class="btn btn-primary">Водитель</button>
 </a>
+
+<a href="/passengerMap">
+    <button type="button" class="btn btn-primary">Passenger</button>
+</a>
+
 <a href="/logOut">
     <button type="button" class="btn btn-danger">Выход, пля!</button>
 </a>
