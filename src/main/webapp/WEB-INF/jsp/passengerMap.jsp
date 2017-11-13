@@ -31,6 +31,6 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaIaBi2tNjoT4GRI8ZSwZ1DM-5C6S04RQ&libraries=places&callback=initMap"
         async defer></script>
 
-<script src="js/driverMap.js"></script>
+<script src="js/passengerMap.js"></script>
 </body>
 </html>
