@@ -1,3 +1,5 @@
+var markers = [];
+
 function initialize() {   //Определение карты
 
     var latlng = new google.maps.LatLng(50.4501, 30.5234);
@@ -8,6 +10,8 @@ function initialize() {   //Определение карты
     };
 
     map = new google.maps.Map(document.getElementById("map_canvas"), options);
+
+    markers = [];
 
     geocoder = new google.maps.Geocoder();//Определение геокодера
     passengerStartMarker = new google.maps.Marker({ //определение маркера
@@ -28,6 +32,7 @@ $(document).ready(function () {
 
     initialize();
 
+
     google.maps.event.addListener(passengerStartMarker, 'dragend', function () {
         geocoder.geocode({'latLng': passengerStartMarker.getPosition()}, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
@@ -39,15 +44,29 @@ $(document).ready(function () {
     });
 
     google.maps.event.addListener(map, 'click', function (event) {
-
-        passengerStartMarker.setPosition(event.latLng);
-        geocoder.geocode({'latLng': passengerStartMarker.getPosition()}, function (results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                if (results[0]) {
-                    $('#address-input').val(results[0].formatted_address);
+        if (markers.length == 1) {
+            markers.push(passengerEndMarker);
+            passengerEndMarker.setPosition(event.latLng);
+            geocoder.geocode({'latLng': passengerEndMarker.getPosition()}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[0]) {
+                        $('#address-input').val(results[0].formatted_address);
+                    }
                 }
-            }
-        });
+            });
+        }
+
+        if (markers.length == 0) {
+            markers.push(passengerStartMarker);
+            passengerStartMarker.setPosition(event.latLng);
+            geocoder.geocode({'latLng': passengerStartMarker.getPosition()}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[0]) {
+                        $('#address-input').val(results[0].formatted_address);
+                    }
+                }
+            });
+        }
     });
 
 
