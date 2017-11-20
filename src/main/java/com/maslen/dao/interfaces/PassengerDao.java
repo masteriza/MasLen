@@ -1,5 +1,6 @@
 package com.maslen.dao.interfaces;
 
+import com.maslen.models.PassengerSearchRouteDto;
 import com.maslen.models.Route;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface PassengerDao {
     List<Route> getAllRoute();
 
     int deleteRoute(int routeId);
+
+    void searchRoute(PassengerSearchRouteDto passengerSearchRouteDto);
 }

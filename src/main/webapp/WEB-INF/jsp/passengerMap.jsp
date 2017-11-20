@@ -17,9 +17,7 @@
 
 <div id="panel" style="width: 300px; float: right;"></div>
 
-<button id="save">Get</button>
-<button id="getAllRoutes" class="qqq">Get all route</button>
-
+<button id="searchRoute">Search route</button>
 
 <br><br>
 <div id="driver_routes">

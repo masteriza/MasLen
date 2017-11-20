@@ -1,6 +1,7 @@
 package com.maslen.dao;
 
 import com.maslen.dao.interfaces.PassengerDao;
+import com.maslen.models.PassengerSearchRouteDto;
 import com.maslen.models.Route;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -47,6 +48,11 @@ public class PassengerDaoImpl implements PassengerDao {
         currentSession().delete(route);
         return currentSession().createQuery("delete Route where routeId =:routeId")
                 .setParameter("routeId", routeId).executeUpdate();
+    }
+
+    @Override
+    public void searchRoute(PassengerSearchRouteDto passengerSearchRouteDto) {
+
     }
 
 
