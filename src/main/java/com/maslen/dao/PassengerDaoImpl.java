@@ -53,14 +53,15 @@ public class PassengerDaoImpl implements PassengerDao {
     @Override
     public void searchRoute(PassengerSearchRouteDto passengerSearchRouteDto) {
 //        List<Route> routes = currentSession().createQuery("select distinct r from Route r inner join fetch r.routePoints ", Route.class).list();
-        List<Route> routes = currentSession().createQuery("SELECT\n" +
+        List<Route> routes = currentSession().createNativeQuery("SELECT\n" +
                 "  d.route_id,\n" +
                 "  d.userId,\n" +
                 "  d.startRouteLatitude,\n" +
                 "  d.startRouteLongitude,\n" +
                 "  d.finishRouteLatitude,\n" +
                 "  d.finishRouteLongitude,\n" +
-                "  d.distance\n" +
+                "  d.distanceBetweenStartPoints,\n" +
+                "  d.distanceBetweenFinishPoints\n" +
                 "FROM (SELECT\n" +
                 "    r.route_id,\n" +
                 "    r.userId,\n" +
@@ -74,24 +75,41 @@ public class PassengerDaoImpl implements PassengerDao {
                 "    * COS(RADIANS(r.startRouteLatitude))\n" +
                 "    * COS(RADIANS(p.startlongpoint - r.startRouteLongitude))\n" +
                 "    + SIN(RADIANS(p.startlatpoint))\n" +
-                "    * SIN(RADIANS(r.startRouteLatitude)))) AS distance\n" +
+                "    * SIN(RADIANS(r.startRouteLatitude)))) AS distanceBetweenStartPoints,\n" +
+                "    p.distance_unit\n" +
+                "    * DEGREES(ACOS(COS(RADIANS(p.endlatpoint))\n" +
+                "    * COS(RADIANS(r.finishRouteLatitude))\n" +
+                "    * COS(RADIANS(p.endlongpoint - r.finishRouteLongitude))\n" +
+                "    + SIN(RADIANS(p.endlatpoint))\n" +
+                "    * SIN(RADIANS(r.finishRouteLatitude)))) AS distanceBetweenFinishPoints\n" +
                 "  FROM routes AS r\n" +
                 "    JOIN (SELECT\n" +
-                "        50.4574433 AS startlatpoint,\n" +
-                "        30.617243 AS startlongpoint,\n" +
-                "        50.4471538 AS endlatpoint,\n" +
-                "        30.5307786 AS endlongpoint,\n" +
-                "        1.0 AS radius,\n" +
-                "        111.045 AS distance_unit) AS p\n" +
+//                "        50.4574433 AS startlatpoint,\n" +
+                "        :startlatpoint AS startlatpoint,\n" +
+                "        :startlongpoint AS startlongpoint,\n" +
+                "        :endlatpoint AS endlatpoint,\n" +
+                "        :endlongpoint AS endlongpoint,\n" +
+                "        :radius AS radius,\n" +
+                "        :distance_unit AS distance_unit) AS p\n" +
                 "      ON 1 = 1\n" +
                 "  WHERE r.startRouteLatitude BETWEEN p.startlatpoint - (p.radius / p.distance_unit) AND p.startlatpoint + (p.radius / p.distance_unit)\n" +
                 "  AND r.startRouteLongitude BETWEEN p.startlongpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.startlatpoint)))) AND p.startlongpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.startlatpoint))))\n" +
                 "\n" +
                 "  AND r.finishRouteLatitude BETWEEN p.endlatpoint - (p.radius / p.distance_unit) AND p.endlatpoint + (p.radius / p.distance_unit)\n" +
                 "  AND r.finishRouteLongitude BETWEEN p.endlongpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.endlatpoint)))) AND p.endlongpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.endlatpoint))))) AS d\n" +
-                "WHERE distance <= radius\n" +
-                "ORDER BY distance\n" +
-                "LIMIT 15").list();
+                "WHERE distanceBetweenStartPoints <= radius AND d.distanceBetweenFinishPoints <= d.radius\n" +
+                "ORDER BY distanceBetweenStartPoints\n" +
+                "LIMIT 15")
+                .setParameter("startlatpoint", passengerSearchRouteDto.getStartRouteMarkerLatitude())
+                .setParameter("startlongpoint", passengerSearchRouteDto.getStartRouteMarkerLongitude())
+                .setParameter("endlatpoint", passengerSearchRouteDto.getEndRouteMarkerLatitude())
+                .setParameter("endlongpoint", passengerSearchRouteDto.getEndRouteMarkerLongitude())
+                .setParameter("radius", 1.0)
+                .setParameter("distance_unit", 111.045)
+                .list();
+
+        //List<Route> routes = currentSession().createQuery("select distinct r from Route r inner join fetch r.routePoints ", Route.class).list();
+//        currentSession().createNativeQuery("SELECT r.route_id, r.finishRouteLatitude, r.finishRouteLongitude, r.startRouteLatitude, r.startRouteLongitude, r.userId, :username FROM routes r ").setParameter("username", "123213123123").list();
         System.out.println(routes);
 
     }
