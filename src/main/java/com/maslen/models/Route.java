@@ -13,10 +13,21 @@ import java.util.List;
 @Entity
 @Table(name = "routes")
 @ToString(exclude = "routePoints")
+@SqlResultSetMapping(
+        name = "nativeSqlResultRoute",
+        entities = @EntityResult(entityClass = Route.class, fields = {
+                @FieldResult(name = "routeId", column = "routeId"),
+                @FieldResult(name = "userId", column = "userId"),
+                @FieldResult(name = "startRouteLatitude", column = "startRouteLatitude"),
+                @FieldResult(name = "startRouteLongitude", column = "startRouteLongitude"),
+                @FieldResult(name = "finishRouteLatitude", column = "finishRouteLatitude"),
+                @FieldResult(name = "finishRouteLongitude", column = "finishRouteLongitude")
+        })
+)
 public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "route_id")
+    //@Column(name = "routeid")
     private int routeId;
 
     private int userId;
@@ -28,7 +39,7 @@ public class Route {
     private double finishRouteLongitude;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "route_id", foreignKey = @ForeignKey(name = "FK_routes_points_route_id"), referencedColumnName = "route_id")
+    @JoinColumn(name = "routeId", foreignKey = @ForeignKey(name = "FK_routes_points_route_id"), referencedColumnName = "routeId")
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "route", cascade = CascadeType.ALL)
     //@JsonIgnore
     private List<RoutePoint> routePoints = new ArrayList<>();

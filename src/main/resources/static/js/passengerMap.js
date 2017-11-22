@@ -4,6 +4,7 @@ var circleStartMarker;
 var passengerStartMarker;
 var passengerEndMarker;
 var map;
+var geocoder;
 
 function initialize() {   //Определение карты
 

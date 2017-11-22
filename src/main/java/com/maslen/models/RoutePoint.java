@@ -18,7 +18,7 @@ public class RoutePoint {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "route_id")
+    @JoinColumn(name = "routeId")
     private Route route;
 
     @Column(name = "index_point", nullable = false)

@@ -54,7 +54,7 @@ public class PassengerDaoImpl implements PassengerDao {
     public void searchRoute(PassengerSearchRouteDto passengerSearchRouteDto) {
 //        List<Route> routes = currentSession().createQuery("select distinct r from Route r inner join fetch r.routePoints ", Route.class).list();
         List<Route> routes = currentSession().createNativeQuery("SELECT\n" +
-                "  d.route_id,\n" +
+                "  d.routeId,\n" +
                 "  d.userId,\n" +
                 "  d.startRouteLatitude,\n" +
                 "  d.startRouteLongitude,\n" +
@@ -63,7 +63,7 @@ public class PassengerDaoImpl implements PassengerDao {
                 "  d.distanceBetweenStartPoints,\n" +
                 "  d.distanceBetweenFinishPoints\n" +
                 "FROM (SELECT\n" +
-                "    r.route_id,\n" +
+                "    r.routeId,\n" +
                 "    r.userId,\n" +
                 "    r.startRouteLatitude,\n" +
                 "    r.startRouteLongitude,\n" +
@@ -99,14 +99,15 @@ public class PassengerDaoImpl implements PassengerDao {
                 "  AND r.finishRouteLongitude BETWEEN p.endlongpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.endlatpoint)))) AND p.endlongpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.endlatpoint))))) AS d\n" +
                 "WHERE distanceBetweenStartPoints <= radius AND d.distanceBetweenFinishPoints <= d.radius\n" +
                 "ORDER BY distanceBetweenStartPoints\n" +
-                "LIMIT 15")
+                "LIMIT 15", "nativeSqlResultRoute")
                 .setParameter("startlatpoint", passengerSearchRouteDto.getStartRouteMarkerLatitude())
                 .setParameter("startlongpoint", passengerSearchRouteDto.getStartRouteMarkerLongitude())
                 .setParameter("endlatpoint", passengerSearchRouteDto.getEndRouteMarkerLatitude())
                 .setParameter("endlongpoint", passengerSearchRouteDto.getEndRouteMarkerLongitude())
                 .setParameter("radius", 1.0)
                 .setParameter("distance_unit", 111.045)
-                .list();
+                .getResultList();
+        //.list();
 
         //List<Route> routes = currentSession().createQuery("select distinct r from Route r inner join fetch r.routePoints ", Route.class).list();
 //        currentSession().createNativeQuery("SELECT r.route_id, r.finishRouteLatitude, r.finishRouteLongitude, r.startRouteLatitude, r.startRouteLongitude, r.userId, :username FROM routes r ").setParameter("username", "123213123123").list();
