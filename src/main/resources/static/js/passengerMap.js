@@ -181,6 +181,7 @@ $(document).ready(function () {
             dataType: 'json',
             timeout: 100000,
             success: function (responseData) {
+                console.dir(responseData);
                 var routes = [];
 
 

@@ -51,7 +51,7 @@ public class PassengerDaoImpl implements PassengerDao {
     }
 
     @Override
-    public void searchRoute(PassengerSearchRouteDto passengerSearchRouteDto) {
+    public List<Route> searchRoute(PassengerSearchRouteDto passengerSearchRouteDto) {
 //        List<Route> routes = currentSession().createQuery("select distinct r from Route r inner join fetch r.routePoints ", Route.class).list();
         List<Route> routes = currentSession().createNativeQuery("SELECT\n" +
                 "  d.routeId,\n" +
@@ -112,7 +112,7 @@ public class PassengerDaoImpl implements PassengerDao {
         //List<Route> routes = currentSession().createQuery("select distinct r from Route r inner join fetch r.routePoints ", Route.class).list();
 //        currentSession().createNativeQuery("SELECT r.route_id, r.finishRouteLatitude, r.finishRouteLongitude, r.startRouteLatitude, r.startRouteLongitude, r.userId, :username FROM routes r ").setParameter("username", "123213123123").list();
         System.out.println(routes);
-
+        return routes;
     }
 
 

@@ -3,12 +3,14 @@ package com.maslen.controllers;
 import com.maslen.dao.interfaces.PassengerDao;
 import com.maslen.models.AjaxResponseBody;
 import com.maslen.models.PassengerSearchRouteDto;
+import com.maslen.models.Route;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class PassengerController {
@@ -33,8 +35,10 @@ public class PassengerController {
 
         AjaxResponseBody response = new AjaxResponseBody();
 
-        passengerDao.searchRoute(passengerSearchRouteDto);
-
+        List<Route> routes = passengerDao.searchRoute(passengerSearchRouteDto);
+        response.setMsg("OK");
+        response.setCode("200");
+        response.setResult(routes);
         return response;
     }
 

@@ -14,5 +14,5 @@ public interface PassengerDao {
 
     int deleteRoute(int routeId);
 
-    void searchRoute(PassengerSearchRouteDto passengerSearchRouteDto);
+    List<Route> searchRoute(PassengerSearchRouteDto passengerSearchRouteDto);
 }
