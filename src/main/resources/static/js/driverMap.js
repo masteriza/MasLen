@@ -12,7 +12,7 @@ var directionsService;
 var wps = [];
 
 function initMap() {
-    var geocoder = new google.maps.Geocoder();
+    var geoCoder = new google.maps.Geocoder();
 
     var latlng = new google.maps.LatLng(50.4501, 30.5234);
     var options = {
@@ -61,7 +61,7 @@ function initMap() {
         }
 
         google.maps.event.addListener(startRouteMarker, 'dragend', function () {
-            geocoder.geocode({'latLng': startRouteMarker.getPosition()}, function (results, status) {
+            geoCoder.geocode({'latLng': startRouteMarker.getPosition()}, function (results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     if (results[0]) {
                         $('#address-input').val(results[0].formatted_address);
@@ -116,7 +116,7 @@ function initMap() {
         }
 
         google.maps.event.addListener(finishRouteMarker, 'dragend', function () {
-            geocoder.geocode({'latLng': finishRouteMarker.getPosition()}, function (results, status) {
+            geoCoder.geocode({'latLng': finishRouteMarker.getPosition()}, function (results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     if (results[0]) {
                         $('#address-destination-input').val(results[0].formatted_address);

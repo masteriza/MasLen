@@ -3,6 +3,7 @@ package com.maslen.dao;
 import com.maslen.dao.interfaces.PassengerDao;
 import com.maslen.models.PassengerSearchRouteDto;
 import com.maslen.models.Route;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,6 +113,11 @@ public class PassengerDaoImpl implements PassengerDao {
         //List<Route> routes = currentSession().createQuery("select distinct r from Route r inner join fetch r.routePoints ", Route.class).list();
 //        currentSession().createNativeQuery("SELECT r.route_id, r.finishRouteLatitude, r.finishRouteLongitude, r.startRouteLatitude, r.startRouteLongitude, r.userId, :username FROM routes r ").setParameter("username", "123213123123").list();
         System.out.println(routes);
+        //Route route = new Route();
+        for (Route route : routes) {
+            Hibernate.initialize(route.getRoutePoints());
+        }
+
         return routes;
     }
 
