@@ -248,12 +248,13 @@ $(document).ready(function () {
     $('body').on('click', '#showSelectedRoutes', function () {
         var routes = JSON.parse(sessionStorage.getItem("SEARCHED_ROUTE"));
 
-        if (directionsDisplay != null) {
-            directionsDisplay.setMap(null);
-        }
-        // wps = [];
+        // if (directionsDisplay != null) {
+        //     directionsDisplay.setMap(null);
+        // }
+
+        colorIdx = 0;
         $.each(routes, function (i, v) {
-            colorIdx++;
+
             org = new google.maps.LatLng(v.routePoints[0].latitude, v.routePoints[0].longitude);
             dest = new google.maps.LatLng(v.routePoints[v.routePoints.length - 1].latitude, v.routePoints[v.routePoints.length - 1].longitude);
             wps = [];
@@ -263,11 +264,13 @@ $(document).ready(function () {
 
             var rendererOptions = {
                 map: map,
-                // strokeColor: '#FF0000',
-                strokeColor: linecolors[colorIdx++ % 3],
+                polylineOptions: {
+                    strokeColor: linecolors[colorIdx]
+                },
                 draggable: true
             };
             directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
+
 
             var request = {
                 origin: org,
@@ -289,7 +292,7 @@ $(document).ready(function () {
 
         });
 
-
+        colorIdx++;
         // startRouteMarker.setVisible(false);
         // finishRouteMarker.setVisible(false);
     });
