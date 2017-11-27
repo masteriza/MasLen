@@ -5,6 +5,28 @@ var passengerStartMarker;
 var passengerEndMarker;
 var map;
 var geoCoder;
+var directionsDisplay;
+
+var linecolors = ['red', 'blue', 'green', 'yellow'];
+var colorIdx = 0;
+
+
+function Route() {
+    this.routeId = 0;
+    this.userId = 0;
+    this.startRouteLatitude = 0;
+    this.startRouteLongitude = 0;
+    this.finishRouteLatitude = 0;
+    this.finishRouteLongitude = 0;
+    this.routePoints = [];
+}
+
+function RoutePoint() {
+    this.pointId = 0;
+    this.indexPoint = 0;
+    this.latitude = 0;
+    this.longitude = 0;
+}
 
 function initMap() {
     var latlng = new google.maps.LatLng(50.4501, 30.5234);
@@ -93,101 +115,12 @@ function initMap() {
 
 }
 
-function initialize() {   //Определение карты
-
-    // var latlng = new google.maps.LatLng(50.4501, 30.5234);
-    // var options = {
-    //     zoom: 8,
-    //     center: latlng,
-    //     mapTypeId: google.maps.MapTypeId.ROADMAP
-    // };
-    //
-    // map = new google.maps.Map(document.getElementById("map_canvas"), options);
-
-    // markers = [];
-    //
-    // geoCoder = new google.maps.Geocoder();//Определение геокодера
-    // passengerStartMarker = new google.maps.Marker({ //определение маркера
-    //     map: map,
-    //     icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
-    //     draggable: true
-    // });
-    //
-    // passengerEndMarker = new google.maps.Marker({ //определение маркера
-    //     map: map,
-    //     icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
-    //     draggable: true
-    // });
-    //
-    // circleStartMarker = new google.maps.Circle({
-    //     map: map,
-    //     radius: 1000,    // 10 miles in metres
-    //     fillColor: '#00FF00'
-    // });
-    //
-    // circleEndMarker = new google.maps.Circle({
-    //     map: map,
-    //     radius: 1000,    // 10 miles in metres
-    //     fillColor: '#AA0000'
-    // });
+function initialize() {
 
 }
 
 
 $(document).ready(function () {
-
-    initialize();
-
-
-    // google.maps.event.addListener(passengerStartMarker, 'dragend', function () {
-    //     geoCoder.geocode({'latLng': passengerStartMarker.getPosition()}, function (results, status) {
-    //         if (status == google.maps.GeocoderStatus.OK) {
-    //             if (results[0]) {
-    //                 $('#address-input').val(results[0].formatted_address);
-    //             }
-    //         }
-    //     });
-    // });
-    //
-    // google.maps.event.addListener(passengerEndMarker, 'dragend', function () {
-    //     geoCoder.geocode({'latLng': passengerEndMarker.getPosition()}, function (results, status) {
-    //         if (status == google.maps.GeocoderStatus.OK) {
-    //             if (results[0]) {
-    //                 $('#address-destination-input').val(results[0].formatted_address);
-    //             }
-    //         }
-    //     });
-    // });
-    //
-    // google.maps.event.addListener(map, 'click', function (event) {
-    //     if (markers.length == 1) {
-    //         markers.push(passengerEndMarker);
-    //         passengerEndMarker.setPosition(event.latLng);
-    //         geoCoder.geocode({'latLng': passengerEndMarker.getPosition()}, function (results, status) {
-    //             if (status == google.maps.GeocoderStatus.OK) {
-    //                 if (results[0]) {
-    //                     $('#address-destination-input').val(results[0].formatted_address);
-    //                 }
-    //             }
-    //         });
-    //         circleEndMarker.bindTo('center', passengerEndMarker, 'position');
-    //     }
-    //
-    //     if (markers.length == 0) {
-    //         markers.push(passengerStartMarker);
-    //         passengerStartMarker.setPosition(event.latLng);
-    //         geoCoder.geocode({'latLng': passengerStartMarker.getPosition()}, function (results, status) {
-    //             if (status == google.maps.GeocoderStatus.OK) {
-    //                 if (results[0]) {
-    //                     $('#address-input').val(results[0].formatted_address);
-    //                 }
-    //             }
-    //         });
-    //         circleStartMarker.bindTo('center', passengerStartMarker, 'position');
-    //     }
-    // });
-
-
     $("#address-input").autocomplete({
         //Определяем значение для адреса при геокодировании
         source: function (request, response) {
@@ -235,30 +168,14 @@ $(document).ready(function () {
         }
     });
 
-    // function PassengerPoints() {
-    //     this.startRouteMarkerLatitude = 0;
-    //     this.startRouteMarkerLongitude = 0;
-    //     this.endRouteMarkerLatitude = 0;
-    //     this.endRouteMarkerLongitude = 0;
-    // }
-
-
     $('body').on('click', '#searchRoute', function () {
-        alert(passengerEndMarker.getPosition().lat() + '    ' + passengerEndMarker.getPosition().lng());
+        // alert(passengerEndMarker.getPosition().lat() + '    ' + passengerEndMarker.getPosition().lng());
         var PassengerPoints = {
             "startRouteMarkerLatitude": passengerStartMarker.getPosition().lat(),
             "startRouteMarkerLongitude": passengerStartMarker.getPosition().lng(),
             "endRouteMarkerLatitude": passengerEndMarker.getPosition().lat(),
             "endRouteMarkerLongitude": passengerEndMarker.getPosition().lng()
         };
-
-        // PassengerPoints.startRouteMarkerLatitude = passengerStartMarker.getPosition().lat();
-        // PassengerPoints.startRouteMarkerLongitude = passengerStartMarker.getPosition().lng();
-        // PassengerPoints.endRouteMarkerLatitude = passengerEndMarker.getPosition().lat();
-        // PassengerPoints.endRouteMarkerLongitude = passengerEndMarker.getPosition().lng();
-
-
-        var routeId = $(this).attr('id');
 
         $.ajax({
             type: "POST",
@@ -290,9 +207,33 @@ $(document).ready(function () {
                     }
                     routes.push(route);
                 }
-                var routes = [];
 
+                if (sessionStorage) {
+                    try {
+                        sessionStorage.setItem('SEARCHED_ROUTE', JSON.stringify(routes));
+                    } catch (e) {
+                        if (e == QUOTA_EXCEEDED_ERR) {
+                            alert('Sorry, something went wrong_\n' +
+                                'SessionStorage is full\n' +
+                                'Let us know about it, we will be grateful to you.');
+                            //todo: залогировать это в БД
+                        }
+                    }
+                } else {
+                    alert("Sorry, your browser do not support session storage.");
+                }
 
+                $("#searched_routes").empty();
+
+                for (var i = 0; i < routes.length; i++) {
+                    $('#searched_routes').append('' +
+                        '<div class="unit_route"></div> ' +
+                        '<div class="checkbox_route"><input id="' + routes[i].routeId + '" type="checkbox" checked></div> ' +
+                        '<div id="' + routes[i].routeId + '" ' + 'class="route">' + 'ID Route - ' + routes[i].routeId + ' - ' + routes[i].userId + '</div>' +
+                        '<div id="' + routes[i].routeId + '" ' + 'class="edit_route"> Edit </div>' +
+                        '<div id="' + routes[i].routeId + '" ' + 'class="del_route"> X </div>' +
+                        '</div> ');
+                }
             },
             error: function (e) {
                 console.log("ERROR: ", e);
@@ -303,4 +244,55 @@ $(document).ready(function () {
 
         });
     });
+
+    $('body').on('click', '#showSelectedRoutes', function () {
+        var routes = JSON.parse(sessionStorage.getItem("SEARCHED_ROUTE"));
+
+        if (directionsDisplay != null) {
+            directionsDisplay.setMap(null);
+        }
+        // wps = [];
+        $.each(routes, function (i, v) {
+            colorIdx++;
+            org = new google.maps.LatLng(v.routePoints[0].latitude, v.routePoints[0].longitude);
+            dest = new google.maps.LatLng(v.routePoints[v.routePoints.length - 1].latitude, v.routePoints[v.routePoints.length - 1].longitude);
+            wps = [];
+            for (var i = 1; i < v.routePoints.length - 1; i++) {
+                wps.push({location: new google.maps.LatLng(v.routePoints[i].latitude, v.routePoints[i].longitude)});
+            }
+
+            var rendererOptions = {
+                map: map,
+                // strokeColor: '#FF0000',
+                strokeColor: linecolors[colorIdx++ % 3],
+                draggable: true
+            };
+            directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
+
+            var request = {
+                origin: org,
+                destination: dest,
+                waypoints: wps,
+                provideRouteAlternatives: true,
+                travelMode: google.maps.DirectionsTravelMode.DRIVING
+            };
+
+            directionsService = new google.maps.DirectionsService();
+            directionsService.route(request, function (response, status) {
+                var i = 0;
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                }
+                else
+                    alert('failed to get directions');
+            });
+
+        });
+
+
+        // startRouteMarker.setVisible(false);
+        // finishRouteMarker.setVisible(false);
+    });
+
+
 });

@@ -18,16 +18,15 @@
 <div id="panel" style="width: 300px; float: right;"></div>
 
 <button id="searchRoute">Search route</button>
+<button id="showSelectedRoutes">Show selected routes</button>
 
 <br><br>
-<div id="driver_routes">
-</div>
+<div id="searched_routes"></div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaIaBi2tNjoT4GRI8ZSwZ1DM-5C6S04RQ&libraries=places&callback=initMap"
-<%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaIaBi2tNjoT4GRI8ZSwZ1DM-5C6S04RQ&libraries=places&callback=initMap"--%>
         async defer></script>
 
 <script src="js/passengerMap.js"></script>
