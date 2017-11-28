@@ -15,27 +15,27 @@ var directionsService;
 // 10 Standard Colours for navigation polylines
 var colorArray = [
     'blue',
-    'yellow',
     'green',
     'red',
     'purple',
     'orange',
     'black',
-    'white',
+    'yellow',
     'brown',
-    'gray'
+    'gray',
+    'white'
 ];
 var colorMarker = [
     'http://labs.google.com/ridefinder/images/mm_20_blue.png',
-    'http://labs.google.com/ridefinder/images/mm_20_yellow.png',
     'http://labs.google.com/ridefinder/images/mm_20_green.png',
     'http://labs.google.com/ridefinder/images/mm_20_red.png',
     'http://labs.google.com/ridefinder/images/mm_20_purple.png',
     'http://labs.google.com/ridefinder/images/mm_20_orange.png',
     'http://labs.google.com/ridefinder/images/mm_20_black.png',
-    'http://labs.google.com/ridefinder/images/mm_20_white.png',
+    'http://labs.google.com/ridefinder/images/mm_20_yellow.png',
     'http://labs.google.com/ridefinder/images/mm_20_brown.png',
-    'http://labs.google.com/ridefinder/images/mm_20_gray.png'
+    'http://labs.google.com/ridefinder/images/mm_20_gray.png',
+    'http://labs.google.com/ridefinder/images/mm_20_white.png'
 ];
 
 
@@ -275,16 +275,19 @@ $(document).ready(function () {
 
     $('body').on('click', '#showSelectedRoutes', function () {
         i = 0;
-        for (var z in markersStartStop) {
-            markersStartStop[z].setMap(null);
+        requestArray = [];
+        for (var mss in markersStartStop) {
+            markersStartStop[mss].setMap(null);
+            markersStartStop[mss] = null;
         }
+        markersStartStop = [];
 
         //directionsDisplay.setMap(null);
-        for (z in renderArray) {
-            renderArray[z].setMap(null);
-            renderArray[z] = null;
+        for (var ra in renderArray) {
+            renderArray[ra].setMap(null);
+            renderArray[ra] = null;
         }
-        //renderArray[i]
+        renderArray = [];
 
 
         directionsService = new google.maps.DirectionsService();
@@ -297,11 +300,6 @@ $(document).ready(function () {
         $.each(routes, function (i, v) {
 
             org = new google.maps.LatLng(v.routePoints[0].latitude, v.routePoints[0].longitude);
-            // new google.maps.Marker({
-            //     icon: colorMarker[i],
-            //     map: map,
-            //     position: org
-            // });
             markersStartStop.push(new google.maps.Marker({
                 icon: colorMarker[i],
                 map: map,
@@ -309,12 +307,6 @@ $(document).ready(function () {
             }));
 
             dest = new google.maps.LatLng(v.routePoints[v.routePoints.length - 1].latitude, v.routePoints[v.routePoints.length - 1].longitude);
-            // new google.maps.Marker({
-            //     icon: colorMarker[i],
-            //     map: map,
-            //     position: dest
-            // });
-
             markersStartStop.push(new google.maps.Marker({
                 icon: colorMarker[i],
                 map: map,
@@ -322,8 +314,8 @@ $(document).ready(function () {
             }));
 
             wps = [];
-            for (var i = 1; i < v.routePoints.length - 1; i++) {
-                wps.push({location: new google.maps.LatLng(v.routePoints[i].latitude, v.routePoints[i].longitude)});
+            for (var t = 1; t < v.routePoints.length - 1; t++) {
+                wps.push({location: new google.maps.LatLng(v.routePoints[t].latitude, v.routePoints[t].longitude)});
             }
 
             var request = {
@@ -343,7 +335,7 @@ $(document).ready(function () {
     function processRequests() {
 
         // Counter to track request submission and process one at a time;
-        i = 0;
+        var i = 0;
 
         // Used to submit the request 'i'
         function submitRequest() {
