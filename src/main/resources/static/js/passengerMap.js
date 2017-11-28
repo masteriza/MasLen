@@ -1,4 +1,5 @@
 var markers = [];
+var markersStartStop = [];
 var circleEndMarker;
 var circleStartMarker;
 var passengerStartMarker;
@@ -193,6 +194,10 @@ $(document).ready(function () {
     });
 
     $('body').on('click', '#searchRoute', function () {
+
+
+
+
         // alert(passengerEndMarker.getPosition().lat() + '    ' + passengerEndMarker.getPosition().lng());
         var PassengerPoints = {
             "startRouteMarkerLatitude": passengerStartMarker.getPosition().lat(),
@@ -269,6 +274,19 @@ $(document).ready(function () {
     });
 
     $('body').on('click', '#showSelectedRoutes', function () {
+        i = 0;
+        for (var z in markersStartStop) {
+            markersStartStop[z].setMap(null);
+        }
+
+        //directionsDisplay.setMap(null);
+        for (z in renderArray) {
+            renderArray[z].setMap(null);
+            renderArray[z] = null;
+        }
+        //renderArray[i]
+
+
         directionsService = new google.maps.DirectionsService();
         var routes = JSON.parse(sessionStorage.getItem("SEARCHED_ROUTE"));
 
@@ -279,18 +297,29 @@ $(document).ready(function () {
         $.each(routes, function (i, v) {
 
             org = new google.maps.LatLng(v.routePoints[0].latitude, v.routePoints[0].longitude);
-            new google.maps.Marker({
+            // new google.maps.Marker({
+            //     icon: colorMarker[i],
+            //     map: map,
+            //     position: org
+            // });
+            markersStartStop.push(new google.maps.Marker({
                 icon: colorMarker[i],
                 map: map,
                 position: org
-            });
+            }));
 
             dest = new google.maps.LatLng(v.routePoints[v.routePoints.length - 1].latitude, v.routePoints[v.routePoints.length - 1].longitude);
-            new google.maps.Marker({
+            // new google.maps.Marker({
+            //     icon: colorMarker[i],
+            //     map: map,
+            //     position: dest
+            // });
+
+            markersStartStop.push(new google.maps.Marker({
                 icon: colorMarker[i],
                 map: map,
                 position: dest
-            });
+            }));
 
             wps = [];
             for (var i = 1; i < v.routePoints.length - 1; i++) {
@@ -314,7 +343,7 @@ $(document).ready(function () {
     function processRequests() {
 
         // Counter to track request submission and process one at a time;
-        var i = 0;
+        i = 0;
 
         // Used to submit the request 'i'
         function submitRequest() {
