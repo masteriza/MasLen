@@ -7,8 +7,35 @@ var map;
 var geoCoder;
 var directionsDisplay;
 
-var linecolors = ['red', 'blue', 'green', 'yellow'];
-var colorIdx = 0;
+var requestArray = [], renderArray = [];
+
+var directionsService;
+
+// 10 Standard Colours for navigation polylines
+var colorArray = [
+    'blue',
+    'yellow',
+    'green',
+    'red',
+    'purple',
+    'orange',
+    'black',
+    'white',
+    'brown',
+    'gray'
+];
+var colorMarker = [
+    'http://labs.google.com/ridefinder/images/mm_20_blue.png',
+    'http://labs.google.com/ridefinder/images/mm_20_yellow.png',
+    'http://labs.google.com/ridefinder/images/mm_20_green.png',
+    'http://labs.google.com/ridefinder/images/mm_20_red.png',
+    'http://labs.google.com/ridefinder/images/mm_20_purple.png',
+    'http://labs.google.com/ridefinder/images/mm_20_orange.png',
+    'http://labs.google.com/ridefinder/images/mm_20_black.png',
+    'http://labs.google.com/ridefinder/images/mm_20_white.png',
+    'http://labs.google.com/ridefinder/images/mm_20_brown.png',
+    'http://labs.google.com/ridefinder/images/mm_20_gray.png'
+];
 
 
 function Route() {
@@ -31,7 +58,7 @@ function RoutePoint() {
 function initMap() {
     var latlng = new google.maps.LatLng(50.4501, 30.5234);
     var options = {
-        zoom: 8,
+        zoom: 12,  //8
         center: latlng,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -112,7 +139,6 @@ function initMap() {
             circleStartMarker.bindTo('center', passengerStartMarker, 'position');
         }
     });
-
 }
 
 function initialize() {
@@ -137,8 +163,6 @@ $(document).ready(function () {
         },
         //Выполняется при выборе конкретного адреса
         select: function (event, ui) {
-            //$("#latitude").val(ui.item.latitude);
-            //$("#longitude").val(ui.item.longitude);
             var location = new google.maps.LatLng(ui.item.latitude, ui.item.longitude);
             passengerStartMarker.setPosition(location);
             map.setCenter(location);
@@ -241,36 +265,37 @@ $(document).ready(function () {
             done: function (e) {
                 console.log("DONE");
             }
-
         });
     });
 
     $('body').on('click', '#showSelectedRoutes', function () {
+        directionsService = new google.maps.DirectionsService();
         var routes = JSON.parse(sessionStorage.getItem("SEARCHED_ROUTE"));
 
-        // if (directionsDisplay != null) {
-        //     directionsDisplay.setMap(null);
-        // }
+        if (directionsDisplay != null) {
+            directionsDisplay.setMap(null);
+        }
 
-        colorIdx = 0;
         $.each(routes, function (i, v) {
 
             org = new google.maps.LatLng(v.routePoints[0].latitude, v.routePoints[0].longitude);
+            new google.maps.Marker({
+                icon: colorMarker[i],
+                map: map,
+                position: org
+            });
+
             dest = new google.maps.LatLng(v.routePoints[v.routePoints.length - 1].latitude, v.routePoints[v.routePoints.length - 1].longitude);
+            new google.maps.Marker({
+                icon: colorMarker[i],
+                map: map,
+                position: dest
+            });
+
             wps = [];
             for (var i = 1; i < v.routePoints.length - 1; i++) {
                 wps.push({location: new google.maps.LatLng(v.routePoints[i].latitude, v.routePoints[i].longitude)});
             }
-
-            var rendererOptions = {
-                map: map,
-                polylineOptions: {
-                    strokeColor: linecolors[colorIdx]
-                },
-                draggable: true
-            };
-            directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
-
 
             var request = {
                 origin: org,
@@ -280,22 +305,73 @@ $(document).ready(function () {
                 travelMode: google.maps.DirectionsTravelMode.DRIVING
             };
 
-            directionsService = new google.maps.DirectionsService();
-            directionsService.route(request, function (response, status) {
-                var i = 0;
-                if (status == google.maps.DirectionsStatus.OK) {
-                    directionsDisplay.setDirections(response);
-                }
-                else
-                    alert('failed to get directions');
-            });
+            requestArray.push({"route": i, "request": request});
 
         });
-
-        colorIdx++;
-        // startRouteMarker.setVisible(false);
-        // finishRouteMarker.setVisible(false);
+        processRequests();
     });
 
+    function processRequests() {
+
+        // Counter to track request submission and process one at a time;
+        var i = 0;
+
+        // Used to submit the request 'i'
+        function submitRequest() {
+            directionsService.route(requestArray[i].request, directionResults);
+        }
+
+        // Used as callback for the above request for current 'i'
+        function directionResults(result, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+
+                // Create a unique DirectionsRenderer 'i'
+                renderArray[i] = new google.maps.DirectionsRenderer();
+                renderArray[i].setMap(map);
+
+                // Some unique options from the colorArray so we can see the routes
+                renderArray[i].setOptions({
+                    preserveViewport: false,
+                    suppressInfoWindows: true,
+                    suppressMarkers: true,
+                    polylineOptions: {
+                        strokeWeight: 4,
+                        strokeOpacity: 0.5,
+                        strokeColor: colorArray[i]
+                    }
+                    //,
+                    //draggable: true,
+                    // markerOptions: {
+                    //     icon: {
+                    //         path: google.maps.SymbolPath.CIRCLE,
+                    //         scale: 1,
+                    //         strokeColor: colorArray[i]
+                    //     }
+                    // }
+                });
+
+                // Use this new renderer with the result
+                renderArray[i].setDirections(result);
+                // and start the next request
+                nextRequest();
+            }
+
+        }
+
+        function nextRequest() {
+            // Increase the counter
+            i++;
+            // Make sure we are still waiting for a request
+            if (i >= requestArray.length) {
+                // No more to do
+                return;
+            }
+            // Submit another request
+            submitRequest();
+        }
+
+        // This request is just to kick start the whole process
+        submitRequest();
+    }
 
 });
