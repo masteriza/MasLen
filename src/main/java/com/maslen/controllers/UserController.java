@@ -30,6 +30,16 @@ public class UserController {
         return new ModelAndView("registration");
     }
 
+    @GetMapping(value = "/restorePassword")
+    public ModelAndView restorePasswordPage() {
+        return new ModelAndView("restorePassword");
+    }
+
+    @PostMapping(value = "/restorePassword")
+    public ModelAndView restorePassword() {
+        return new ModelAndView("restorePassword");
+    }
+
     @PostMapping(value = "/user")
     public ValidationResponse addUser(@Valid @RequestBody RegistrationUserDto registrationUserDto, BindingResult bindingResult) {
 
