@@ -1,9 +1,7 @@
 package com.maslen.controllers;
 
 import com.maslen.dao.interfaces.UserDao;
-import com.maslen.models.RegistrationUserDto;
-import com.maslen.models.User;
-import com.maslen.models.ValidationResponse;
+import com.maslen.models.*;
 import com.maslen.utils.interfaces.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,8 +34,11 @@ public class UserController {
     }
 
     @PostMapping(value = "/restorePassword")
-    public ModelAndView restorePassword() {
-        return new ModelAndView("restorePassword");
+    public EmailResponseBody restorePassword(@Valid @RequestBody EmailDto emailDto, BindingResult bindingResult) {
+        EmailResponseBody emailResponseBody = new EmailResponseBody();
+//        User user = userDao.searchUserByEmail(emailDto.getEmail()).orElseThrow();
+
+        return new EmailResponseBody();
     }
 
     @PostMapping(value = "/user")

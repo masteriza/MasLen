@@ -62,5 +62,30 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('#btnRestorePassword').click(function () {
+        var userEmail = {};
+
+        userEmail["email"] = $("#email").val();
+
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "restorePassword",
+            data: JSON.stringify(userEmail),
+            dataType: 'json',
+            success: function (responseData) {
+                if (responseData != "") {
+                    $(".errorSummary").empty().append(responseData);
+                } else {
+                    location.href = 'message.jsp';
+                }
+            }
+        });
+    });
+
+
+
 });
 
