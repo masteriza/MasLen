@@ -216,22 +216,22 @@ $(document).ready(function () {
             success: function (responseData) {
                 console.dir(responseData);
                 var routes = [];
-                for (var i = 0; i < responseData.result.length; i++) {
+                for (var i = 0; i < responseData.routes.length; i++) {
                     var route = new Route();
-                    route.routeId = responseData.result[i].routeId;
-                    route.userId = responseData.result[i].userId;
-                    route.startRouteLatitude = responseData.result[i].startRouteLatitude;
-                    route.startRouteLongitude = responseData.result[i].startRouteLongitude;
-                    route.finishRouteLatitude = responseData.result[i].finishRouteLatitude;
-                    route.finishRouteLongitude = responseData.result[i].finishRouteLongitude;
+                    route.routeId = responseData.routes[i].routeId;
+                    route.userId = responseData.routes[i].userId;
+                    route.startRouteLatitude = responseData.routes[i].startRouteLatitude;
+                    route.startRouteLongitude = responseData.routes[i].startRouteLongitude;
+                    route.finishRouteLatitude = responseData.routes[i].finishRouteLatitude;
+                    route.finishRouteLongitude = responseData.routes[i].finishRouteLongitude;
                     route.routePoints = [];
 
-                    for (var j = 0; j < responseData.result[i].routePoints.length; j++) {
+                    for (var j = 0; j < responseData.routes[i].routePoints.length; j++) {
                         var routePoint = new RoutePoint();
-                        routePoint.pointId = responseData.result[i].routePoints[j].pointId;
-                        routePoint.indexPoint = responseData.result[i].routePoints[j].indexPoint;
-                        routePoint.latitude = responseData.result[i].routePoints[j].latitude;
-                        routePoint.longitude = responseData.result[i].routePoints[j].longitude;
+                        routePoint.pointId = responseData.routes[i].routePoints[j].pointId;
+                        routePoint.indexPoint = responseData.routes[i].routePoints[j].indexPoint;
+                        routePoint.latitude = responseData.routes[i].routePoints[j].latitude;
+                        routePoint.longitude = responseData.routes[i].routePoints[j].longitude;
                         route.routePoints.push(routePoint);
                     }
                     routes.push(route);

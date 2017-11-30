@@ -42,16 +42,27 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
+
+//    @Override
+//    public Optional<User> searchUserByEmail(String username) {
+//        Optional user = currentSession()
+//                .createQuery("select new User( u.email, u.password, u.role) from User u " +
+//                        "inner join Role r on u.role=r.roleId " +
+//                        "WHERE u.email =:username")
+//                .setParameter("username", username)
+//                //.uniqueResult();
+//                .uniqueResultOptional();
+//        return user;
+
     @Override
-    public Optional<User> findUserByUsername(String username) {
-        Optional user = currentSession()
+    public Optional<User> searchUserByEmail(String username) {
+        return currentSession()
                 .createQuery("select new User( u.email, u.password, u.role) from User u " +
                         "inner join Role r on u.role=r.roleId " +
                         "WHERE u.email =:username")
                 .setParameter("username", username)
-                //.uniqueResult();
                 .uniqueResultOptional();
-        return user;
+
 
 //        return currentSession()
 //                .createQuery("select new User( u.username, u.password, u.role) " +

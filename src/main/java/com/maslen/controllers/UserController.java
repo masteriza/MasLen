@@ -36,6 +36,7 @@ public class UserController {
     @PostMapping(value = "/restorePassword")
     public EmailResponseBody restorePassword(@Valid @RequestBody EmailDto emailDto, BindingResult bindingResult) {
         EmailResponseBody emailResponseBody = new EmailResponseBody();
+        ////---///
 //        User user = userDao.searchUserByEmail(emailDto.getEmail()).orElseThrow();
 
         return new EmailResponseBody();

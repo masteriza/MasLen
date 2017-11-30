@@ -1,8 +1,8 @@
 package com.maslen.controllers;
 
 import com.maslen.dao.interfaces.DriverDao;
-import com.maslen.models.AjaxResponseBody;
 import com.maslen.models.Route;
+import com.maslen.models.RoutesResponseBody;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +31,9 @@ public class DriverController {
     @PostMapping(value = "/saveDriverRoute")
     @PreAuthorize("hasRole('USER')")
 
-    public AjaxResponseBody saveDriverRoute(@Valid @RequestBody Route route, BindingResult bindingResult) {
+    public RoutesResponseBody saveDriverRoute(@Valid @RequestBody Route route, BindingResult bindingResult) {
 
-        AjaxResponseBody response = new AjaxResponseBody();
+        RoutesResponseBody response = new RoutesResponseBody();
 
         driverDao.addRoute(route);
 
@@ -41,7 +41,7 @@ public class DriverController {
 
         response.setMsg("OK");
         response.setCode("200");
-        response.setResult(routes);
+        response.setRoutes(routes);
 
         return response;
     }
@@ -49,15 +49,17 @@ public class DriverController {
     @DeleteMapping(value = "/deleteDriverRoute/{routeId}")
     @PreAuthorize("hasRole('USER')")
 
-    public AjaxResponseBody deleteDriverRoute(/*@Valid*/ @PathVariable int routeId/*, BindingResult bindingResult*/) {
+    public RoutesResponseBody deleteDriverRoute(/*@Valid*/ @PathVariable int routeId/*, BindingResult bindingResult*/) {
 
-        AjaxResponseBody response = new AjaxResponseBody();
+        RoutesResponseBody response = new RoutesResponseBody();
 
         driverDao.deleteRoute(routeId);
 
         List<Route> routes = driverDao.getAllRoute();
 
-        response.setResult(routes);
+        response.setMsg("OK");
+        response.setCode("200");
+        response.setRoutes(routes);
         return response;
     }
 

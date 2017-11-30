@@ -1,9 +1,9 @@
 package com.maslen.controllers;
 
 import com.maslen.dao.interfaces.PassengerDao;
-import com.maslen.models.AjaxResponseBody;
 import com.maslen.models.PassengerSearchRouteDto;
 import com.maslen.models.Route;
+import com.maslen.models.RoutesResponseBody;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -31,14 +31,14 @@ public class PassengerController {
     @PostMapping(value = "/searchRoute")
     @PreAuthorize("hasRole('USER')")
 
-    public AjaxResponseBody deleteDriverRoute(@Valid @RequestBody PassengerSearchRouteDto passengerSearchRouteDto, BindingResult bindingResult) {
+    public RoutesResponseBody deleteDriverRoute(@Valid @RequestBody PassengerSearchRouteDto passengerSearchRouteDto, BindingResult bindingResult) {
 
-        AjaxResponseBody response = new AjaxResponseBody();
+        RoutesResponseBody response = new RoutesResponseBody();
 
         List<Route> routes = passengerDao.searchRoute(passengerSearchRouteDto);
         response.setMsg("OK");
         response.setCode("200");
-        response.setResult(routes);
+        response.setRoutes(routes);
         return response;
     }
 
