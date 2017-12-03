@@ -2,7 +2,9 @@ package com.maslen.controllers;
 
 import com.maslen.dao.interfaces.UserDao;
 import com.maslen.models.*;
+import com.maslen.utils.MailService;
 import com.maslen.utils.interfaces.RegistrationService;
+import org.hibernate.validator.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -14,13 +16,16 @@ import javax.validation.Valid;
 @RestController
 public class UserController {
 
+
     private final UserDao userDao;
     private final RegistrationService registrationService;
+    private final MailService mailService;
 
     @Autowired
-    public UserController(UserDao userDao, RegistrationService registrationService) {
+    public UserController(UserDao userDao, RegistrationService registrationService, MailService mailService) {
         this.userDao = userDao;
         this.registrationService = registrationService;
+        this.mailService = mailService;
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
@@ -37,10 +42,15 @@ public class UserController {
     public EmailResponseBody restorePassword(@Valid @RequestBody EmailDto emailDto, BindingResult bindingResult) {
         EmailResponseBody emailResponseBody = new EmailResponseBody();
         ////---///
-//        User user = userDao.searchUserByEmail(emailDto.getEmail()).orElseThrow();
+        Long countEmail = userDao.isRegisteredEmail(emailDto.getEmail());
+        if (countEmail > 0) {
+
+        }
+
 
         return new EmailResponseBody();
     }
+
 
     @PostMapping(value = "/user")
     public ValidationResponse addUser(@Valid @RequestBody RegistrationUserDto registrationUserDto, BindingResult bindingResult) {
@@ -51,6 +61,7 @@ public class UserController {
             User user = registrationService.userDtoToUser(registrationUserDto);
             user.setPassword(registrationService.encodePassword(user.getPassword()));
             userDao.addUser(user);
+            mailService.sendRegistrationConfirmationEmail(user.getEmail());
             response.setStatus("SUCCESS");
         } else {
             response.setStatus("FAIL");
@@ -59,13 +70,19 @@ public class UserController {
         return response;
 
 
-//        if (registrationService.validateForm(user, bindingResult)) {
-//            user.setPassword(registrationService.encodePassword(user.getRawPassword()));
-//            userDao.addUser(user);
-//        } else {
-//
-//        }
     }
+
+
+    @GetMapping(value = "/confirmRegistration/{email}")
+    public String processConfirmationEmailResponse(@PathVariable @Email String email) {
+
+        User user = userDao.activateUser(email);
+
+
+        return "";
+    }
+
+
 
     @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/userPanel", method = RequestMethod.GET)

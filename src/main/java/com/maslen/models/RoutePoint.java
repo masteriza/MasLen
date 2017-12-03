@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "routes_points")
+@Table(name = "routesPoints")
 @ToString(exclude = "route")
 public class RoutePoint {
     @Id

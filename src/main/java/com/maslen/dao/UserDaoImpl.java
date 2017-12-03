@@ -91,10 +91,24 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public long isRegisteredEmailAndActivated(String email) {
+        return (long) currentSession()
+                .createQuery("select count(*) from User where email =:email")
+                .setParameter("email", email).uniqueResult();
+    }
+
+
+    @Override
     public long isRegisteredPhone(String number) {
         return (long) currentSession()
                 .createQuery("select count(*) from Phone where number =:number")
                 .setParameter("number", number).uniqueResult();
+    }
+
+    @Override
+    public User activateUser(String email) {
+        //todo:ZZZZZZZZZ
+        return null;
     }
 
 

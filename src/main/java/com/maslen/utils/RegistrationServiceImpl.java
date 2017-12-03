@@ -85,6 +85,7 @@ public class RegistrationServiceImpl implements RegistrationService {
                 .phone(phone)
                 .role(role)
                 .status("I".charAt(0))
+                .isActivated(false)
                 .build();
     }
 
