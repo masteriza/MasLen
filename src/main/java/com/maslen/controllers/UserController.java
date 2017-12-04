@@ -4,7 +4,6 @@ import com.maslen.dao.interfaces.UserDao;
 import com.maslen.models.*;
 import com.maslen.utils.MailService;
 import com.maslen.utils.interfaces.RegistrationService;
-import org.hibernate.validator.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -73,18 +72,15 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/confirmRegistration/{email}")
-    public String processConfirmationEmailResponse(@PathVariable @Email String email) {
-
-        if (userDao.activateUser(email) < 1) {
-
+    @GetMapping(value = "/confirmRegistration")
+    public String processConfirmationEmailResponse(@RequestParam("param") String email) {
+        String resultPage = "redirect:/successfulActivation";
+        if (userDao.activateUser(mailService.decryptEmail(email)) < 1) {
+            resultPage = "redirect:/error";
         }
-        ;
-
-
-        return "";
+        //todo:доделать нормальный ресспонс
+        return resultPage;
     }
-
 
 
     @PreAuthorize("hasRole('USER')")

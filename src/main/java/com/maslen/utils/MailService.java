@@ -12,7 +12,7 @@ public class MailService {
 
     static final String OUR_EMAIL = "MasLen";
 
-    private static final String ENCRYPT_KEY = "VeRtEx AcAdeMy";
+    private static final String ENCRYPT_KEY = "Why_did_you_do_that?";
 
     private final MailSender mailSender;
 
@@ -31,6 +31,9 @@ public class MailService {
         mailSender.send(message);
     }
 
+    public String decryptEmail(String email) {
+        return Aes.decrypt(email, ENCRYPT_KEY);
+    }
 
     public void sendRegistrationConfirmationEmail(String email) {
         String stringEmailAES = "";
@@ -45,7 +48,7 @@ public class MailService {
         String subject = "Confirm your registration on Maslen";
         String body = "Registration confirmation \n" +
                 "In order to complete your registration on MessageApp, please, follow this link: " +
-                "http://localhost:8080/confirmRegistration/" + stringEmailAES + "\n" +
+                "http://localhost:8080/confirmRegistration?param=" + stringEmailAES + "\n" +
                 //"The link is valid till %s inclusive.%n" +
                 "If this email was sent to you by mistake, please, do not reply.";
         sendMail(OUR_EMAIL, email, subject, body);
