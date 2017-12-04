@@ -39,7 +39,7 @@ public class DriverController {
 
         List<Route> routes = driverDao.getAllRoute();
 
-        response.setMsg("OK");
+        response.setMessage("OK");
         response.setCode("200");
         response.setRoutes(routes);
 
@@ -57,7 +57,7 @@ public class DriverController {
 
         List<Route> routes = driverDao.getAllRoute();
 
-        response.setMsg("OK");
+        response.setMessage("OK");
         response.setCode("200");
         response.setRoutes(routes);
         return response;

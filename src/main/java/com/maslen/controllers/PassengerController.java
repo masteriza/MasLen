@@ -36,7 +36,7 @@ public class PassengerController {
         RoutesResponseBody response = new RoutesResponseBody();
 
         List<Route> routes = passengerDao.searchRoute(passengerSearchRouteDto);
-        response.setMsg("OK");
+        response.setMessage("OK");
         response.setCode("200");
         response.setRoutes(routes);
         return response;

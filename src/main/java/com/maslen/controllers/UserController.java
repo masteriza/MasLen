@@ -76,7 +76,10 @@ public class UserController {
     @GetMapping(value = "/confirmRegistration/{email}")
     public String processConfirmationEmailResponse(@PathVariable @Email String email) {
 
-        User user = userDao.activateUser(email);
+        if (userDao.activateUser(email) < 1) {
+
+        }
+        ;
 
 
         return "";

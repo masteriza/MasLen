@@ -106,9 +106,10 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User activateUser(String email) {
-        //todo:ZZZZZZZZZ
-        return null;
+    public int activateUser(String email) {
+        return currentSession().createQuery("update User set isActivated = 1 where email =:email")
+                .setParameter("email", email).executeUpdate();
+        //return null;
     }
 
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class RoutesResponseBody {
-    String msg;
+    String message;
     String code;
     List<Route> routes;
 }

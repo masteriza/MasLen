@@ -3,8 +3,7 @@ package com.maslen.models;
 import lombok.Data;
 
 @Data
-public class EmailResponseBody {
+public class MessageResponseBody {
     String message;
     String code;
-    String email;
 }

@@ -17,5 +17,5 @@ public interface UserDao {
 
     long isRegisteredPhone(String phone);
 
-    User activateUser(String email);
+    int activateUser(String email);
 }
