@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,6 +47,12 @@ public class RootConfig {
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL57Dialect");
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.show_sql", "true");
+//        properties.setProperty("hibernate.jdbc.batch_size", "20"); //??
+        properties.setProperty("hibernate.jdbc.fetch_size", "50");
+
+        properties.setProperty("hibernate.jdbc.show_sql", "true");
+        properties.setProperty("hibernate.jdbc.format_sql", "true");
+
         return properties;
     }
 
@@ -59,4 +67,20 @@ public class RootConfig {
     public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder(ENCRYPTION_STRENGTH);
     }
+
+    @Bean(name = "mailSender")
+    @ConfigurationProperties(prefix = "spring.mail")
+    public JavaMailSender getMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+
+        Properties javaMailProperties = new Properties();
+        javaMailProperties.put("mail.smtp.starttls.enable", "true");
+        javaMailProperties.put("mail.smtp.auth", "true");
+        javaMailProperties.put("mail.transport.protocol", "smtp");
+        javaMailProperties.put("mail.debug", "true");
+
+        mailSender.setJavaMailProperties(javaMailProperties);
+        return mailSender;
+    }
+
 }

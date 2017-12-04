@@ -9,9 +9,13 @@ public interface UserDao {
 
     User findUserById(int userId);
 
-    Optional<User> findUserByUsername(String uesrname);
+    Optional<User> searchUserByEmail(String username);
 
     long isRegisteredEmail(String email);
 
+    long isRegisteredEmailAndActivated(String email);
+
     long isRegisteredPhone(String phone);
+
+    int activateUser(String email);
 }

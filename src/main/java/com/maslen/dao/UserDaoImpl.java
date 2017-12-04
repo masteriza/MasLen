@@ -42,20 +42,44 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
+
+//    @Override
+//    public Optional<User> searchUserByEmail(String username) {
+//        Optional user = currentSession()
+//                .createQuery("select new User( u.email, u.password, u.role) from User u " +
+//                        "inner join Role r on u.role=r.roleId " +
+//                        "WHERE u.email =:username")
+//                .setParameter("username", username)
+//                //.uniqueResult();
+//                .uniqueResultOptional();
+//        return user;
+
     @Override
-    public Optional<User> findUserByUsername(String username) {
-//        return Optional.ofNullable(currentSession().get(User.class, username));
+    public Optional<User> searchUserByEmail(String username) {
+        return currentSession()
+                .createQuery("select new User( u.email, u.password, u.role) from User u " +
+                        "inner join Role r on u.role=r.roleId " +
+                        "WHERE u.email =:username")
+                .setParameter("username", username)
+                .uniqueResultOptional();
+
 
 //        return currentSession()
-//                .createQuery("select new User() " +
-//                        "from Users where username =:username", User.class)
+//                .createQuery("select new User( u.username, u.password, u.role) " +
+//                        "from User u inner join Role r on u.role=r.roleId where username =:username", User.class)
 //                .setParameter("username", username).uniqueResultOptional();
 
+//        return currentSession()
+//                .createQuery("select new User( u.username, u.password, u.role)" +
+//                        "from Role r inner join User u on u.role=r.roleId", Role.class);
 
-        return currentSession()
-                .createQuery("select new User( username, password, role) " +
-                        "from User where username =:username", User.class)
-                .setParameter("username", username).uniqueResultOptional();
+        //.list();
+
+
+//        return currentSession()
+//                .createQuery("select new User( username, password, role) " +
+//                        "from User where username =:username", User.class)
+//                .setParameter("username", username).uniqueResultOptional();
 
     }
 
@@ -67,10 +91,25 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public long isRegisteredEmailAndActivated(String email) {
+        return (long) currentSession()
+                .createQuery("select count(*) from User where email =:email")
+                .setParameter("email", email).uniqueResult();
+    }
+
+
+    @Override
     public long isRegisteredPhone(String number) {
         return (long) currentSession()
                 .createQuery("select count(*) from Phone where number =:number")
                 .setParameter("number", number).uniqueResult();
+    }
+
+    @Override
+    public int activateUser(String email) {
+        return currentSession().createQuery("update User set isActivated = 1 where email =:email")
+                .setParameter("email", email).executeUpdate();
+        //return null;
     }
 
 

@@ -19,6 +19,6 @@ public class LogInServiceImpl implements LogInService {
 
     @Override
     public Optional<User> logIn(String username) {
-        return username.isEmpty() ? Optional.empty() : userDao.findUserByUsername(username);
+        return username.isEmpty() ? Optional.empty() : userDao.searchUserByEmail(username);
     }
 }

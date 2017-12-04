@@ -1,40 +1,32 @@
 package com.maslen.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.ToString;
+
+import javax.persistence.*;
+
+@Data
+@Entity
+@Table(name = "routesPoints")
+@ToString(exclude = "route")
 public class RoutePoint {
-    private int index;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private int pointId;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "routeId")
+    private Route route;
+
+    @Column(name = "index_point", nullable = false)
+    private int indexPoint;
+
+    @Column(nullable = false)
     private double latitude;
+
+    @Column(nullable = false)
     private double longitude;
-
-    public RoutePoint() {
-    }
-
-    public RoutePoint(int index, double latitude, double longitude) {
-        this.index = index;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
 }

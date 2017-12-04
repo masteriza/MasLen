@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class AuthenticationController {
     private static final String LOGIN = "logIn";
-    private static final String LOGOUT = "logging/logOut";
-    private static final String LOGIN_SUCCESS = "logging/logInSuccessful";
-    private static final String LOGOUT_SUCCESS = "logging/logOutSuccessful";
-    private static final String INDEX = "index";
+    private static final String LOGOUT = "logOut";
+    private static final String LOGIN_SUCCESS = "userPanel";
+    private static final String LOGOUT_SUCCESS = "logOutSuccessful";
+    private static final String INDEX = "indexPoint";
+    private static final String ERROR = "error";
 
     @GetMapping(value = "/logIn")
     public String showLogInForm() {
@@ -23,7 +24,6 @@ public class AuthenticationController {
             view = LOGIN_SUCCESS;
         }
         return view;
-        //return "redirect:/driverMap.jsp";
     }
 
     @PostMapping(value = "/loggedIn")
@@ -44,5 +44,10 @@ public class AuthenticationController {
     @GetMapping(value = "/logOutRefuse")
     public String processLogOutRefuse() {
         return INDEX;
+    }
+
+    @GetMapping(value = "/error")
+    public String error() {
+        return ERROR;
     }
 }

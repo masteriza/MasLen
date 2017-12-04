@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "userId")
     private int userId;
     private String email;
     private String username;
@@ -26,15 +26,17 @@ public class User {
     private LocalDate birthday;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "phone_id", foreignKey = @ForeignKey(name = "FK_users_phone_id"))
+    @JoinColumn(name = "phoneId", foreignKey = @ForeignKey(name = "FK_users_phone_id"))
     private Phone phone;
 
     @Column(name = "status", nullable = false, columnDefinition = "CHAR(1) default 'I'")
     private char status;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "FK_users_role_id"))
+    @JoinColumn(name = "roleId", foreignKey = @ForeignKey(name = "FK_users_role_id"))
     private Role role;
+
+    private boolean isActivated;
 
     public User(String username, String password, Role role) {
         this.username = username;

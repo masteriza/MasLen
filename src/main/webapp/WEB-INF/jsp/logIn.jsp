@@ -1,3 +1,5 @@
+<%--<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>--%>
+<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,20 +19,24 @@
 
 
 <div class="container">
-    <form class="form-signin" role="form">
+    <form id="form-login" class="form-signin" role="form" action="/logIn" method="post">
         <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="email" class="form-control" placeholder="Email address" required autofocus>
-        <input type="password" class="form-control" placeholder="Password" required>
+        <input id="email" name="username" type="email" class="form-control" placeholder="Email address" required
+               autofocus>
+        <input id="password" name="password" type="password" class="form-control" placeholder="Password" required>
         <label class="checkbox">
             <input type="checkbox" value="remember-me"> Remember me
         </label>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
+
+    <p><a href="/restorePassword">Restore password</a></p>
+
 </div>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="/js/index.js"></script>
+<%--<script src="/js/login.js"></script>--%>
 
 </body>
 </html>

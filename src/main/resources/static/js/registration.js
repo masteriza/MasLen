@@ -58,7 +58,8 @@ $(document).ready(function () {
                 // }
 
                 console.log("SUCCESS : ", responseData);
-                window.location.replace("/driverMap");
+                //:todo сделать переход на страницу успешной регистрации
+                //window.location.replace("/driverMap");
             }
         });
     });

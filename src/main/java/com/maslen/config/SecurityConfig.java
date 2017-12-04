@@ -41,9 +41,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll()
 
                 .and()
+//                .formLogin()
+//                .loginProcessingUrl("/logIn")
+//                //.successHandler(authSuccess)
+//                .usernameParameter("username")
+//                .passwordParameter("password")
+//                .permitAll()
+
+
                 .formLogin()
                 .loginPage("/logIn")
-                .successForwardUrl("/driverMap")
+                .successForwardUrl("/loggedIn")
                 .failureHandler((request, response, e) -> {
                     if (e instanceof BadCredentialsException) {
                         response.sendRedirect("/logIn?error");

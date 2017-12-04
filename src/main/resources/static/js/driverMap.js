@@ -1,12 +1,19 @@
 var map;
-var marker;
+var startRouteMarker;
+
 var finishRouteMarker;
 var org;
 var dest;
 
 var directionsDisplay;
 
+var directionsService;
+
+var wps = [];
+
 function initMap() {
+    var geoCoder = new google.maps.Geocoder();
+
     var latlng = new google.maps.LatLng(50.4501, 30.5234);
     var options = {
         zoom: 8,
@@ -16,17 +23,22 @@ function initMap() {
     map = new google.maps.Map(document.getElementById("map_canvas"), options);
     var input = (document.getElementById('address-input'));
 
+    //google.maps.event.addDomListener(document.getElementById('routebtn'), 'click', calcRoute);
+    // google.maps.event.addDomListener($('#driver_routes').on('click', '.route', addRouteOnMap));
+    google.maps.event.addDomListener($('#driver_routes').on('click', '.route', function () {
+        addRouteOnMap(this.id);
+    }));
+
     var autocomplete = new google.maps.places.Autocomplete(input);
     autocomplete.bindTo('bounds', map);
 
-    var infowindow = new google.maps.InfoWindow();
-
     autocomplete.addListener('place_changed', function () {
-        marker = new google.maps.Marker({
-            map: map
-        });
-        infowindow.close();
-        marker.setVisible(false);
+        if (!startRouteMarker) {
+            startRouteMarker = new google.maps.Marker({
+                map: map,
+                draggable: true
+            });
+        }
         var place = autocomplete.getPlace();
         if (!place.geometry) {
             window.alert("No details available for input: '" + place.name + "'");
@@ -35,44 +47,52 @@ function initMap() {
 
         if (place.geometry.viewport) {
             map.fitBounds(place.geometry.viewport);
+
         } else {
             map.setCenter(place.geometry.location);
-            map.setZoom(12);  // Why 17? Because it looks good.
+            map.setZoom(17);
         }
 
-        marker.setPosition(place.geometry.location);
-        marker.setVisible(true);
+        startRouteMarker.setPosition(place.geometry.location);
+        startRouteMarker.setVisible(true);
 
-        var address = '';
-        if (place.address_components) {
-            address = [
-                (place.address_components[0] && place.address_components[0].short_name || ''),
-                (place.address_components[1] && place.address_components[1].short_name || ''),
-                (place.address_components[2] && place.address_components[2].short_name || '')
-            ].join(' ');
-        }
-
-        //infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
-        //infowindow.open(map, startRouteMarker);
-
-        if (marker != null && finishRouteMarker != null) {
+        if (startRouteMarker != null && finishRouteMarker != null) {
             routeTrip();
         }
+
+        google.maps.event.addListener(startRouteMarker, 'dragend', function () {
+            geoCoder.geocode({'latLng': startRouteMarker.getPosition()}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[0]) {
+                        $('#address-input').val(results[0].formatted_address);
+                    }
+                }
+            });
+        });
     });
+
+
+    // google.maps.event.addListener(startRouteMarker, 'dragend', function () {
+    //     geocoder.geocode({'latLng': startRouteMarker.getPosition()}, function (results, status) {
+    //         if (status == google.maps.GeocoderStatus.OK) {
+    //             if (results[0]) {
+    //                 $('#address-input').val(results[0].formatted_address);
+    //             }
+    //         }
+    //     });
+    // });
 
     //Destination point
     var input_destination = (document.getElementById('address-destination-input'));
+
     var autocomplete_destination = new google.maps.places.Autocomplete(input_destination);
     autocomplete_destination.bindTo('bounds', map);
 
-    var infowindow_destination = new google.maps.InfoWindow();
-
     autocomplete_destination.addListener('place_changed', function () {
         finishRouteMarker = new google.maps.Marker({
-            map: map
+            map: map,
+            draggable: true
         });
-        infowindow_destination.close();
-        finishRouteMarker.setVisible(false);
 
         var place_destination = autocomplete_destination.getPlace();
         if (!place_destination.geometry) {
@@ -84,35 +104,94 @@ function initMap() {
             map.fitBounds(place_destination.geometry.viewport);
         } else {
             map.setCenter(place_destination.geometry.location);
-            map.setZoom(12);
+            map.setZoom(17);
         }
 
         finishRouteMarker.setPosition(place_destination.geometry.location);
         finishRouteMarker.setVisible(true);
 
-        var address_destination = '';
-        if (place_destination.address_components) {
-            address_destination = [
-                (place_destination.address_components[0] && place_destination.address_components[0].short_name || ''),
-                (place_destination.address_components[1] && place_destination.address_components[1].short_name || ''),
-                (place_destination.address_components[2] && place_destination.address_components[2].short_name || '')
-            ].join(' ');
+
+        if (startRouteMarker != null && finishRouteMarker != null) {
+            routeTrip();
         }
 
-        //infowindow_destination.setContent('<div><strong>' + place_destination.name + '</strong><br>' + address_destination);
-        //infowindow_destination.open(map, finishRouteMarker);
+        google.maps.event.addListener(finishRouteMarker, 'dragend', function () {
+            geoCoder.geocode({'latLng': finishRouteMarker.getPosition()}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[0]) {
+                        $('#address-destination-input').val(results[0].formatted_address);
+                    }
+                }
+            });
+        });
+    });
+}
 
-        if (marker != null && finishRouteMarker != null) {
-            routeTrip();
+function addRouteOnMap(routeId) {
+    if (routeId == null) {
+        return;
+    }
+    //var routeId = $(this).attr('id');
+    var routez = JSON.parse(sessionStorage.getItem("DRIVER_ROUTE"));
+
+    wps = [];
+    $.each(routez, function (i, v) {
+        if (v.routeId == routeId) {
+            org = new google.maps.LatLng(v.routePoints[0].latitude, v.routePoints[0].longitude);
+            dest = new google.maps.LatLng(v.routePoints[v.routePoints.length - 1].latitude, v.routePoints[v.routePoints.length - 1].longitude);
+            for (var i = 1; i < v.routePoints.length - 1; i++) {
+                wps.push({location: new google.maps.LatLng(v.routePoints[i].latitude, v.routePoints[i].longitude)});
+                // if (v.routePoints[i].indexPoint == 0) {
+                //     //org = new google.maps.LatLng(v.routePoints[i].latitude, v.routePoints[i].longitude);
+                // } else if (v.routePoints[i].indexPoint == v.routePoints.length - 1) {
+                //     //dest = new google.maps.LatLng(v.routePoints[i].latitude, v.routePoints[i].longitude);
+                // } else {
+                //     wps.push({location: new google.maps.LatLng(v.routePoints[i].latitude, v.routePoints[i].longitude)});
+                // }
+            }
         }
     });
 
+    var i = 0;
+    if (directionsDisplay != null) {
+        directionsDisplay.setMap(null);
+    }
 
-    // google.maps.event.addListener(startRouteMarker, 'dragend', function () {
-    //     //geocodePosition(startRouteMarker.getPosition());
-    //     routeTrip();
-    // });
+    var rendererOptions = {map: map, draggable: true};
+    directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
+    directionsDisplay.addListener('directions_changed', function () {
+        //alert(directionsDisplay.directions.routes[0].legs[0].end_location.lat());
+        //alert(startRouteMarker.getPosition().lat());
+        // computeTotalDistance(directionsDisplay.getDirections());
+    });
+
+    // org = new google.maps.LatLng(50.4531806, 30.618338600000016);
+    // dest = new google.maps.LatLng(50.4582408, 30.591287999999963);
+    // org = new google.maps.LatLng(startRouteMarker.getPosition().lat(), startRouteMarker.getPosition().lng());
+    // dest = new google.maps.LatLng(finishRouteMarker.getPosition().lat(), finishRouteMarker.getPosition().lng());
+
+    var request = {
+        origin: org,
+        destination: dest,
+        waypoints: wps,
+        provideRouteAlternatives: true,
+        travelMode: google.maps.DirectionsTravelMode.DRIVING
+    };
+
+    //var directionsService = new google.maps.DirectionsService();
+    directionsService = new google.maps.DirectionsService();
+    directionsService.route(request, function (response, status) {
+        var i = 0;
+        if (status == google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(response);
+        }
+        else
+            alert('failed to get directions');
+    });
+    startRouteMarker.setVisible(false);
+    finishRouteMarker.setVisible(false);
 }
+
 
 function routeTrip() {
     if (directionsDisplay != null) {
@@ -124,18 +203,18 @@ function routeTrip() {
     directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
 
     directionsDisplay.addListener('directions_changed', function () {
-        alert(directionsDisplay.directions.routes[0].legs[0].end_location.lat());
+        //alert(directionsDisplay.directions.routes[0].legs[0].end_location.lat());
         //alert(startRouteMarker.getPosition().lat());
         // computeTotalDistance(directionsDisplay.getDirections());
     });
 
-    var point1 = new google.maps.LatLng(50.4591806, 30.618338600000016);
-    var point2 = new google.maps.LatLng(50.4582408, 30.591287999999963);
+    // var point1 = new google.maps.LatLng(50.4591806, 30.618338600000016);
+    // var point2 = new google.maps.LatLng(50.4582408, 30.591287999999963);
+    //
+    // var wps = [{location: point1}, {location: point2}];
+    // wps = null;
 
-    var wps = [{location: point1}, {location: point2}];
-    wps = null;
-
-    org = new google.maps.LatLng(marker.getPosition().lat(), marker.getPosition().lng());
+    org = new google.maps.LatLng(startRouteMarker.getPosition().lat(), startRouteMarker.getPosition().lng());
     dest = new google.maps.LatLng(finishRouteMarker.getPosition().lat(), finishRouteMarker.getPosition().lng());
     var request = {
         origin: org,
@@ -145,7 +224,8 @@ function routeTrip() {
         travelMode: google.maps.DirectionsTravelMode.DRIVING
     };
 
-    var directionsService = new google.maps.DirectionsService();
+    // var directionsService = new google.maps.DirectionsService();
+    directionsService = new google.maps.DirectionsService();
     directionsService.route(request, function (response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
@@ -153,54 +233,246 @@ function routeTrip() {
         else
             alert('failed to get directions');
     });
-    marker.setVisible(false);
+    startRouteMarker.setVisible(false);
     finishRouteMarker.setVisible(false);
-
-    alert(org);
-
-
-    // startRouteMarker = null;
-    // finishRouteMarker = null;
 }
-//JSON.stringify(data),
-$(document).ready(function () {
-    $('#save').on('click', function () {
-        var driver = {
 
-            "driverId": 0,
+function routePointz() {
+    this.indexPoint = 0;
+    this.latitude = 0;
+    this.longitude = 0;
+}
+
+function Route() {
+    this.routeId = 0;
+    this.userId = 0;
+    this.startRouteLatitude = 0;
+    this.startRouteLongitude = 0;
+    this.finishRouteLatitude = 0;
+    this.finishRouteLongitude = 0;
+    this.routePoints = [];
+}
+
+function RoutePoint() {
+    this.pointId = 0;
+    this.indexPoint = 0;
+    this.latitude = 0;
+    this.longitude = 0;
+}
+
+
+$(document).ready(function () {
+
+    $('#save').on('click', function () {
+        var steps = directionsDisplay.directions.routes[0].legs[0].steps;
+        var routePoints = [];
+        var routePoint = new routePointz();
+
+        routePoint.indexPoint = 0;
+        routePoint.latitude = steps[0].start_location.lat();
+        routePoint.longitude = steps[0].start_location.lng();
+        routePoints.push(routePoint);
+
+        for (var i = 1; i <= steps.length - 1; i++) {
+            routePoint = new routePointz();
+            routePoint.indexPoint = i;
+            routePoint.latitude = steps[i].end_location.lat();
+            routePoint.longitude = steps[i].end_location.lng();
+            routePoints.push(routePoint);
+        }
+
+        var driverRoute = {
+            "routeId": 0,
             "userId": 0,
             "startRouteLatitude": directionsDisplay.directions.routes[0].legs[0].start_location.lat(),
             "startRouteLongitude": directionsDisplay.directions.routes[0].legs[0].start_location.lng(),
             "finishRouteLatitude": directionsDisplay.directions.routes[0].legs[0].end_location.lat(),
-            "finishRouteLongitude": directionsDisplay.directions.routes[0].legs[0].end_location.lng()
-
+            "finishRouteLongitude": directionsDisplay.directions.routes[0].legs[0].end_location.lng(),
+            "routePoints": routePoints
 
         };
-
 
         $.ajax({
             type: "POST",
             contentType: 'application/json; charset=utf-8',
             url: "saveDriverRoute",
-            data: JSON.stringify(driver),
-            //     {
-            //     startRouteLatitude: directionsDisplay.directions.routes[0].legs[0].start_location.lat(),
-            //     startRouteLongitude: directionsDisplay.directions.routes[0].legs[0].start_location.lng(),
-            //
-            //     finishRouteLatitude: directionsDisplay.directions.routes[0].legs[0].end_location.lat(),
-            //     finishRouteLongitude: directionsDisplay.directions.routes[0].legs[0].end_location.lng()
-            // },
+            data: JSON.stringify(driverRoute),
+            dataType: 'json',
+            timeout: 100000,
             success: function (responseData) {
-                // if (responseData != "") {
-                //     location.href = 'login.jsp';
-                // } else {
-                //     location.href = 'sec/useraccount.jsp';
-                // }
-            }
-        });
+                console.dir(responseData.routes);
+                var routes = [];
 
+                for (var i = 0; i < responseData.routes.length; i++) {
+                    var route = new Route();
+                    route.routeId = responseData.routes[i].routeId;
+                    route.userId = responseData.routes[i].userId;
+                    route.startRouteLatitude = responseData.routes[i].startRouteLatitude;
+                    route.startRouteLongitude = responseData.routes[i].startRouteLongitude;
+                    route.finishRouteLatitude = responseData.routes[i].finishRouteLatitude;
+                    route.finishRouteLongitude = responseData.routes[i].finishRouteLongitude;
+                    route.routePoints = [];
+
+                    for (var j = 0; j < responseData.routes[i].routePoints.length; j++) {
+                        var routePoint = new RoutePoint();
+                        routePoint.pointId = responseData.routes[i].routePoints[j].pointId;
+                        routePoint.indexPoint = responseData.routes[i].routePoints[j].indexPoint;
+                        routePoint.latitude = responseData.routes[i].routePoints[j].latitude;
+                        routePoint.longitude = responseData.routes[i].routePoints[j].longitude;
+                        route.routePoints.push(routePoint);
+                    }
+                    routes.push(route);
+                }
+
+                if (sessionStorage) {
+                    try {
+                        sessionStorage.setItem('DRIVER_ROUTE', JSON.stringify(routes));
+                    } catch (e) {
+                        if (e == QUOTA_EXCEEDED_ERR) {
+                            alert('Sorry, something went wrong_\n' +
+                                'SessionStorage is full\n' +
+                                'Let us know about it, we will be grateful to you.');
+                            //todo: залогировать это в БД
+                        }
+                    }
+                } else {
+                    alert("Sorry, your browser do not support session storage.");
+                }
+
+                var routez = JSON.parse(sessionStorage.getItem("DRIVER_ROUTE"));
+                $("#driver_routes").empty();
+
+                for (var i = 0; i < routez.length; i++) {
+                    // $('#driver_routes').append('' +
+                    //     '<div id="' + routez[i].routeId + '" ' + 'class="route">' + 'ID Route' +
+                    //     routez[i].routeId + ' - ' + routez[i].userId + '</div>' );
+
+                    $('#driver_routes').append('' +
+                        '<div class="unit_route"></div> ' +
+                        '<div id="' + routez[i].routeId + '" ' + 'class="route">' + 'ID Route - ' +
+                        routez[i].routeId + ' - ' + routez[i].userId + '</div>' +
+                        '<div id="' + routez[i].routeId + '" ' + 'class="edit_route"> Edit </div>' +
+                        '<div id="' + routez[i].routeId + '" ' + 'class="del_route"> X </div>' +
+                        '</div> ');
+
+                    //console.log(routez[i].routeId);
+                }
+
+
+                //alert('dfg');
+
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+                display(e);
+            },
+            done: function (e) {
+                console.log("DONE");
+            }
+
+        });
+        var a = 0;
         //alert(directionsDisplay.directions.routes[0].legs[directionsDisplay.directions.routes[0].legs.length - 1].end_location.lat());
     });
 
+    $('#getAllRoutes').on('click', function () {
+
+    });
+
+
+    // $('.del_route').on('click', function () {
+    $('#driver_routes').on('click', '.del_route', function () {
+        alert($(this).attr('id'));
+
+        var routeId = $(this).attr('id');
+
+        $.ajax({
+            type: "DELETE",
+            contentType: 'application/json; charset=utf-8',
+            url: "deleteDriverRoute/" + routeId,
+            //data: JSON.stringify(driverRoute),
+            dataType: 'json',
+            timeout: 100000,
+            success: function (responseData) {
+                var routes = [];
+                for (var i = 0; i < responseData.routes.length; i++) {
+                    var route = new Route();
+                    route.routeId = responseData.routes[i].routeId;
+                    route.userId = responseData.routes[i].userId;
+                    route.startRouteLatitude = responseData.routes[i].startRouteLatitude;
+                    route.startRouteLongitude = responseData.routes[i].startRouteLongitude;
+                    route.finishRouteLatitude = responseData.routes[i].finishRouteLatitude;
+                    route.finishRouteLongitude = responseData.routes[i].finishRouteLongitude;
+                    route.routePoints = [];
+
+                    for (var j = 0; j < responseData.routes[i].routePoints.length; j++) {
+                        var routePoint = new RoutePoint();
+                        routePoint.pointId = responseData.routes[i].routePoints[j].pointId;
+                        routePoint.indexPoint = responseData.routes[i].routePoints[j].indexPoint;
+                        routePoint.latitude = responseData.routes[i].routePoints[j].latitude;
+                        routePoint.longitude = responseData.routes[i].routePoints[j].longitude;
+                        route.routePoints.push(routePoint);
+                    }
+                    routes.push(route);
+                }
+
+                if (sessionStorage) {
+                    try {
+                        sessionStorage.setItem('DRIVER_ROUTE', JSON.stringify(routes));
+                    } catch (e) {
+                        if (e == QUOTA_EXCEEDED_ERR) {
+                            alert('Sorry, something went wrong_\n' +
+                                'SessionStorage is full\n' +
+                                'Let us know about it, we will be grateful to you.');
+                            //todo: залогировать это в БД
+                        }
+                    }
+                } else {
+                    alert("Sorry, your browser do not support session storage.");
+                }
+
+                var routez = JSON.parse(sessionStorage.getItem("DRIVER_ROUTE"));
+                $("#driver_routes").empty();
+                for (var i = 0; i < routez.length; i++) {
+                    $('#driver_routes').append('' +
+                        '<div class="unit_route"></div> ' +
+                        '<div id="' + routez[i].routeId + '" ' + 'class="route">' + 'ID Route - ' +
+                        routez[i].routeId + ' - ' + routez[i].userId + '</div>' +
+                        '<div id="' + routez[i].routeId + '" ' + 'class="edit_route"> Edit </div>' +
+                        '<div id="' + routez[i].routeId + '" ' + 'class="del_route"> X </div>' +
+                        '</div> ');
+                }
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            },
+            done: function (e) {
+                console.log("DONE");
+            }
+
+        });
+    });
+
+
+    // $('#driver_routes').on('click', '.route', function () {
+    //     //alert($(this).attr('id'));
+    //     var routeId = $(this).attr('id');
+    //     var routez = JSON.parse(sessionStorage.getItem("DRIVER_ROUTE"));
+    //     // for (var i = 0; i < routez.length; i++) {
+    //     //     routez[i].routeId =
+    //     // }
+    //     $.each(routez, function (i, v) {
+    //         if (v.routeId == routeId) {
+    //             alert(v.routeId);
+    //             return;
+    //         } else {
+    //             alert('Sorry, something went wrong.');
+    //         }
+    //     });
+    // });
+
 
 });
+
+
+
