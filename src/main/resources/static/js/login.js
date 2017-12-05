@@ -16,6 +16,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             contentType: "application/json",
+            //url: "logIn",
             url: "logIn",
             // headers: {
             //     'X-CSRF-TOKEN': _csrf
@@ -23,6 +24,9 @@ $(document).ready(function () {
             // data: JSON.stringify({"username": username, "password": password}),
             data: JSON.stringify(data),
             dataType: 'json',
+            headers: {
+                "Authorization": "Basic " + btoa(username + ":" + password)
+            },
             success: function (responseData) {
                 window.location.replace("/driverMap");
             }

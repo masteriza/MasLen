@@ -27,7 +27,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         this.encoder = encoder;
     }
 
-
     @Override
     public boolean validateForm(RegistrationUserDto registrationUserDto, BindingResult bindingResult) {
         boolean isValidData = true;
