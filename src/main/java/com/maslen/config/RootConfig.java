@@ -3,6 +3,7 @@ package com.maslen.config;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -13,7 +14,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-@SpringBootApplication(/*exclude = HibernateJpaAutoConfiguration.class,*/ scanBasePackages = "com.maslen")
+@SpringBootApplication(exclude = HibernateJpaAutoConfiguration.class, scanBasePackages = "com.maslen")
 public class RootConfig {
 
     private static final int ENCRYPTION_STRENGTH = 12;
@@ -60,6 +61,15 @@ public class RootConfig {
         transactionManager.setSessionFactory(sessionFactory().getObject());
         return transactionManager;
     }
+
+//    @Bean
+//    public PlatformTransactionManager transactionManagers(EntityManagerFactory emf) {
+//        JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
+//        jpaTransactionManager.setEntityManagerFactory(emf);
+//
+//        return jpaTransactionManager;
+//    }
+
 
 //    @Bean
 //    public BCryptPasswordEncoder encoder() {

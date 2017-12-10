@@ -25,4 +25,13 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
             return JwtUserFactory.create(user);
         }
     }
+//    @Autowired
+//    public JwtUserDetailsServiceImpl(UserRepository userRepository) {
+//        this.userRepository = userRepository;
+//    }
+
+//    @Override
+//    public User findByUsername(String username) {
+//        return null;
+//    }
 }
