@@ -14,6 +14,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+//@EnableAutoConfiguration
 @SpringBootApplication(exclude = HibernateJpaAutoConfiguration.class, scanBasePackages = "com.maslen")
 public class RootConfig {
 
