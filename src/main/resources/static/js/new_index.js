@@ -28,15 +28,15 @@ function doLogin(loginData) {
 
 $(document).ready(function () {
 
-    $('#form-login').submit(function (e) {
+    $('#form-signin').submit(function () {
         console.log("Submit");
 
-        var formData = {
-            username: $form.find('input[name="username"]').val(),
-            password: $form.find('input[name="password"]').val()
-        };
-
-        doLogin(formData);
+        // var formData = {
+        //     username: $form.find('input[name="username"]').val(),
+        //     password: $form.find('input[name="password"]').val()
+        // };
+        //
+        // doLogin(formData);
     });
 
 
