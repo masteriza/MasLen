@@ -18,8 +18,8 @@
 <div class="container">
     <form id="form-signin" class="form-signin" role="form">
         <h2 class="form-signin-heading">Please sign in ZZZZZZZZZ</h2>
-        <input type="email" class="form-control" placeholder="Email address" required autofocus>
-        <input type="password" class="form-control" placeholder="Password" required>
+        <!--type="email"--> <input class="form-control" placeholder="Email address" required name="email" autofocus>
+        <!--type="password"--> <input class="form-control" placeholder="Password" name="password" required>
         <label class="checkbox">
             <input type="checkbox" value="remember-me"> Remember me
         </label>
@@ -129,6 +129,7 @@
 </form>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/jwt-decode.min.js"></script>
 <script src="/js/new_index.js"></script>
 
 </body>

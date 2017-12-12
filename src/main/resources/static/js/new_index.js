@@ -1,3 +1,11 @@
+var TOKEN_KEY = "jwtToken"
+var $notLoggedIn = $("#notLoggedIn");
+var $loggedIn = $("#loggedIn").hide();
+var $loggedInBody = $("#loggedInBody");
+var $response = $("#response");
+var $login = $("#login");
+var $userInfo = $("#userInfo").hide();
+
 function doLogin(loginData) {
     $.ajax({
         url: "/auth",
@@ -7,10 +15,10 @@ function doLogin(loginData) {
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             setJwtToken(data.token);
-            $login.hide();
-            $notLoggedIn.hide();
-            showTokenInformation();
-            showUserInformation();
+            // $login.hide();
+            // $notLoggedIn.hide();
+            // showTokenInformation();
+            // showUserInformation();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status === 401) {
@@ -26,17 +34,32 @@ function doLogin(loginData) {
     });
 }
 
+function getJwtToken() {
+    return localStorage.getItem(TOKEN_KEY);
+}
+
+function setJwtToken(token) {
+    localStorage.setItem(TOKEN_KEY, token);
+}
+
+function removeJwtToken() {
+    localStorage.removeItem(TOKEN_KEY);
+}
+
+
 $(document).ready(function () {
 
-    $('#form-signin').submit(function () {
-        console.log("Submit");
 
-        // var formData = {
-        //     username: $form.find('input[name="username"]').val(),
-        //     password: $form.find('input[name="password"]').val()
-        // };
-        //
-        // doLogin(formData);
+    $('#form-signin').submit(function (event) {
+        event.preventDefault();
+        console.log("Submit");
+        var $form = $(this);
+        var formData = {
+            username: $form.find('input[name="email"]').val(),
+            password: $form.find('input[name="password"]').val()
+        };
+
+        doLogin(formData);
     });
 
 

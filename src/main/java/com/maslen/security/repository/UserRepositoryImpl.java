@@ -27,8 +27,8 @@ public class UserRepositoryImpl implements UserRepository {
     public User findByUsername(String username) {
 
         return (User) currentSession()
-                .createQuery("select new User(u.id, u.username, u.password, u.firstname, u.lastname, u.email, u.enabled, u.lastPasswordResetDate, u.authorities) from User u " +
-                        "inner  join Authority a on a.id " +
+                .createQuery("select new User (u.id, u.username, u.password, u.firstname, u.lastname, u.email, u.enabled, u.lastPasswordResetDate, u.authorities) from User u " +
+                        "join Authority a on a.id = u.authorities " +
                         "WHERE u.email =:username")
                 .setParameter("username", username)
                 .uniqueResult();
