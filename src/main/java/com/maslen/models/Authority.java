@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -17,18 +16,14 @@ public class Authority {
 
     @Id
     @Column(name = "ID")
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "authority_seq")
     @GeneratedValue(strategy = GenerationType.AUTO)
-//    @SequenceGenerator(name = "authority_seq", sequenceName = "authority_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "NAME", length = 50)
-    @NotNull
     @Enumerated(EnumType.STRING)
     private AuthorityName name;
 
-    @Column(name = "zzzz")
-    @ManyToMany(mappedBy = "authorities", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "authorities")
     private List<User> users;
 
     public Long getId() {
