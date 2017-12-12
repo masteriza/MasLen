@@ -1,7 +1,7 @@
 package com.maslen.security;
 
-import com.maslen.security.model.Authority;
-import com.maslen.security.model.User;
+import com.maslen.models.Authority;
+import com.maslen.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -21,9 +21,9 @@ public final class JwtUserFactory {
                 user.getLastname(),
                 user.getEmail(),
                 user.getPassword(),
-                mapToGrantedAuthorities(user.getAuthorities()),
                 user.getEnabled(),
-                user.getLastPasswordResetDate()
+                user.getLastPasswordResetDate(),
+                mapToGrantedAuthorities(user.getAuthorities())
         );
     }
 

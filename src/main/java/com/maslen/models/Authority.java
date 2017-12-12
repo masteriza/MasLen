@@ -1,17 +1,25 @@
 package com.maslen.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
 @Table(name = "AUTHORITY")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Authority {
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "authority_seq")
-    @SequenceGenerator(name = "authority_seq", sequenceName = "authority_seq", allocationSize = 1)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "authority_seq")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @SequenceGenerator(name = "authority_seq", sequenceName = "authority_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "NAME", length = 50)
@@ -19,7 +27,8 @@ public class Authority {
     @Enumerated(EnumType.STRING)
     private AuthorityName name;
 
-    @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY)
+    @Column(name = "zzzz")
+    @ManyToMany(mappedBy = "authorities", fetch = FetchType.EAGER)
     private List<User> users;
 
     public Long getId() {

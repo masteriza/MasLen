@@ -1,7 +1,7 @@
 package com.maslen.security.service;
 
+import com.maslen.models.User;
 import com.maslen.security.JwtUserFactory;
-import com.maslen.security.model.User;
 import com.maslen.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

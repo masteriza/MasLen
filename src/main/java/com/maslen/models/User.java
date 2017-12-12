@@ -1,7 +1,7 @@
 package com.maslen.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,7 +12,8 @@ import java.util.List;
 @Entity
 @Table(name = "USER")
 @Data
-@AllArgsConstructor
+//@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -55,12 +56,23 @@ public class User {
     @NotNull
     private Date lastPasswordResetDate;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "USER_AUTHORITY",
-            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
-            inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "USER_AUTHORITY",
+            joinColumns = {@JoinColumn(name = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID")})
     private List<Authority> authorities;
+
+    public User(Long id, String username, String password, String firstname, String lastname, String email, Boolean enabled, Date lastPasswordResetDate, List<Authority> authorities) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.enabled = enabled;
+        this.lastPasswordResetDate = lastPasswordResetDate;
+        this.authorities = authorities;
+    }
 
     public Long getId() {
         return id;
