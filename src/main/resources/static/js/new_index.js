@@ -19,6 +19,8 @@ function doLogin(loginData) {
             // $notLoggedIn.hide();
             // showTokenInformation();
             // showUserInformation();
+            location.href = '/driverMap.html';
+            // window.location.replace("/driverMap");
         },
         error: function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status === 401) {
