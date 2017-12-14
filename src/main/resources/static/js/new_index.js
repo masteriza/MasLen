@@ -55,6 +55,7 @@ function requestAfterLogin() {
         // dataType: "json",
         headers: createAuthorizationTokenHeader(),
         success: function (data, textStatus, jqXHR) {
+            //window.location.href = "/driverMap";
             //window.location.replace("/driverMap");
         },
         error: function (jqXHR, textStatus, errorThrown) {
