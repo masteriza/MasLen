@@ -6,6 +6,15 @@ var $response = $("#response");
 var $login = $("#login");
 var $userInfo = $("#userInfo").hide();
 
+function createAuthorizationTokenHeader() {
+    var token = getJwtToken();
+    if (token) {
+        return {"Authorization": "Bearer " + token};
+    } else {
+        return {};
+    }
+}
+
 function doLogin(loginData) {
     $.ajax({
         url: "/auth",
@@ -15,11 +24,13 @@ function doLogin(loginData) {
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             setJwtToken(data.token);
+
+            requestAfterLogin();
             // $login.hide();
             // $notLoggedIn.hide();
             // showTokenInformation();
             // showUserInformation();
-            location.href = '/driverMap.html';
+            // location.href = '/driverMap.html';
             // window.location.replace("/driverMap");
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -35,6 +46,31 @@ function doLogin(loginData) {
         }
     });
 }
+
+function requestAfterLogin() {
+    $.ajax({
+        url: "/driverMap",
+        type: "GET",
+        // contentType: "application/json; charset=utf-8",
+        // dataType: "json",
+        headers: createAuthorizationTokenHeader(),
+        success: function (data, textStatus, jqXHR) {
+            //window.location.replace("/driverMap");
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            if (jqXHR.status === 401) {
+                $('#loginErrorModal')
+                    .modal("show")
+                    .find(".modal-body")
+                    .empty()
+                    .html("<p>Spring exception:<br>" + jqXHR.responseJSON.exception + "</p>");
+            } else {
+                throw new Error("an unexpected error occured: " + errorThrown);
+            }
+        }
+    });
+}
+
 
 function getJwtToken() {
     return localStorage.getItem(TOKEN_KEY);

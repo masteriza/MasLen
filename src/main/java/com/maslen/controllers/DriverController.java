@@ -21,7 +21,7 @@ public class DriverController {
 
 
     @RequestMapping(value = "/driverMap", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('USER')")
+    //@PreAuthorize("hasRole('USER')")
     public ModelAndView indexPage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("driverMap");

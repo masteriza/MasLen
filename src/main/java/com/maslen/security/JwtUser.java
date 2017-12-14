@@ -32,7 +32,8 @@ public class JwtUser implements UserDetails {
             Collection<? extends GrantedAuthority> authorities
     ) {
         this.id = id;
-        this.username = username;
+//        this.username = username;
+        this.username = email;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
