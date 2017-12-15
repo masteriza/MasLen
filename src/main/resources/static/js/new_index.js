@@ -24,14 +24,19 @@ function doLogin(loginData) {
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             setJwtToken(data.token);
+            // xhr.setRequestHeader("custom_header", "value");
+            //jqXHR.setRequestHeader(createAuthorizationTokenHeader());
+            //jqXHR.href("/driverMap")
 
-            requestAfterLogin();
-            // $login.hide();
-            // $notLoggedIn.hide();
-            // showTokenInformation();
-            // showUserInformation();
-            // location.href = '/driverMap.html';
-            // window.location.replace("/driverMap");
+            alert(createAuthorizationTokenHeader());
+            jqXHR.setRequestHeader(createAuthorizationTokenHeader());
+            jqXHR.href("/driverMap.html");
+            //window.location.href = "/driverMap.html";
+            // $.ajax({
+            //     url: "/driverMap",
+            //     type: 'GET',
+            //     headers: createAuthorizationTokenHeader()
+            // });
         },
         error: function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status === 401) {
@@ -48,28 +53,36 @@ function doLogin(loginData) {
 }
 
 function requestAfterLogin() {
+
     $.ajax({
         url: "/driverMap",
-        type: "GET",
-        // contentType: "application/json; charset=utf-8",
-        // dataType: "json",
-        headers: createAuthorizationTokenHeader(),
-        success: function (data, textStatus, jqXHR) {
-            //window.location.href = "/driverMap";
-            //window.location.replace("/driverMap");
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            if (jqXHR.status === 401) {
-                $('#loginErrorModal')
-                    .modal("show")
-                    .find(".modal-body")
-                    .empty()
-                    .html("<p>Spring exception:<br>" + jqXHR.responseJSON.exception + "</p>");
-            } else {
-                throw new Error("an unexpected error occured: " + errorThrown);
-            }
-        }
+        type: 'GET',
+        // Fetch the stored token from localStorage and set in the header
+        headers: createAuthorizationTokenHeader()
     });
+
+    // $.ajax({
+    //     url: "/driverMap",
+    //     type: "GET",
+    //     // contentType: "application/json; charset=utf-8",
+    //     // dataType: "json",
+    //     headers: createAuthorizationTokenHeader(),
+    //     success: function (data, textStatus, jqXHR) {
+    //         //window.location.href = "/driverMap";
+    //         //window.location.replace("/driverMap");
+    //     },
+    //     error: function (jqXHR, textStatus, errorThrown) {
+    //         if (jqXHR.status === 401) {
+    //             $('#loginErrorModal')
+    //                 .modal("show")
+    //                 .find(".modal-body")
+    //                 .empty()
+    //                 .html("<p>Spring exception:<br>" + jqXHR.responseJSON.exception + "</p>");
+    //         } else {
+    //             throw new Error("an unexpected error occured: " + errorThrown);
+    //         }
+    //     }
+    // });
 }
 
 
