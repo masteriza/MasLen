@@ -5,7 +5,6 @@ import com.maslen.security.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @SuppressWarnings("SpringJavaAutowiringInspection")
 @Configuration
@@ -55,23 +55,50 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 
                 // don't create session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-                .authorizeRequests()
-                //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
+        httpSecurity.
+                authorizeRequests()
                 // allow anonymous resource requests
-                .antMatchers(
-                        HttpMethod.GET,
-                        "/",
-//                        "/*.html",
+                .antMatchers("/",
+                        "/login",
+                        "/auth",
+                        "/admin/driverMap/*.html",
+                        "/registration",
                         "/favicon.ico",
-//                        "/**/*.html",
                         "/**/*.css",
-                        "/**/*.js"
-                ).permitAll()
-                .antMatchers("/auth/**").permitAll()
-                .anyRequest().authenticated();
+                        "/**/*.js").permitAll()
+                .antMatchers("/user/login").permitAll()
+//                .antMatchers(HttpMethod.POST, "/user/update").permitAll()
+//                .antMatchers(HttpMethod.POST, "/user/reset_password").permitAll()
+//                .antMatchers("/user/forgot").permitAll()
+//                .antMatchers("/user/registration").permitAll()
+//                .antMatchers("/user/confirmation").permitAll()
+//                .antMatchers(HttpMethod.GET, "/user/confirmation_email_response").permitAll()
+//                .antMatchers("/user/test").permitAll()
+                .antMatchers("/admian/**").hasAuthority("ADMIN").anyRequest()
+                .authenticated().and()
+
+                // we don't need CSRF because our token is invulnerable
+//                .csrf().disable()
+
+//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+
+                // don't create session
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+
+                .formLogin()
+                .loginPage("/login").failureUrl("/login?error=true")
+                .loginProcessingUrl("/auth/driverMap")
+                .defaultSuccessUrl("/auth/driverMap")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .and().logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/").and().exceptionHandling()
+                .accessDeniedPage("/access-denied");
+
 
         // Custom JWT based security filter
         httpSecurity
@@ -81,3 +108,43 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.headers().cacheControl();
     }
 }
+
+
+//    @Override
+//    protected void configure(HttpSecurity httpSecurity) throws Exception {
+//        httpSecurity
+//                // we don't need CSRF because our token is invulnerable
+//                .csrf().disable()
+//
+//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+//
+//                // don't create session
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//
+//                .authorizeRequests()
+//                //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//
+//                // allow anonymous resource requests
+//                .antMatchers(
+//                        HttpMethod.GET,
+//                        "/",
+////                        "/*.html",
+//                        "/favicon.ico",
+////                        "/**/*.html",
+//                        "/**/*.css",
+//                        "/**/*.js"
+//                ).permitAll()
+//
+//                .anyRequest().authenticated();
+//
+//        // Custom JWT based security filter
+//        httpSecurity
+//                .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+//
+//        // disable page caching
+//        httpSecurity.headers().cacheControl();
+//    }
+//}
+
+
+

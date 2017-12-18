@@ -4,6 +4,7 @@ import com.maslen.dao.interfaces.DriverDao;
 import com.maslen.models.Route;
 import com.maslen.models.RoutesResponseBody;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.List;
 
-@RestController
+@Controller
 public class DriverController {
     private final DriverDao driverDao;
 
@@ -20,14 +21,21 @@ public class DriverController {
     }
 
 
-    @RequestMapping(value = "/driverMap", method = RequestMethod.GET)
-    //@PreAuthorize("hasRole('USER')")
+    @GetMapping(value = "/driverMap")
+    //@PreAuthorize("hasRole('ADMIN')")
     public ModelAndView indexPage() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("driverMap");
+        modelAndView.setViewName("/driverMap.html");
         return modelAndView;
     }
+//    public String indexPage() {
+//        return "/auth/driverMap.html";
+//    }
 
+//    @RequestMapping(value = "/redirect", method = RequestMethod.GET)
+//    public String redirect() {
+//        return "redirect:finalPage";
+//    }
 
     @PostMapping(value = "/saveDriverRoute")
     @PreAuthorize("hasRole('USER')")
