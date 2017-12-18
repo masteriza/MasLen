@@ -22,14 +22,14 @@ public class DriverController {
 
 
     @GetMapping(value = "/driverMap")
-    //@PreAuthorize("hasRole('ADMIN')")
+    //PreAuthorize("hasRole('ADMIN')")
     public ModelAndView indexPage() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/driverMap.html");
+        modelAndView.setViewName("/driverMap");
         return modelAndView;
     }
 //    public String indexPage() {
-//        return "/auth/driverMap.html";
+//        return "/driverMap";
 //    }
 
 //    @RequestMapping(value = "/redirect", method = RequestMethod.GET)
