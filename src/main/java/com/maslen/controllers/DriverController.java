@@ -22,7 +22,7 @@ public class DriverController {
 
 
     @GetMapping(value = "/driverMap")
-    //PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView indexPage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/driverMap");
