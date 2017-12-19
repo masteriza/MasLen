@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @SuppressWarnings("SpringJavaAutowiringInspection")
 @Configuration
@@ -121,8 +122,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 
                 // don't create session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+//                .authorizeRequests()
+        //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+
+        httpSecurity
                 .authorizeRequests()
                 //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
@@ -130,15 +136,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         HttpMethod.GET,
                         "/",
-                        "/*.html",
-                        "/driverMap.html",
+                        "/login",
+//                        "/*.html",
+//                        "/driverMap.html",
                         "/favicon.ico",
-                        "/**/*.html",
+//                        "/**/*.html",
                         "/**/*.css",
                         "/**/*.js"
                 ).permitAll()
+
                 .antMatchers("/auth/**").permitAll()
+                //todo: тут надо разобраться как видеть страницу но не пускать на нее тех что не подходит по правам
+                .antMatchers("/userPanel.html").hasAuthority("ADMIN")
                 .anyRequest().authenticated();
+
+        httpSecurity
+                .formLogin()
+                .loginPage("/").failureUrl("/login?error=true")
+                .loginProcessingUrl("/userPanel")
+                .defaultSuccessUrl("/userPanel")
+                .usernameParameter("email")
+                .passwordParameter("password").and()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/").and()
+                .exceptionHandling().accessDeniedPage("/accessDenied");
 
         // Custom JWT based security filter
         httpSecurity
