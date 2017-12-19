@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class AuthenticationController {
-    private static final String LOGIN = "logIn";
+    private static final String LOGIN = "login";
     private static final String LOGOUT = "logOut";
     private static final String LOGIN_SUCCESS = "userPanel";
     private static final String LOGOUT_SUCCESS = "logOutSuccessful";
     private static final String INDEX = "indexPoint";
     private static final String ERROR = "error";
 
-    @GetMapping(value = "/logIn")
+    @GetMapping(value = "/login")
     public String showLogInForm() {
         String view = LOGIN;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

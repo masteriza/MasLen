@@ -2,26 +2,15 @@ $(document).ready(function () {
 
     $('#form-login').submit(function (e) {
         console.log("Submit");
-        // CSRF Token
-        // var _csrf = $('meta[name="_csrf"]').attr('content');
 
         var username = $("#email").val();
         var password = $("#password").val();
         var data = '{"username":"' + username + '", "password":"' + password + '"}';
 
-        // Validator Username, password.
-        // Ex: if (username < 3 || password < 6 || ....)
-        // return;
-
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            //url: "logIn",
-            url: "logIn",
-            // headers: {
-            //     'X-CSRF-TOKEN': _csrf
-            // },
-            // data: JSON.stringify({"username": username, "password": password}),
+            url: "login",
             data: JSON.stringify(data),
             dataType: 'json',
             headers: {
@@ -30,10 +19,6 @@ $(document).ready(function () {
             success: function (responseData) {
                 window.location.replace("/driverMap");
             }
-            // ,
-            // error: function (jqXHR, textStatus, errorThrown) {
-            //     console.log("Fail");
-            // }
         });
 
         e.preventDefault();
@@ -71,7 +56,6 @@ $(document).ready(function () {
         var userEmail = {};
 
         userEmail["email"] = $("#email").val();
-
 
         $.ajax({
             type: "POST",
