@@ -16,7 +16,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: "logIn",
+            url: "login",
             // headers: {
             //     'X-CSRF-TOKEN': _csrf
             // },

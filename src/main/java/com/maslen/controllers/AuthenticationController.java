@@ -16,7 +16,8 @@ public class AuthenticationController {
     private static final String INDEX = "indexPoint";
     private static final String ERROR = "error";
 
-    @GetMapping(value = "/logIn")
+
+    @GetMapping(value = "/login")
     public String showLogInForm() {
         String view = LOGIN;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -26,17 +27,17 @@ public class AuthenticationController {
         return view;
     }
 
-    @PostMapping(value = "/loggedIn")
+    @PostMapping(value = "/loggedin")
     public String processLogIn() {
         return LOGIN_SUCCESS;
     }
 
-    @GetMapping(value = "/logOut")
+    @GetMapping(value = "/logout")
     public String showLogOutPage() {
         return LOGOUT;
     }
 
-    @GetMapping(value = "/loggedOut")
+    @GetMapping(value = "/loggedout")
     public String processLogOut() {
         return LOGOUT_SUCCESS;
     }

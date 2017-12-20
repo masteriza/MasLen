@@ -37,24 +37,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setForceEncoding(true);
         http.addFilterBefore(filter, CsrfFilter.class);
 
-        http.authorizeRequests()
-                .anyRequest().permitAll()
+        http
+                .authorizeRequests()
+                .antMatchers(
+                        //HttpMethod.GET,
+                        "/",
+                        "/*.html",
+                        "/favicon.ico",
+                        "/**/*.map",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js"
+                ).permitAll()
+                .anyRequest().authenticated();
 
-                .and()
-//                .formLogin()
-//                .loginProcessingUrl("/logIn")
-//                //.successHandler(authSuccess)
-//                .usernameParameter("username")
-//                .passwordParameter("password")
-//                .permitAll()
-
-
+        http
                 .formLogin()
-                .loginPage("/logIn")
-                .successForwardUrl("/loggedIn")
+                .loginPage("/login")
+                .successForwardUrl("/loggedin")
                 .failureHandler((request, response, e) -> {
                     if (e instanceof BadCredentialsException) {
-                        response.sendRedirect("/logIn?error");
+                        response.sendRedirect("/login?error");
                     } else {
                         response.sendRedirect("/error");
                     }
@@ -62,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
-                .logoutUrl("/logOut")
+                .logoutUrl("/logout")
                 .logoutSuccessUrl("/")
 
                 .and()

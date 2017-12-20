@@ -1,0 +1,27 @@
+<html>
+<head>
+</head>
+<body>
+
+<sec:authorize access="isAuthenticated()">
+    <sec:authentication property="principal.username" var="username"/>
+</sec:authorize>
+
+<div align="center">
+    <h2>
+        <p>
+            <s:message code="login.success1"/>
+            <c:out value="${username}"/>
+            !
+        <p>
+            <s:message code="login.success2"/>
+    </h2>
+
+    <br>
+    <a href="<c:url value="/" />">
+    <s:message code="index.home"/>
+    </a>
+</div>
+
+</body>
+</html>
