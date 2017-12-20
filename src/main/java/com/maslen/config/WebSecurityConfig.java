@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @SuppressWarnings("SpringJavaAutowiringInspection")
 @Configuration
@@ -141,26 +140,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                        "/driverMap.html",
                         "/favicon.ico",
 //                        "/**/*.html",
+                        "/**/*.map",
                         "/**/*.css",
                         "/**/*.js"
                 ).permitAll()
 
                 .antMatchers("/auth/**").permitAll()
                 //todo: тут надо разобраться как видеть страницу но не пускать на нее тех что не подходит по правам
-                .antMatchers("/userPanel.html").hasAuthority("ADMIN")
+//                .antMatchers("/userPanel.html").hasAuthority("ADMIN")
                 .anyRequest().authenticated();
 
-        httpSecurity
-                .formLogin()
-                .loginPage("/").failureUrl("/login?error=true")
-                .loginProcessingUrl("/userPanel")
-                .defaultSuccessUrl("/userPanel")
-                .usernameParameter("email")
-                .passwordParameter("password").and()
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/").and()
-                .exceptionHandling().accessDeniedPage("/accessDenied");
+//        httpSecurity
+//                .formLogin()
+//                .loginPage("/").failureUrl("/login?error=true")
+//                .loginProcessingUrl("/userPanel")
+//                .defaultSuccessUrl("/userPanel")
+//                .usernameParameter("email")
+//                .passwordParameter("password").and()
+//                .logout()
+//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//                .logoutSuccessUrl("/").and()
+//                .exceptionHandling().accessDeniedPage("/accessDenied");
 
         // Custom JWT based security filter
         httpSecurity

@@ -5,7 +5,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class AuthenticationController {
@@ -26,28 +25,28 @@ public class AuthenticationController {
         return view;
     }
 
-    @PostMapping(value = "/loggedIn")
-    public String processLogIn() {
-        return LOGIN_SUCCESS;
-    }
-
-    @GetMapping(value = "/logOut")
-    public String showLogOutPage() {
-        return LOGOUT;
-    }
-
-    @GetMapping(value = "/loggedOut")
-    public String processLogOut() {
-        return LOGOUT_SUCCESS;
-    }
-
-    @GetMapping(value = "/logOutRefuse")
-    public String processLogOutRefuse() {
-        return INDEX;
-    }
-
-    @GetMapping(value = "/error")
-    public String error() {
-        return ERROR;
-    }
+//    @PostMapping(value = "/loggedIn")
+//    public String processLogIn() {
+//        return LOGIN_SUCCESS;
+//    }
+//
+//    @GetMapping(value = "/logOut")
+//    public String showLogOutPage() {
+//        return LOGOUT;
+//    }
+//
+//    @GetMapping(value = "/loggedOut")
+//    public String processLogOut() {
+//        return LOGOUT_SUCCESS;
+//    }
+//
+//    @GetMapping(value = "/logOutRefuse")
+//    public String processLogOutRefuse() {
+//        return INDEX;
+//    }
+//
+//    @GetMapping(value = "/error")
+//    public String error() {
+//        return ERROR;
+//    }
 }
