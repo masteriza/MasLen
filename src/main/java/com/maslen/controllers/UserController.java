@@ -57,7 +57,7 @@ public class UserController {
         ValidationResponse response = new ValidationResponse();
 //        if (!bindingResult.hasErrors()) {
         if (registrationService.validateForm(registrationUserDto, bindingResult)) {
-            User user = registrationService.userDtoToUser(registrationUserDto);
+            User user = new User();// = registrationService.userDtoToUser(registrationUserDto);
             user.setPassword(registrationService.encodePassword(user.getPassword()));
             userDao.addUser(user);
             mailService.sendRegistrationConfirmationEmail(user.getEmail());

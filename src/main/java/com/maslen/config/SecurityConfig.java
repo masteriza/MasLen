@@ -55,6 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .successForwardUrl("/loggedin")
+                .usernameParameter("username")
+                .passwordParameter("password")
                 .failureHandler((request, response, e) -> {
                     if (e instanceof BadCredentialsException) {
                         response.sendRedirect("/login?error");

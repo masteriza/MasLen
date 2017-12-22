@@ -29,9 +29,11 @@
 <div class="container">
     <form id="form-signin" class="form-signin" role="form" action="/login" method="post">
         <h2 class="form-signin-heading">Please sign in</h2>
-        <!--type="email"--> <input id="email" class="form-control" placeholder="Email address" required name="email"
+        <!--type="email"--> <input id="username" type="username" class="form-control" placeholder="Email address"
+                                   required name="username"
                                    autofocus>
-        <!--type="password"--> <input id="password" class="form-control" placeholder="Password" name="password"
+        <!--type="password"--> <input id="password" type="password" class="form-control" placeholder="Password"
+                                      name="password"
                                       required>
         <label class="checkbox">
             <input type="checkbox" value="remember-me"> Remember me
@@ -41,7 +43,7 @@
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!--<script src="/js/login.js"></script>-->
+<script src="/js/login.js"></script>
 <script src="/js/index.js"></script>
 
 </body>

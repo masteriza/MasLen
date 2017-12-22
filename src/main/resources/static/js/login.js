@@ -1,39 +1,72 @@
 $(document).ready(function () {
 
-    $('#form-login').submit(function (e) {
-        console.log("Submit");
-        // CSRF Token
-        // var _csrf = $('meta[name="_csrf"]').attr('content');
+    $("#form-signin").submit(function (event) {
+        event.preventDefault();
 
-        var username = $("#email").val();
-        var password = $("#password").val();
-        var data = '{"username":"' + username + '", "password":"' + password + '"}';
-
-        // Validator Username, password.
-        // Ex: if (username < 3 || password < 6 || ....)
-        // return;
+        var $form = $(this);
+        var data = {
+            username: $form.find('input[name="username"]').val(),
+            password: $form.find('input[name="password"]').val()
+        };
+        // var username = $form.find('input[name="username"]').val();
+        // var password = $form.find('input[name="password"]').val();
 
         $.ajax({
             type: "POST",
-            contentType: "application/json",
-            url: "login",
+            // contentType: "application/json",
+            url: "/login",
             // headers: {
-            //     'X-CSRF-TOKEN': _csrf
+            //     'Authorization': 'Basic ' + btoa(username + ':' + password)
             // },
-            // data: JSON.stringify({"username": username, "password": password}),
-            data: JSON.stringify(data),
-            dataType: 'json',
+            // data: JSON.stringify(data),
+            data: data,
+            // dataType: 'json',
             success: function (responseData) {
                 window.location.replace("/driverMap");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status === 401) {
+                    console.log("Fail");
+                    alert(jqXHR.status);
+                }
             }
-            // ,
-            // error: function (jqXHR, textStatus, errorThrown) {
-            //     console.log("Fail");
-            // }
         });
-
-        e.preventDefault();
     });
+
+    // $('#form-login').submit(function (e) {
+    //     console.log("Submit");
+    //     // CSRF Token
+    //     // var _csrf = $('meta[name="_csrf"]').attr('content');
+    //
+    //     var username = $("#email").val();
+    //     var password = $("#password").val();
+    //     var data = '{"username":"' + username + '", "password":"' + password + '"}';
+    //
+    //     // Validator Username, password.
+    //     // Ex: if (username < 3 || password < 6 || ....)
+    //     // return;
+    //
+    //     $.ajax({
+    //         type: "POST",
+    //         contentType: "application/json",
+    //         url: "login",
+    //         // headers: {
+    //         //     'X-CSRF-TOKEN': _csrf
+    //         // },
+    //         // data: JSON.stringify({"username": username, "password": password}),
+    //         data: JSON.stringify(data),
+    //         dataType: 'json',
+    //         success: function (responseData) {
+    //             window.location.replace("/driverMap");
+    //         }
+    //         // ,
+    //         // error: function (jqXHR, textStatus, errorThrown) {
+    //         //     console.log("Fail");
+    //         // }
+    //     });
+    //
+    //     e.preventDefault();
+    // });
 
 
     $('#btSingUp').click(function () {
@@ -80,6 +113,11 @@ $(document).ready(function () {
                     $(".errorSummary").empty().append(responseData);
                 } else {
                     location.href = 'message.jsp';
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status === 401) {
+                    alert(jqXHR.status);
                 }
             }
         });

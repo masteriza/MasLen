@@ -1,5 +1,6 @@
 package com.maslen.dao.interfaces;
 
+
 import com.maslen.models.User;
 
 import java.util.Optional;

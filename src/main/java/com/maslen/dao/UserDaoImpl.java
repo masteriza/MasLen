@@ -28,7 +28,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User addUser(User user) {
 //        user.setStatus("I");
-        user.setUserId((int) currentSession().save(user));
+        //user.setUserId((int) currentSession().save(user));
         return user;
     }
 
