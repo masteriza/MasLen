@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Repository
 @Transactional
 public class UserDaoImpl implements UserDao {
@@ -55,13 +53,19 @@ public class UserDaoImpl implements UserDao {
 //        return user;
 
     @Override
-    public Optional<User> searchUserByEmail(String username) {
-        return currentSession()
-                .createQuery("select new User( u.email, u.password, u.role) from User u " +
-                        "inner join Role r on u.role=r.roleId " +
-                        "WHERE u.email =:username")
-                .setParameter("username", username)
-                .uniqueResultOptional();
+    public User searchUserByEmail(String username) {
+//        return currentSession()
+//                .createQuery("select new User( u.email, u.password, u.role) from User u " +
+//                        "inner join Role r on u.role=r.roleId " +
+//                        "WHERE u.email =:username")
+//                .setParameter("username", username)
+//                .uniqueResultOptional();
+
+        //currentSession().createQuery("select distinct u from User u inner join fetch u.authorities ", User.class).list()
+
+        return currentSession().createQuery("select distinct u from User u inner join fetch u.authorities WHERE u.email =:username", User.class).setParameter("username", username).uniqueResult();
+//        return (User) currentSession().createQuery("select new User(u.email, u.authorities) from User u inner JOIN Authority WHERE u.email =:username").setParameter("username",username).getResultList();
+//        return new User();
 
 
 //        return currentSession()

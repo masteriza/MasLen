@@ -13,7 +13,7 @@ public final class BasicAuthenticateUserFactory {
 
     public static BasicAuthenticateUser create(User user) {
         return new BasicAuthenticateUser(
-                user.getId(),
+                user.getUserId(),
                 user.getUsername(),
                 user.getFirstname(),
                 user.getLastname(),

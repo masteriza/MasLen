@@ -4,6 +4,7 @@ import com.maslen.services.SpringDataUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -40,9 +41,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(
-                        //HttpMethod.GET,
+                        HttpMethod.GET,
                         "/",
                         "/*.html",
+                        "/userPanel.html",
                         "/favicon.ico",
                         "/**/*.map",
                         "/**/*.html",
@@ -54,9 +56,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .formLogin()
                 .loginPage("/login")
-                .successForwardUrl("/loggedin")
-                .usernameParameter("username")
-                .passwordParameter("password")
+                .successForwardUrl("/loggedIn")
+//                .usernameParameter("username")
+//                .passwordParameter("password")
                 .failureHandler((request, response, e) -> {
                     if (e instanceof BadCredentialsException) {
                         response.sendRedirect("/login?error");

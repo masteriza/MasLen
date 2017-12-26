@@ -6,8 +6,6 @@ import com.maslen.services.interfaces.LogInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class LogInServiceImpl implements LogInService {
     private final UserDao userDao;
@@ -18,7 +16,7 @@ public class LogInServiceImpl implements LogInService {
     }
 
     @Override
-    public Optional<User> logIn(String username) {
-        return username.isEmpty() ? Optional.empty() : userDao.searchUserByEmail(username);
+    public User login(String username) {
+        return userDao.searchUserByEmail(username);
     }
 }
