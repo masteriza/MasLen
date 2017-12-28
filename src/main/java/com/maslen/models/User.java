@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "User")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,48 +20,48 @@ import java.util.List;
 public class User {
 
     @Id
-    @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "UserID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "USERNAME", length = 50, unique = true)
+    @Column(name = "Username", length = 50, unique = true)
     @NotNull
     @Size(min = 4, max = 50)
     private String username;
 
-    @Column(name = "PASSWORD", length = 100)
+    @Column(name = "Password", length = 100)
     @NotNull
     @Size(min = 4, max = 100)
     private String password;
 
-    @Column(name = "FIRSTNAME", length = 50)
+    @Column(name = "FirstName", length = 50)
     @NotNull
     @Size(min = 4, max = 50)
     private String firstname;
 
-    @Column(name = "LASTNAME", length = 50)
+    @Column(name = "LastName", length = 50)
     @NotNull
     @Size(min = 4, max = 50)
     private String lastname;
 
-    @Column(name = "EMAIL", length = 50)
+    @Column(name = "Email", length = 50)
     @NotNull
     @Size(min = 4, max = 50)
     private String email;
 
-    @Column(name = "ENABLED")
+    @Column(name = "Enabled")
     @NotNull
     private Boolean enabled;
 
-    @Column(name = "LASTPASSWORDRESETDATE")
+    @Column(name = "LastPasswordResetDate")
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     private Date lastPasswordResetDate;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "USER_AUTHORITY",
-            joinColumns = {@JoinColumn(name = "USER_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID")})
+    @JoinTable(name = "UserAuthority",
+            joinColumns = {@JoinColumn(name = "UserID")},
+            inverseJoinColumns = {@JoinColumn(name = "AuthorityID")})
     private List<Authority> authorities;
 
 //    public User(Long id, String username, String password, String firstname, String lastname, String email, Boolean enabled, Date lastPasswordResetDate, List<Authority> authorities) {

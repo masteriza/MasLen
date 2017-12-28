@@ -8,18 +8,18 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "AUTHORITY")
+@Table(name = "Authority")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Authority {
 
     @Id
-    @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "AuthorityID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "NAME", length = 50)
+    @Column(name = "Name", length = 50)
     @Enumerated(EnumType.STRING)
     private AuthorityName name;
 

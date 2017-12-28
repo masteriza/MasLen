@@ -41,9 +41,9 @@ public class UserRepositoryImpl implements UserRepository {
 //                       "WHERE u.email =:username");
         //User user = (User)
 
-
+        //User user = (User) currentSession().get(User.class, 1);
         User user = (User) currentSession().createQuery(" from User u where  u.email = :username").setParameter("username", username).uniqueResult();
-
+//        List<User> users = currentSession().createQuery(" select u.id,u.authorities from User u").list();
 
         return user;
     }
