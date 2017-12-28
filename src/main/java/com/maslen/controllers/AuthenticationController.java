@@ -5,6 +5,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class AuthenticationController {
@@ -16,7 +18,8 @@ public class AuthenticationController {
     private static final String ERROR = "error";
 
 
-    @GetMapping(value = "/login")
+    //    @GetMapping(value = "/login")
+    @RequestMapping(value = "/login", method = {RequestMethod.GET})
     public String showLogInForm() {
         String view = LOGIN;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -26,9 +29,23 @@ public class AuthenticationController {
         return view;
     }
 
-    @GetMapping(value = "/loggedIn")
+    @RequestMapping(value = "/auth", method = {RequestMethod.POST})
+    public String auth() {
+        String view = LOGIN;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            view = LOGIN_SUCCESS;
+        }
+        return view;
+    }
+
+
+    //    @PostMapping(value = "/loggedIn")
+    @RequestMapping(value = "/loggedIn", method = {RequestMethod.GET, RequestMethod.POST})
     public String processLogIn() {
-        return LOGIN_SUCCESS;
+//        return LOGIN_SUCCESS;
+        return "redirect:userPanel.html";
+
     }
 
     @GetMapping(value = "/logout")

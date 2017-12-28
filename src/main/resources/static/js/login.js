@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $("#form-signin").submit(function (event) {
+    $("#form-signin1").submit(function (event) {
         var $form = $(this);
         var data = {
             username: $form.find('input[name="username"]').val(),

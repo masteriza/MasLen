@@ -5,7 +5,6 @@ import com.maslen.models.*;
 import com.maslen.utils.MailService;
 import com.maslen.utils.interfaces.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -83,8 +82,8 @@ public class UserController {
     }
 
 
-    @PreAuthorize("hasRole('USER')")
-    @RequestMapping(value = "/userPanel", method = RequestMethod.GET)
+    //    @PreAuthorize("hasRole('USER')")
+    @RequestMapping(value = "/userPanel", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView userPanelPage() {
         return new ModelAndView("userPanel");
     }
