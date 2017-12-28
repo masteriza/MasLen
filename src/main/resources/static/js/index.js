@@ -30,7 +30,9 @@ function doLogin(loginData) {
                 contentType: "application/json; charset=utf-8",
                 headers: createAuthorizationTokenHeader(),
                 success: function (data, textStatus, jqXHR) {
-                    $('body').html(data);
+                    document.location.href = "/userPanel";
+                    // window.location.href("/userPanel");
+                    // $('body').html(data);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     if (jqXHR.status === 401) {
@@ -156,6 +158,7 @@ $(document).ready(function () {
             contentType: "application/json; charset=utf-8",
             headers: createAuthorizationTokenHeader(),
             success: function (data) {
+
                 $('body').html(data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -168,7 +171,6 @@ $(document).ready(function () {
             }
         });
     });
-
 
 
 });

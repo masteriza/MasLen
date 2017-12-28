@@ -85,8 +85,10 @@ public class UserController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/userPanel")
-    public ModelAndView userPanelPage() {
-        return new ModelAndView("userPanel");
+//    public ModelAndView userPanelPage() {
+    public String userPanelPage() {
+        return "/userPanel";
+//        return new ModelAndView("userPanel");
     }
 
 }

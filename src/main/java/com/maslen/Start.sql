@@ -1,12 +1,12 @@
 INSERT INTO User (UserID, USERNAME, PASSWORD, FIRSTNAME, LASTNAME, EMAIL, ENABLED, LASTPASSWORDRESETDATE) VALUES
   (1, 'admin', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', 'admin', 'admin', 'admin@admin.com', 1,
-   '01-01-2016');
+   '2016-01-16 00:00:00');
 INSERT INTO User (UserID, USERNAME, PASSWORD, FIRSTNAME, LASTNAME, EMAIL, ENABLED, LASTPASSWORDRESETDATE) VALUES
   (2, 'user', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC', 'user', 'user', 'enabled@user.com', 1,
-   '01-01-2016');
+   '2016-01-01 00:00:00');
 INSERT INTO User (UserID, USERNAME, PASSWORD, FIRSTNAME, LASTNAME, EMAIL, ENABLED, LASTPASSWORDRESETDATE) VALUES
   (3, 'disabled', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC', 'user', 'user', 'disabled@user.com',
-   0, '01-01-2016');
+   0, '2016-05-20 00:00:00');
 
 INSERT INTO Authority (AuthorityID, NAME) VALUES (1, 'ROLE_USER');
 INSERT INTO Authority (AuthorityID, NAME) VALUES (2, 'ROLE_ADMIN');
