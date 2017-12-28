@@ -24,18 +24,18 @@ $(document).ready(function () {
     });
 
     $('#logout').click(function () {
-        // $.ajax({
-        //     type: "GET",
-        //     url: "/logout",
-        //     success: function (responseData) {
-        //     },
-        //     error: function (jqXHR, textStatus, errorThrown) {
-        //         if (jqXHR.status === 401) {
-        //             console.log("Fail logout");
-        //             alert(jqXHR.status);
-        //         }
-        //     }
-        // });
+        $.ajax({
+            type: "GET",
+            url: "/logout",
+            // success: function (responseData) {
+            // },
+            error: function (jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status === 401) {
+                    console.log("Fail logout");
+                    alert(jqXHR.status);
+                }
+            }
+        });
     });
 
     $('#btSingUp').click(function () {

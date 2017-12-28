@@ -42,7 +42,7 @@ public class UserDaoImpl implements UserDao {
 
 
 //    @Override
-//    public Optional<User> searchUserByEmail(String username) {
+//    public Optional<User> getUserByEmail(String username) {
 //        Optional user = currentSession()
 //                .createQuery("select new User( u.email, u.password, u.role) from User u " +
 //                        "inner join Role r on u.role=r.roleId " +
@@ -53,7 +53,7 @@ public class UserDaoImpl implements UserDao {
 //        return user;
 
     @Override
-    public User searchUserByEmail(String username) {
+    public User getUserByEmail(String username) {
 //        return currentSession()
 //                .createQuery("select new User( u.email, u.password, u.role) from User u " +
 //                        "inner join Role r on u.role=r.roleId " +

@@ -8,7 +8,7 @@ public interface UserDao {
 
     User findUserById(int userId);
 
-    User searchUserByEmail(String username);
+    User getUserByEmail(String username);
 
     long isRegisteredEmail(String email);
 

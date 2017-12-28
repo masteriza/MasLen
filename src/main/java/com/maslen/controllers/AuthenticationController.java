@@ -29,15 +29,15 @@ public class AuthenticationController {
         return view;
     }
 
-    @RequestMapping(value = "/auth", method = {RequestMethod.POST})
-    public String auth() {
-        String view = LOGIN;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            view = LOGIN_SUCCESS;
-        }
-        return view;
-    }
+//    @RequestMapping(value = "/auth", method = {RequestMethod.POST})
+//    public String auth() {
+//        String view = LOGIN;
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+//            view = LOGIN_SUCCESS;
+//        }
+//        return view;
+//    }
 
 
     //    @PostMapping(value = "/loggedIn")

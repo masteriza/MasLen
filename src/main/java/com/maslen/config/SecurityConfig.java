@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .successForwardUrl("/loggedIn")
                 .permitAll()
                 .and()
-                .logout().logoutSuccessUrl("/")
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/")
                 .permitAll();
 
         http.httpBasic();
