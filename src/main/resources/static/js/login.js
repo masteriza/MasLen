@@ -1,41 +1,39 @@
 $(document).ready(function () {
 
-    $("#form-signin1").submit(function (event) {
-        var $form = $(this);
-        var data = {
-            username: $form.find('input[name="username"]').val(),
-            password: $form.find('input[name="password"]').val()
-        };
+    // $("#form-signin1").submit(function (event) {
+    //     var $form = $(this);
+    //     var data = {
+    //         username: $form.find('input[name="username"]').val(),
+    //         password: $form.find('input[name="password"]').val()
+    //     };
+    //
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "/login",
+    //         data: data,
+    //         success: function (responseData) {
+    //             //window.location.replace("/userPanel");
+    //         },
+    //         error: function (jqXHR, textStatus, errorThrown) {
+    //             if (jqXHR.status === 401) {
+    //                 console.log("Fail");
+    //                 alert(jqXHR.status);
+    //             }
+    //         }
+    //     });
+    // });
 
-        $.ajax({
-            type: "POST",
-            url: "/login",
-            data: data,
-            success: function (responseData) {
-                //window.location.replace("/userPanel");
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                if (jqXHR.status === 401) {
-                    console.log("Fail");
-                    alert(jqXHR.status);
-                }
-            }
-        });
-    });
 
     $('#logout').click(function () {
-        $.ajax({
-            type: "GET",
-            url: "/logout",
-            // success: function (responseData) {
-            // },
-            error: function (jqXHR, textStatus, errorThrown) {
-                if (jqXHR.status === 401) {
-                    console.log("Fail logout");
-                    alert(jqXHR.status);
-                }
-            }
-        });
+        document.location.href = "/logout";
+    });
+
+    $('#btDriverMap').click(function () {
+        document.location.href = "/driverMap";
+    });
+
+    $('#btPassengerMap').click(function () {
+        document.location.href = "/passengerMap";
     });
 
     $('#btSingUp').click(function () {
@@ -70,7 +68,6 @@ $(document).ready(function () {
 
         userEmail["email"] = $("#email").val();
 
-
         $.ajax({
             type: "POST",
             contentType: "application/json",
@@ -91,5 +88,89 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('#btnRegistration').click(function () {
+
+        $('.errorspan').each(function () {
+            $(this).text("");
+        });
+
+        var birthday_Day = $("#birthday_Day option:selected").val();
+        // if (typeof birthday_Day !== "number") {
+        //     alert("Не заполнена дата рождения");
+        //     return;
+        // }
+        var birthday_Month = $("#birthday_Month option:selected").val();
+        // if (typeof birthday_Month !== "number") {
+        //     alert("Не заполнена месяц рождения");
+        //     return;
+        // }
+        var birthday_Year = $("#birthday_Year option:selected").val();
+        // if (typeof birthday_Year !== "number") {
+        //     alert("Не заполнена год рождения");
+        //     return;
+        // }
+
+        var user = {};
+        //user["userId"] = 0;
+        user["lastName"] = $("#lastName").val();
+        user["firstName"] = $("#firstName").val();
+        user["middleName"] = $("#middleName").val();
+
+        try {
+            user["birthday"] = new Date(Date.UTC(birthday_Year, birthday_Month, birthday_Day)).toISOString().substring(0, 10);
+        } catch (e) {
+            $("#birthday").siblings(".errorspan").text("Не заполнена или неверная дата");
+            return;
+        }
+        user["email"] = $("#email").val();
+        user["rawPassword"] = $("#rawPassword").val();
+        user["repeatRawPassword"] = $("#repeatRawPassword").val();
+        user["phone"] = $('#phone').val();
+        if ($('input[name=sexRadios]:checked').val() == undefined) {
+            user["sex"] = "X";
+        } else {
+            user["sex"] = $('input[name=sexRadios]:checked').val();
+        }
+        user["agree"] = document.getElementById("agree").checked;
+        // user["status"] = '';
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "user",
+            data: JSON.stringify(user),
+            dataType: 'json',
+            success: function (responseData) {
+                if (responseData != "" || responseData != null) {
+                    for (i = 0; i < responseData.errorList.length; i++) {
+                        // responseData.errorList[i].code;
+                        // responseData.errorList[i].dafaultMessage;
+                        // responseData.errorList[i].field;
+                        $("#" + responseData.errorList[i].field).siblings(".errorspan").text();
+                        $("#" + responseData.errorList[i].field).siblings(".errorspan").text(responseData.errorList[i].defaultMessage);
+                    }
+                }
+                //alert($("#lastName").siblings("span").text());
+
+//                $("#lastName").siblings("span").text("zzzzzzzzzzzzz");
+
+//                alert($("#lastName").siblings("span").text());
+                //$("#tagscloud span").text("Your text here");
+
+                // if (responseData != "") {
+                //     $(".errorSummary").empty().append(responseData);
+                // } else {
+                //     location.href = 'message.jsp';
+                // }
+
+                console.log("SUCCESS : ", responseData);
+                //:todo сделать переход на страницу успешной регистрации
+                //window.location.replace("/driverMap");
+            }
+        });
+    });
+
+
 });
 

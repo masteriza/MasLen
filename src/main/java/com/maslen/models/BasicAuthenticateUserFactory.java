@@ -15,8 +15,8 @@ public final class BasicAuthenticateUserFactory {
         return new BasicAuthenticateUser(
                 user.getUserId(),
                 user.getUsername(),
-                user.getFirstname(),
-                user.getLastname(),
+//                user.getFirstname(),
+//                user.getLastname(),
                 user.getEmail(),
                 user.getPassword(),
                 mapToGrantedAuthorities(user.getAuthorities()),

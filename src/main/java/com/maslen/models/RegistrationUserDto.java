@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.maslen.deserializers.RegistrationUserDtoDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @JsonDeserialize(using = RegistrationUserDtoDeserializer.class)
 public class RegistrationUserDto {
     @Size(min = 1, max = 256, message = "Wrong first name")
@@ -46,7 +48,8 @@ public class RegistrationUserDto {
     private String phone;
 
     @Pattern(regexp = "[MWX]", message = "Wrong gender")
-    private String gender;
+//    @Size(min = 1, max = 1)
+    private String sex;
 
     @AssertTrue(message = "Confirm the agreement with the conditions")
     private boolean agree;

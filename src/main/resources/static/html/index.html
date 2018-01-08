@@ -2,23 +2,23 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>1_Welcome to MASLEN (=</title>
+    <title>Welcome to MASLEN (=</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
 
     <link href="/css/logIn.css" rel="stylesheet">
 </head>
 <body>
 <a href="login">
-    <button type="button" class="btn btn-primary">Вход</button>
+    <button id="login" type="button" class="btn btn-primary">Вход</button>
 </a>
 <a href="registration">
-    <button type="button" class="btn btn-info">Регистрация</button>
+    <button id="registration" type="button" class="btn btn-info">Регистрация</button>
 </a>
 
 <div class="container">
     <form id="form-signin" class="form-signin" role="form" action="/login" method="post">
         <h2 class="form-signin-heading">Please sign in</h2>
-        <!--type="email"--> <input id="email" class="form-control" placeholder="Email address" required name="email"
+        <!--type="email"--> <input id="email" class="form-control" placeholder="Email address" required name="username"
                                    autofocus>
         <!--type="password"--> <input id="password" class="form-control" placeholder="Password" name="password"
                                       required>

@@ -11,8 +11,8 @@ public class BasicAuthenticateUser implements UserDetails {
 
     private final Long id;
     private final String username;
-    private final String firstname;
-    private final String lastname;
+    //    private final String firstname;
+//    private final String lastname;
     private final String password;
     private final String email;
     private final Collection<? extends GrantedAuthority> authorities;
@@ -22,8 +22,8 @@ public class BasicAuthenticateUser implements UserDetails {
     public BasicAuthenticateUser(
             Long id,
             String username,
-            String firstname,
-            String lastname,
+//            String firstname,
+//            String lastname,
             String email,
             String password, Collection<? extends GrantedAuthority> authorities,
             boolean enabled,
@@ -31,8 +31,8 @@ public class BasicAuthenticateUser implements UserDetails {
     ) {
         this.id = id;
         this.username = username;
-        this.firstname = firstname;
-        this.lastname = lastname;
+//        this.firstname = firstname;
+//        this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
@@ -68,13 +68,13 @@ public class BasicAuthenticateUser implements UserDetails {
         return true;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
+//    public String getFirstname() {
+//        return firstname;
+//    }
+//
+//    public String getLastname() {
+//        return lastname;
+//    }
 
     public String getEmail() {
         return email;

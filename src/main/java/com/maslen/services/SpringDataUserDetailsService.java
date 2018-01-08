@@ -19,12 +19,12 @@ public class SpringDataUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = logInService.login(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = logInService.login(email);
         //.orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", username)));
 
         if (user == null) {
-            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
+            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", email));
         } else {
             return BasicAuthenticateUserFactory.create(user);
         }

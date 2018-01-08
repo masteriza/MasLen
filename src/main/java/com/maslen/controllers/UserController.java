@@ -1,5 +1,7 @@
 package com.maslen.controllers;
 
+//import com.maslen.dao.interfaces.UserDao;
+
 import com.maslen.dao.interfaces.UserDao;
 import com.maslen.models.*;
 import com.maslen.utils.MailService;
@@ -13,7 +15,6 @@ import javax.validation.Valid;
 
 @RestController
 public class UserController {
-
 
     private final UserDao userDao;
     private final RegistrationService registrationService;
@@ -40,10 +41,10 @@ public class UserController {
     public EmailResponseBody restorePassword(@Valid @RequestBody EmailDto emailDto, BindingResult bindingResult) {
         EmailResponseBody emailResponseBody = new EmailResponseBody();
         ////---///
-        Long countEmail = userDao.isRegisteredEmail(emailDto.getEmail());
-        if (countEmail > 0) {
-
-        }
+//        Long countEmail = userDao.isRegisteredEmail(emailDto.getEmail());
+//        if (countEmail > 0) {
+//
+//        }
 
 
         return new EmailResponseBody();
@@ -54,29 +55,27 @@ public class UserController {
     public ValidationResponse addUser(@Valid @RequestBody RegistrationUserDto registrationUserDto, BindingResult bindingResult) {
 
         ValidationResponse response = new ValidationResponse();
-//        if (!bindingResult.hasErrors()) {
-        if (registrationService.validateForm(registrationUserDto, bindingResult)) {
-            User user = new User();// = registrationService.userDtoToUser(registrationUserDto);
-            user.setPassword(registrationService.encodePassword(user.getPassword()));
-            userDao.addUser(user);
-            mailService.sendRegistrationConfirmationEmail(user.getEmail());
-            response.setStatus("SUCCESS");
-        } else {
-            response.setStatus("FAIL");
-            response.setErrorList(bindingResult.getAllErrors());
+        if (!bindingResult.hasErrors()) {
+            if (registrationService.validateForm(registrationUserDto, bindingResult)) {
+                User user = registrationService.userDtoToUser(registrationUserDto);
+                user.setPassword(registrationService.encodePassword(user.getPassword()));
+                userDao.addUser(user);
+                mailService.sendRegistrationConfirmationEmail(user.getEmail());
+                response.setStatus("SUCCESS");
+            } else {
+                response.setStatus("FAIL");
+                response.setErrorList(bindingResult.getAllErrors());
+            }
         }
         return response;
-
-
     }
-
 
     @GetMapping(value = "/confirmRegistration")
     public String processConfirmationEmailResponse(@RequestParam("param") String email) {
         String resultPage = "redirect:/successfulActivation";
-        if (userDao.activateUser(mailService.decryptEmail(email)) < 1) {
+        //if (userDao.activateUser(mailService.decryptEmail(email)) < 1) {
             resultPage = "redirect:/error";
-        }
+        //}
         //todo:доделать нормальный ресспонс
         return resultPage;
     }

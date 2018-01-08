@@ -26,19 +26,19 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User addUser(User user) {
 //        user.setStatus("I");
-        //user.setUserId((int) currentSession().save(user));
+        user.setUserId((long) currentSession().save(user));
         return user;
     }
 
-    @Override
-    public User findUserById(int userId) {
-
-        User user = (User) currentSession().get(User.class, userId);
-//        user.setFirstName(String.valueOf(new java.util.Date()));
-//        currentSession().save(user);
-
-        return user;
-    }
+//    @Override
+//    public User findUserById(int userId) {
+//
+//        User user = (User) currentSession().get(User.class, userId);
+////        user.setFirstName(String.valueOf(new java.util.Date()));
+////        currentSession().save(user);
+//
+//        return user;
+//    }
 
 
 //    @Override
@@ -53,7 +53,7 @@ public class UserDaoImpl implements UserDao {
 //        return user;
 
     @Override
-    public User getUserByEmail(String username) {
+    public User getUserByEmail(String email) {
 //        return currentSession()
 //                .createQuery("select new User( u.email, u.password, u.role) from User u " +
 //                        "inner join Role r on u.role=r.roleId " +
@@ -63,7 +63,7 @@ public class UserDaoImpl implements UserDao {
 
         //currentSession().createQuery("select distinct u from User u inner join fetch u.authorities ", User.class).list()
 
-        return currentSession().createQuery("select distinct u from User u inner join fetch u.authorities WHERE u.email =:username", User.class).setParameter("username", username).uniqueResult();
+        return currentSession().createQuery("select distinct u from User u inner join fetch u.authorities WHERE u.email =:email", User.class).setParameter("email", email).uniqueResult();
 //        return (User) currentSession().createQuery("select new User(u.email, u.authorities) from User u inner JOIN Authority WHERE u.email =:username").setParameter("username",username).getResultList();
 //        return new User();
 
@@ -88,33 +88,35 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public long isRegisteredEmail(String email) {
-        return (long) currentSession()
+    public boolean isRegisteredEmail(String email) {
+        long rowCount = (long) currentSession()
                 .createQuery("select count(*) from User where email =:email")
                 .setParameter("email", email).uniqueResult();
+        return (rowCount > 0) ? true : false;
     }
 
-    @Override
-    public long isRegisteredEmailAndActivated(String email) {
-        return (long) currentSession()
-                .createQuery("select count(*) from User where email =:email")
-                .setParameter("email", email).uniqueResult();
-    }
+//    @Override
+//    public long isRegisteredEmailAndActivated(String email) {
+//        return (long) currentSession()
+//                .createQuery("select count(*) from User where email =:email")
+//                .setParameter("email", email).uniqueResult();
+//    }
 
 
     @Override
-    public long isRegisteredPhone(String number) {
-        return (long) currentSession()
+    public boolean isRegisteredPhone(String number) {
+        long rowCount = (long) currentSession()
                 .createQuery("select count(*) from Phone where number =:number")
                 .setParameter("number", number).uniqueResult();
+        return (rowCount > 0) ? true : false;
     }
 
-    @Override
-    public int activateUser(String email) {
-        return currentSession().createQuery("update User set isActivated = 1 where email =:email")
-                .setParameter("email", email).executeUpdate();
-        //return null;
-    }
+//    @Override
+//    public int activateUser(String email) {
+//        return currentSession().createQuery("update User set isActivated = 1 where email =:email")
+//                .setParameter("email", email).executeUpdate();
+//        //return null;
+//    }
 
 
 }

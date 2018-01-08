@@ -1,6 +1,9 @@
 package com.maslen.controllers;
 
 import com.maslen.models.User;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,25 +17,24 @@ import javax.validation.Valid;
 @Controller
 public class IndexPageController {
     private static final String NAME_MODEL = "user";
+    private static final String INDEX = "index";
+    private static final String LOGIN_SUCCESS = "userPanel";
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     //@PreAuthorize("hasRole('USER')")
     //@PreAuthorize("hasAnyRole('OWNER', 'ADMIN')")
     public String indexPage() {
-//        ModelAndView modelAndView = new ModelAndView();
-//        User user = new User();
-//        modelAndView.addObject(user);
-//        modelAndView.setViewName("redirect:/indexPoint.html");
-        return "index";
-        //return "redirect:/indexPoint.html";
-
+        String view = INDEX;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            view = LOGIN_SUCCESS;
+        }
+        return view;
     }
 
-    //    @RequestMapping("/registrationUser")
     @PostMapping("/registrationUser")
     public ModelAndView registrationUser(@Valid @ModelAttribute(NAME_MODEL)
                                                  User user, BindingResult bindingResult, ModelAndView modelAndView) {
-
         modelAndView.setViewName("indexPoint");
         return modelAndView;
     }
@@ -40,7 +42,6 @@ public class IndexPageController {
     @PostMapping("/loginUser")
     public ModelAndView loginUser(@Valid @ModelAttribute(NAME_MODEL)
                                           User user, BindingResult bindingResult, ModelAndView modelAndView) {
-
         modelAndView.setViewName("indexPoint");
         return modelAndView;
     }

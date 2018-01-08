@@ -23,10 +23,21 @@ public class RegistrationUserDtoDeserializer extends JsonDeserializer {
         String rawPassword = node.get("rawPassword").textValue();
         String repeatRawPassword = node.get("repeatRawPassword").textValue();
         String phone = node.get("phone").textValue();
-        String gender = node.get("gender").textValue();
+        String sex = node.get("sex").textValue();
         boolean agree = node.get("agree").booleanValue();
 
+//        RegistrationUserDto registrationUserDto = new RegistrationUserDto();
+//        registrationUserDto.setLastName(lastName);
+//        registrationUserDto.setFirstName(firstName);
+//        registrationUserDto.setMiddleName(middleName);
+//        registrationUserDto.setBirthday(birthday);
+//        registrationUserDto.setEmail(email);
+//        registrationUserDto.setRawPassword(rawPassword);
+//        registrationUserDto.setRepeatRawPassword(repeatRawPassword);
+//        registrationUserDto.setPhone(phone);
+//        registrationUserDto.setSex(sex);
+//        registrationUserDto.setAgree(agree);
         return new RegistrationUserDto(lastName, firstName, middleName, birthday, email,
-                rawPassword, repeatRawPassword, phone, gender, agree);
+                rawPassword, repeatRawPassword, phone, sex, agree);
     }
 }

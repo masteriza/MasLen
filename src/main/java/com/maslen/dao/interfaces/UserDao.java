@@ -5,16 +5,17 @@ import com.maslen.models.User;
 
 public interface UserDao {
     User addUser(User user);
+//
+//    User findUserById(int userId);
 
-    User findUserById(int userId);
+    User getUserByEmail(String email);
 
-    User getUserByEmail(String username);
+    boolean isRegisteredEmail(String email);
 
-    long isRegisteredEmail(String email);
-
-    long isRegisteredEmailAndActivated(String email);
-
-    long isRegisteredPhone(String phone);
-
-    int activateUser(String email);
+    //
+//    long isRegisteredEmailAndActivated(String email);
+//
+    boolean isRegisteredPhone(String phone);
+//
+//    int activateUser(String email);
 }

@@ -16,7 +16,7 @@ public class LogInServiceImpl implements LogInService {
     }
 
     @Override
-    public User login(String username) {
-        return userDao.getUserByEmail(username);
+    public User login(String email) {
+        return userDao.getUserByEmail(email);
     }
 }

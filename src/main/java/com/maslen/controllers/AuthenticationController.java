@@ -18,8 +18,7 @@ public class AuthenticationController {
     private static final String ERROR = "error";
 
 
-    //    @GetMapping(value = "/login")
-    @RequestMapping(value = "/login", method = {RequestMethod.GET})
+    @GetMapping(value = "/login")
     public String showLogInForm() {
         String view = LOGIN;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -29,23 +28,9 @@ public class AuthenticationController {
         return view;
     }
 
-//    @RequestMapping(value = "/auth", method = {RequestMethod.POST})
-//    public String auth() {
-//        String view = LOGIN;
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-//            view = LOGIN_SUCCESS;
-//        }
-//        return view;
-//    }
-
-
-    //    @PostMapping(value = "/loggedIn")
     @RequestMapping(value = "/loggedIn", method = {RequestMethod.GET, RequestMethod.POST})
     public String processLogIn() {
-//        return LOGIN_SUCCESS;
-        return "redirect:userPanel.html";
-
+        return "redirect:userPanel";
     }
 
     @GetMapping(value = "/logout")
