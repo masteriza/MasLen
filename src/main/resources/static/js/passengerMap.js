@@ -325,9 +325,7 @@ $(document).ready(function () {
                 provideRouteAlternatives: true,
                 travelMode: google.maps.DirectionsTravelMode.DRIVING
             };
-
             requestArray.push({"route": i, "request": request});
-
         });
         processRequests();
     });

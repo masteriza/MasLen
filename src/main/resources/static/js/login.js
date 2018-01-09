@@ -155,7 +155,7 @@ $(document).ready(function () {
                         }
                     } else if (responseData.status === "SUCCESS") {
                         console.log("SUCCESS : ", responseData);
-                        document.location.href = "/successRegistration";
+                        document.location.href = "/registrationSuccess";
                     }
 
 

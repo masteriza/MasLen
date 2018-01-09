@@ -32,9 +32,9 @@ public class UserController {
         return new ModelAndView("registration");
     }
 
-    @GetMapping(value = "/successRegistration")
+    @GetMapping(value = "/registrationSuccess")
     public ModelAndView registrationSuccessPage() {
-        return new ModelAndView("successRegistration");
+        return new ModelAndView("registrationSuccess");
     }
 
 
