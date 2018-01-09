@@ -18,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final int VALIDITY_SECONDS = 604800;
 
-
     @Bean
     public SpringDataUserDetailsService springDataUserDetailsService() {
         return new SpringDataUserDetailsService();
