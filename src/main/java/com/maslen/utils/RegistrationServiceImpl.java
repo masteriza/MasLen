@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 @Component
@@ -56,7 +56,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         return rawPassword.equals(repeatRawPassword);
     }
 
-
     @Override
     public boolean isRegisteredPhone(String phone) {
         return userDao.isRegisteredPhone(phone);
@@ -69,78 +68,24 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public User userDtoToUser(RegistrationUserDto registrationUserDto) {
-        Phone phone = new Phone();
-        phone.setNumber(registrationUserDto.getPhone());
+        Person person = Person.builder()
+                .firstname(registrationUserDto.getFirstName())
+                .lastname(registrationUserDto.getLastName())
+                .middlename(registrationUserDto.getMiddleName())
+                .sex(registrationUserDto.getSex())
+                .birthday(registrationUserDto.getBirthday())
+                .phone(Phone.builder().number(registrationUserDto.getPhone()).build())
+                .status("I".charAt(0)).build();
 
-        Person person = new Person();
-        person.setFirstname(registrationUserDto.getFirstName());
-        person.setLastname(registrationUserDto.getLastName());
-        person.setMiddlename(registrationUserDto.getMiddleName());
-        person.setSex(registrationUserDto.getSex());
-        person.setBirthday(registrationUserDto.getBirthday());
-        person.setPhone(phone);
-        person.setStatus("I".charAt(0));
-
-//        Person person = Person.builder()
-//                .firstname(registrationUserDto.getFirstName())
-//                .lastname(registrationUserDto.getLastName())
-//                .middlename(registrationUserDto.getMiddleName())
-//                .sex(registrationUserDto.getSex())
-//                .birthday(registrationUserDto.getBirthday())
-//                .phone(phone)
-//                .status("I".charAt(0)).build();
-
-//        ArrayList<Authority> authorities = new ArrayList<>();
-//        authorities.add(Authority.builder().name(AuthorityName.ROLE_USER).build());
-
-        User user = new User();
-        user.setUsername(registrationUserDto.getFirstName() + " " + registrationUserDto.getLastName());
-        user.setPassword(registrationUserDto.getRawPassword());
-        user.setEmail(registrationUserDto.getEmail());
-        user.setEnabled(true);
-        user.setIsActivated(false);
-        user.setLastPasswordResetDate(new Date());
-        Authority authority = new Authority();
-        authority.setAuthorityId(Long.valueOf(1));
-        authority.setName(AuthorityName.ROLE_USER);
-
-        ArrayList<User> users = new ArrayList<>();
-        users.add(user);
-        authority.setUsers(users);
-
-        ArrayList<Authority> authorities = new ArrayList<>();
-//        authorities.add(Authority.builder().name(AuthorityName.ROLE_USER).build());
-        authorities.add(authority);
-        user.setAuthorities(authorities);
-//        user.getAuthorities().add(authority);
-
-//        user.getAuthorities().add(Authority.builder().authorityId((long) 1).name(AuthorityName.ROLE_USER).build());
-        user.setPerson(person);
-
-        return user;
-
-        //        Role role = new Role();
-//        role.setRoleName("USER");
-
-
-//        return User.builder()
-//                .username(registrationUserDto.getFirstName() + " " + registrationUserDto.getLastName())
-//                .password(registrationUserDto.getRawPassword())
-//                .email(registrationUserDto.getEmail())
-//                .enabled(true)
-//                .isActivated(false)
-//                .lastPasswordResetDate(new Date())
-//                .authorities(authorities)
-//                .person(person)
-
-//                .sex(registrationUserDto.getSex().charAt(0))
-//                .birthday(registrationUserDto.getBirthday())
-//                .phone(phone)
-//                .role(role)
-//                .status("I".charAt(0))
-//                .isActivated(false)
-//                .build();
+        return User.builder()
+                .username(registrationUserDto.getFirstName() + " " + registrationUserDto.getLastName())
+                .password(registrationUserDto.getRawPassword())
+                .email(registrationUserDto.getEmail())
+                .enabled(true)
+                .isActivated(false)
+                .lastPasswordResetDate(new Date())
+                .authorities(Arrays.asList(Authority.builder().name(AuthorityName.ROLE_USER).build()))
+                .person(person)
+                .build();
     }
-
-
 }

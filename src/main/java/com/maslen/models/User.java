@@ -64,11 +64,14 @@ public class User {
     @NotNull
     private Date lastPasswordResetDate;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "UserAuthority",
-            joinColumns = {@JoinColumn(name = "UserID"/*, referencedColumnName = "UserID"*/)},
-            inverseJoinColumns = {@JoinColumn(name = "AuthorityID"/*, referencedColumnName = "AuthorityID"*/)})
+    //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "UserAuthority",
+//            joinColumns = {@JoinColumn(name = "UserID"/*, referencedColumnName = "UserID"*/)},
+//            inverseJoinColumns = {@JoinColumn(name = "AuthorityID"/*, referencedColumnName = "AuthorityID"*/)})
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "UserID", foreignKey = @ForeignKey(name = "FK_user_authority_id")/* , referencedColumnName = "AuthorityID"*/)
     private List<Authority> authorities;
 
     @OneToOne(cascade = CascadeType.ALL)

@@ -8,10 +8,12 @@ INSERT INTO User (UserID, USERNAME, PASSWORD, EMAIL, ENABLED, LASTPASSWORDRESETD
   (3, 'disabled', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC', 'disabled@user.com', 0,
    '2016-05-20 00:00:00');
 
-INSERT INTO Authority (AuthorityID, NAME) VALUES (1, 'ROLE_USER');
-INSERT INTO Authority (AuthorityID, NAME) VALUES (2, 'ROLE_ADMIN');
+INSERT INTO Authority (AuthorityID, NAME, UserID) VALUES (1, 'ROLE_USER', 1);
+INSERT INTO Authority (AuthorityID, NAME, UserID) VALUES (2, 'ROLE_ADMIN', 1);
+INSERT INTO Authority (AuthorityID, NAME, UserID) VALUES (3, 'ROLE_USER', 2);
+INSERT INTO Authority (AuthorityID, NAME, UserID) VALUES (4, 'ROLE_USER', 3);
 
-INSERT INTO UserAuthority (UserID, AuthorityID) VALUES (1, 1);
-INSERT INTO UserAuthority (UserID, AuthorityID) VALUES (1, 2);
-INSERT INTO UserAuthority (UserID, AuthorityID) VALUES (2, 1);
-INSERT INTO UserAuthority (UserID, AuthorityID) VALUES (3, 1);
+# INSERT INTO UserAuthority (UserID, AuthorityID) VALUES (1, 1);
+# INSERT INTO UserAuthority (UserID, AuthorityID) VALUES (1, 2);
+# INSERT INTO UserAuthority (UserID, AuthorityID) VALUES (2, 1);
+# INSERT INTO UserAuthority (UserID, AuthorityID) VALUES (3, 1);

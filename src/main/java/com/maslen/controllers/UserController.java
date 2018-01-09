@@ -52,15 +52,17 @@ public class UserController {
 
 
     @PostMapping(value = "/user")
-    public ValidationResponse addUser(@Valid @RequestBody RegistrationUserDto registrationUserDto, BindingResult bindingResult) {
+    public MessageResponse addUser(@Valid @RequestBody RegistrationUserDto registrationUserDto, BindingResult bindingResult) {
 
-        ValidationResponse response = new ValidationResponse();
+        MessageResponse response = new MessageResponse();
         if (!bindingResult.hasErrors()) {
             if (registrationService.validateForm(registrationUserDto, bindingResult)) {
                 User user = registrationService.userDtoToUser(registrationUserDto);
                 user.setPassword(registrationService.encodePassword(user.getPassword()));
                 userDao.addUser(user);
                 mailService.sendRegistrationConfirmationEmail(user.getEmail());
+
+
                 response.setStatus("SUCCESS");
             } else {
                 response.setStatus("FAIL");
