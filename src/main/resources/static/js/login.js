@@ -120,6 +120,7 @@ $(document).ready(function () {
         try {
             user["birthday"] = new Date(Date.UTC(birthday_Year, birthday_Month, birthday_Day)).toISOString().substring(0, 10);
         } catch (e) {
+            alert("Дата не валидна и там надо починить нормальное отображение на экране")
             $("#birthday").siblings(".errorspan").text("Не заполнена или неверная дата");
             return;
         }
@@ -142,31 +143,23 @@ $(document).ready(function () {
             data: JSON.stringify(user),
             dataType: 'json',
             success: function (responseData) {
-                if (responseData != "" || responseData != null) {
-                    for (i = 0; i < responseData.errorList.length; i++) {
-                        // responseData.errorList[i].code;
-                        // responseData.errorList[i].dafaultMessage;
-                        // responseData.errorList[i].field;
-                        $("#" + responseData.errorList[i].field).siblings(".errorspan").text();
-                        $("#" + responseData.errorList[i].field).siblings(".errorspan").text(responseData.errorList[i].defaultMessage);
+                if (responseData !== "" || responseData != null) {
+                    if (responseData.status === "FAIL") {
+                        console.log("FAIL : ", responseData);
+                        for (i = 0; i < responseData.errorList.length; i++) {
+                            // responseData.errorList[i].code;
+                            // responseData.errorList[i].dafaultMessage;
+                            // responseData.errorList[i].field;
+                            $("#" + responseData.errorList[i].field).siblings(".errorspan").text();
+                            $("#" + responseData.errorList[i].field).siblings(".errorspan").text(responseData.errorList[i].defaultMessage);
+                        }
+                    } else if (responseData.status === "SUCCESS") {
+                        console.log("SUCCESS : ", responseData);
+                        document.location.href = "/successRegistration";
                     }
+
+
                 }
-                //alert($("#lastName").siblings("span").text());
-
-//                $("#lastName").siblings("span").text("zzzzzzzzzzzzz");
-
-//                alert($("#lastName").siblings("span").text());
-                //$("#tagscloud span").text("Your text here");
-
-                // if (responseData != "") {
-                //     $(".errorSummary").empty().append(responseData);
-                // } else {
-                //     location.href = 'message.jsp';
-                // }
-
-                console.log("SUCCESS : ", responseData);
-                //:todo сделать переход на страницу успешной регистрации
-                //window.location.replace("/driverMap");
             }
         });
     });

@@ -27,10 +27,16 @@ public class UserController {
         this.mailService = mailService;
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    @GetMapping(value = "/registration")
     public ModelAndView registrationPage() {
         return new ModelAndView("registration");
     }
+
+    @GetMapping(value = "/successRegistration")
+    public ModelAndView registrationSuccessPage() {
+        return new ModelAndView("successRegistration");
+    }
+
 
     @GetMapping(value = "/restorePassword")
     public ModelAndView restorePasswordPage() {
@@ -55,28 +61,32 @@ public class UserController {
     public MessageResponse addUser(@Valid @RequestBody RegistrationUserDto registrationUserDto, BindingResult bindingResult) {
 
         MessageResponse response = new MessageResponse();
-        if (!bindingResult.hasErrors()) {
-            if (registrationService.validateForm(registrationUserDto, bindingResult)) {
-                User user = registrationService.userDtoToUser(registrationUserDto);
-                user.setPassword(registrationService.encodePassword(user.getPassword()));
-                userDao.addUser(user);
-                mailService.sendRegistrationConfirmationEmail(user.getEmail());
+//        if (!bindingResult.hasErrors()) {
 
+        if (registrationService.validateForm(registrationUserDto, bindingResult)) {
+            User user = registrationService.userDtoToUser(registrationUserDto);
+            user.setPassword(registrationService.encodePassword(user.getPassword()));
+            userDao.addUser(user);
+            mailService.sendRegistrationConfirmationEmail(user.getEmail());
 
-                response.setStatus("SUCCESS");
-            } else {
-                response.setStatus("FAIL");
-                response.setErrorList(bindingResult.getAllErrors());
-            }
+            response.setStatus("SUCCESS");
+//            response.setMessage("YOU HAVE BEEN SUCCESSFULLY REGISTERED...<br>" +
+//                    "Please confirm your registration!\n" +
+//                    "Your information has been sent successfully. In order to complete your registration, please click the confirmation link in the email that we have sent to you.\n" +
+//                    "Please check, whether the email is in the junk folder of your email account, since confirmation mails with backlinks are sometimes classified as spam.");
+        } else {
+            response.setStatus("FAIL");
+            response.setErrorList(bindingResult.getAllErrors());
         }
         return response;
+//    }
     }
 
     @GetMapping(value = "/confirmRegistration")
     public String processConfirmationEmailResponse(@RequestParam("param") String email) {
         String resultPage = "redirect:/successfulActivation";
         //if (userDao.activateUser(mailService.decryptEmail(email)) < 1) {
-            resultPage = "redirect:/error";
+        resultPage = "redirect:/error";
         //}
         //todo:доделать нормальный ресспонс
         return resultPage;
