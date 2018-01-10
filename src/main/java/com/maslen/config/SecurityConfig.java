@@ -44,6 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/fonts/**",
                         "/registration",
                         "/registrationSuccess",
+                        "/confirmRegistration/**",
+                        "/restorePassword",
                         "/").permitAll()
                 .antMatchers(HttpMethod.POST, "/user").permitAll()
                 .anyRequest().authenticated()

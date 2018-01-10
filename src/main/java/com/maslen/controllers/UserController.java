@@ -51,17 +51,13 @@ public class UserController {
 //        if (countEmail > 0) {
 //
 //        }
-
-
         return new EmailResponseBody();
     }
-
 
     @PostMapping(value = "/user")
     public MessageResponse addUser(@Valid @RequestBody RegistrationUserDto registrationUserDto, BindingResult bindingResult) {
 
         MessageResponse response = new MessageResponse();
-//        if (!bindingResult.hasErrors()) {
 
         if (registrationService.validateForm(registrationUserDto, bindingResult)) {
             User user = registrationService.userDtoToUser(registrationUserDto);
@@ -78,18 +74,22 @@ public class UserController {
             response.setStatus("FAIL");
             response.setErrorList(bindingResult.getAllErrors());
         }
+
         return response;
-//    }
     }
 
     @GetMapping(value = "/confirmRegistration")
-    public String processConfirmationEmailResponse(@RequestParam("param") String email) {
-        String resultPage = "redirect:/successfulActivation";
-        //if (userDao.activateUser(mailService.decryptEmail(email)) < 1) {
-        resultPage = "redirect:/error";
-        //}
-        //todo:доделать нормальный ресспонс
-        return resultPage;
+    public ModelAndView processConfirmationEmailResponse(@RequestParam(value = "p", required = false) String decryptEmail) {
+        ModelAndView modelAndView = new ModelAndView("activationFailed");
+        try {
+            String email = mailService.decryptEmail(decryptEmail);
+            if (userDao.activateUser(email)) {
+                modelAndView.setViewName("activationSuccessful");
+            }
+        } catch (RuntimeException e) {
+            System.out.println("Мы так и не смогли расшифровать емайл или его не прислали");
+        }
+        return modelAndView;
     }
 
 

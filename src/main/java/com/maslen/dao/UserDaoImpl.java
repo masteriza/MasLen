@@ -111,12 +111,12 @@ public class UserDaoImpl implements UserDao {
         return (rowCount > 0) ? true : false;
     }
 
-//    @Override
-//    public int activateUser(String email) {
-//        return currentSession().createQuery("update User set isActivated = 1 where email =:email")
-//                .setParameter("email", email).executeUpdate();
-//        //return null;
-//    }
+    @Override
+    public boolean activateUser(String email) {
+        long rowCount = (long) currentSession().createQuery("update User set isActivated = 1 where email =:email")
+                .setParameter("email", email).executeUpdate();
+        return (rowCount > 0) ? true : false;
+    }
 
 
 }

@@ -48,8 +48,7 @@ public class MailService {
         String subject = "Confirm your registration on Maslen";
         String body = "Registration confirmation \n" +
                 "In order to complete your registration on MessageApp, please, follow this link: " +
-                "http://localhost:8080/confirmRegistration?param=" + stringEmailAES + "\n" +
-                //"The link is valid till %s inclusive.%n" +
+                "http://localhost:8080/confirmRegistration?p=" + stringEmailAES + "\n" +
                 "If this email was sent to you by mistake, please, do not reply.";
         sendMail(OUR_EMAIL, email, subject, body);
 
