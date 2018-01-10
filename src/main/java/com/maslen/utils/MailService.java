@@ -53,4 +53,25 @@ public class MailService {
         sendMail(OUR_EMAIL, email, subject, body);
 
     }
+
+    public void sendRestorePasswordEmail(String email) {
+        String stringEmailAES = "";
+
+        try {
+            stringEmailAES = Aes.encrypt(email, ENCRYPT_KEY);
+
+        } catch (Exception e) {
+
+            System.out.println("Шифронатор не зашифровал");
+        }
+
+        String subject = "Reset password for Maslen";
+        String body = "For password recovery, please, click on the link \n" +
+                "http://localhost:8080/resetPassword?p=" + stringEmailAES + "\n" +
+                "If this email was sent to you by mistake, please, do not reply.";
+        sendMail(OUR_EMAIL, email, subject, body);
+
+    }
+
+
 }

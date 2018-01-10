@@ -18,7 +18,7 @@ import java.util.List;
 public class User {
 
     @Id
-    @Column(name = "UserID")
+    @Column(name = "UserID", unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
 //    @OneToOne(cascade = CascadeType.ALL)
@@ -26,7 +26,7 @@ public class User {
 //    @OneToOne(fetch = FetchType.LAZY, mappedBy = "personID", cascade = CascadeType.ALL)
     private Long userId;
 
-    @Column(name = "UserName", length = 50, unique = true)
+    @Column(name = "UserName", length = 50)
     @NotNull
     @Size(min = 4, max = 50)
     private String username;
@@ -46,7 +46,7 @@ public class User {
 //    @Size(min = 4, max = 50)
 //    private String lastname;
 
-    @Column(name = "Email", length = 50)
+    @Column(name = "Email", length = 50, unique = true)
     @NotNull
     @Size(min = 4, max = 50)
     private String email;
@@ -64,15 +64,13 @@ public class User {
     @NotNull
     private Date lastPasswordResetDate;
 
-    //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "UserAuthority",
-//            joinColumns = {@JoinColumn(name = "UserID"/*, referencedColumnName = "UserID"*/)},
-//            inverseJoinColumns = {@JoinColumn(name = "AuthorityID"/*, referencedColumnName = "AuthorityID"*/)})
-
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "UserID", foreignKey = @ForeignKey(name = "FK_user_authority_id")/* , referencedColumnName = "AuthorityID"*/)
     private List<Authority> authorities;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "UserID", foreignKey = @ForeignKey(name = "FK_user_userActivity_id"))
+    private List<UserActivity> userActivity;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PersonID")

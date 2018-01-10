@@ -95,12 +95,13 @@ public class UserDaoImpl implements UserDao {
         return (rowCount > 0) ? true : false;
     }
 
-//    @Override
-//    public long isRegisteredEmailAndActivated(String email) {
-//        return (long) currentSession()
-//                .createQuery("select count(*) from User where email =:email")
-//                .setParameter("email", email).uniqueResult();
-//    }
+    @Override
+    public boolean isRegisteredEmailAndActivated(String email) {
+        long rowCount = (long) currentSession()
+                .createQuery("select count(*) from User where email =:email and isActivated = true")
+                .setParameter("email", email).uniqueResult();
+        return (rowCount > 0) ? true : false;
+    }
 
 
     @Override

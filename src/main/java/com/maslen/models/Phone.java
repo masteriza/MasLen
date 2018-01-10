@@ -12,12 +12,16 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "phones")
+@Table(name = "Phones")
 public class Phone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "phoneId")
+    @Column(name = "PhoneID", unique = true)
     private int phoneId;
 
+    @Column(name = "Number", unique = true)
     private String number;
+
+    @Column(name = "Status")
+    private String status;
 }

@@ -16,6 +16,8 @@ import javax.validation.Valid;
 @RestController
 public class UserController {
 
+    private static final String EMAIL_NOT_REGISTERD = "Email is not registered!";
+
     private final UserDao userDao;
     private final RegistrationService registrationService;
     private final MailService mailService;
@@ -44,13 +46,21 @@ public class UserController {
     }
 
     @PostMapping(value = "/restorePassword")
+//    public EmailResponseBody restorePassword(@Valid @RequestBody EmailDto emailDto, BindingResult bindingResult) {
     public EmailResponseBody restorePassword(@Valid @RequestBody EmailDto emailDto, BindingResult bindingResult) {
+
+        String email = emailDto.getEmail();
+
+        if (userDao.isRegisteredEmailAndActivated(email)) {
+            bindingResult.rejectValue("email", "error.user.email.nonRegistered", EMAIL_NOT_REGISTERD);
+        }
+
+        if (!bindingResult.hasErrors()) {
+
+        }
+
         EmailResponseBody emailResponseBody = new EmailResponseBody();
-        ////---///
-//        Long countEmail = userDao.isRegisteredEmail(emailDto.getEmail());
-//        if (countEmail > 0) {
-//
-//        }
+
         return new EmailResponseBody();
     }
 
