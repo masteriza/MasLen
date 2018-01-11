@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 @Repository
 @Transactional
 public class UserDaoImpl implements UserDao {
@@ -25,7 +27,6 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User addUser(User user) {
-//        user.setStatus("I");
         user.setUserId((long) currentSession().save(user));
         return user;
     }
@@ -54,37 +55,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserByEmail(String email) {
-//        return currentSession()
-//                .createQuery("select new User( u.email, u.password, u.role) from User u " +
-//                        "inner join Role r on u.role=r.roleId " +
-//                        "WHERE u.email =:username")
-//                .setParameter("username", username)
-//                .uniqueResultOptional();
-
-        //currentSession().createQuery("select distinct u from User u inner join fetch u.authorities ", User.class).list()
-
         return currentSession().createQuery("select distinct u from User u inner join fetch u.authorities WHERE u.email =:email", User.class).setParameter("email", email).uniqueResult();
-//        return (User) currentSession().createQuery("select new User(u.email, u.authorities) from User u inner JOIN Authority WHERE u.email =:username").setParameter("username",username).getResultList();
-//        return new User();
-
-
-//        return currentSession()
-//                .createQuery("select new User( u.username, u.password, u.role) " +
-//                        "from User u inner join Role r on u.role=r.roleId where username =:username", User.class)
-//                .setParameter("username", username).uniqueResultOptional();
-
-//        return currentSession()
-//                .createQuery("select new User( u.username, u.password, u.role)" +
-//                        "from Role r inner join User u on u.role=r.roleId", Role.class);
-
-        //.list();
-
-
-//        return currentSession()
-//                .createQuery("select new User( username, password, role) " +
-//                        "from User where username =:username", User.class)
-//                .setParameter("username", username).uniqueResultOptional();
-
     }
 
     @Override
@@ -96,7 +67,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean isRegisteredEmailAndActivated(String email) {
+    public boolean isConfirmationEmail(String email) {
         long rowCount = (long) currentSession()
                 .createQuery("select count(*) from User where email =:email and isActivated = true")
                 .setParameter("email", email).uniqueResult();
@@ -117,6 +88,11 @@ public class UserDaoImpl implements UserDao {
         long rowCount = (long) currentSession().createQuery("update User set isActivated = 1 where email =:email")
                 .setParameter("email", email).executeUpdate();
         return (rowCount > 0) ? true : false;
+    }
+
+    @Override
+    public void addUserActivity(Date endDate, String action, String session, String status) {
+
     }
 
 

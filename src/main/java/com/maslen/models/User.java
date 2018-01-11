@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -62,7 +62,7 @@ public class User {
     @Column(name = "LastPasswordResetDate")
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
-    private Date lastPasswordResetDate;
+    private LocalDateTime lastPasswordResetDate;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "UserID", foreignKey = @ForeignKey(name = "FK_user_authority_id")/* , referencedColumnName = "AuthorityID"*/)

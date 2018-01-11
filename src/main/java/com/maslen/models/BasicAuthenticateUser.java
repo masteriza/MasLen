@@ -4,35 +4,29 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 
 public class BasicAuthenticateUser implements UserDetails {
 
     private final Long id;
     private final String username;
-    //    private final String firstname;
-//    private final String lastname;
     private final String password;
     private final String email;
     private final Collection<? extends GrantedAuthority> authorities;
     private final boolean enabled;
-    private final Date lastPasswordResetDate;
+    private final LocalDateTime lastPasswordResetDate;
 
     public BasicAuthenticateUser(
             Long id,
             String username,
-//            String firstname,
-//            String lastname,
             String email,
             String password, Collection<? extends GrantedAuthority> authorities,
             boolean enabled,
-            Date lastPasswordResetDate
+            LocalDateTime lastPasswordResetDate
     ) {
         this.id = id;
         this.username = username;
-//        this.firstname = firstname;
-//        this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
@@ -68,14 +62,6 @@ public class BasicAuthenticateUser implements UserDetails {
         return true;
     }
 
-//    public String getFirstname() {
-//        return firstname;
-//    }
-//
-//    public String getLastname() {
-//        return lastname;
-//    }
-
     public String getEmail() {
         return email;
     }
@@ -97,7 +83,7 @@ public class BasicAuthenticateUser implements UserDetails {
     }
 
     @JsonIgnore
-    public Date getLastPasswordResetDate() {
+    public LocalDateTime getLastPasswordResetDate() {
         return lastPasswordResetDate;
     }
 }

@@ -24,18 +24,21 @@ public class UserActivity {
     @JoinColumn(name = "UserID")
     private User user;
 
-    @Column(name = "Date")
+    @Column(name = "CreateDate")
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
-    private Date date;
+    private Date createDate;
+
+    @Column(name = "EndDate")
+    private Date endDate;
 
     @Column(name = "Action", length = 50)
     @NotNull
     private String action;
 
-    @Column(name = "ActionVerify", length = 50)
+    @Column(name = "Session", length = 50)
     @NotNull
-    private String actionVerify;
+    private String session;
 
     @Column(name = "Status", nullable = false)
     private char status;

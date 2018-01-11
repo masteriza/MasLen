@@ -16,20 +16,10 @@ import java.time.LocalDate;
 @Table(name = "Persons")
 public class Person {
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @PrimaryKeyJoinColumn
-//    private User user;
-
     @Id
     @Column(name = "PersonID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long personID;
-
-
-//    @Column(name = "UserName", length = 50, unique = true)
-//    @NotNull
-//    @Size(min = 4, max = 50)
-//    private String username;
 
     @Column(name = "FirstName", length = 50)
     @NotNull

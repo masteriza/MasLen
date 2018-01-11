@@ -3,7 +3,10 @@ package com.maslen.controllers;
 //import com.maslen.dao.interfaces.UserDao;
 
 import com.maslen.dao.interfaces.UserDao;
-import com.maslen.models.*;
+import com.maslen.models.EmailDto;
+import com.maslen.models.MessageResponseBody;
+import com.maslen.models.RegistrationUserDto;
+import com.maslen.models.User;
 import com.maslen.utils.MailService;
 import com.maslen.utils.interfaces.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +15,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Date;
+import java.util.UUID;
 
 @RestController
 public class UserController {
 
-    private static final String EMAIL_NOT_REGISTERD = "Email is not registered!";
+    private static final String EMAIL_NOT_REGISTERED = "Email is not registered";
+    private static final String EMAIL_NOT_CONFIRMED = "Your Email has not been activated. Check your email and follow the instructions";
 
     private final UserDao userDao;
     private final RegistrationService registrationService;
@@ -47,27 +53,37 @@ public class UserController {
 
     @PostMapping(value = "/restorePassword")
 //    public EmailResponseBody restorePassword(@Valid @RequestBody EmailDto emailDto, BindingResult bindingResult) {
-    public EmailResponseBody restorePassword(@Valid @RequestBody EmailDto emailDto, BindingResult bindingResult) {
+    public MessageResponseBody restorePassword(@Valid @RequestBody EmailDto emailDto, BindingResult bindingResult) {
+
+        MessageResponseBody messageResponseBody = new MessageResponseBody();
 
         String email = emailDto.getEmail();
 
-        if (userDao.isRegisteredEmailAndActivated(email)) {
-            bindingResult.rejectValue("email", "error.user.email.nonRegistered", EMAIL_NOT_REGISTERD);
-        }
-
-        if (!bindingResult.hasErrors()) {
+        if (!userDao.isRegisteredEmail(email)) {
+            bindingResult.rejectValue("email", "error.user.email.nonRegistered", EMAIL_NOT_REGISTERED);
 
         }
 
-        EmailResponseBody emailResponseBody = new EmailResponseBody();
+        if (!userDao.isConfirmationEmail(email)) {
+            bindingResult.rejectValue("email", "error.user.email.nonConfirmed", EMAIL_NOT_CONFIRMED);
+            mailService.sendRegistrationConfirmationEmail(email);
+        }
 
-        return new EmailResponseBody();
+        if (bindingResult.hasErrors()) {
+            messageResponseBody.setErrorList(bindingResult.getAllErrors());
+        } else {
+            userDao.addUserActivity(new Date(), "P", UUID.randomUUID().toString(), "A");
+            mailService.sendRestorePasswordEmail(email);
+        }
+
+
+        return messageResponseBody;
     }
 
     @PostMapping(value = "/user")
-    public MessageResponse addUser(@Valid @RequestBody RegistrationUserDto registrationUserDto, BindingResult bindingResult) {
+    public MessageResponseBody addUser(@Valid @RequestBody RegistrationUserDto registrationUserDto, BindingResult bindingResult) {
 
-        MessageResponse response = new MessageResponse();
+        MessageResponseBody response = new MessageResponseBody();
 
         if (registrationService.validateForm(registrationUserDto, bindingResult)) {
             User user = registrationService.userDtoToUser(registrationUserDto);

@@ -2,8 +2,12 @@ package com.maslen.models;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class MessageResponseBody {
-    String message;
-    String code;
+    private List message;
+    private String code;
+    private String status;
+    private List errorList;
 }
