@@ -2,13 +2,12 @@ package com.maslen.dao;
 
 import com.maslen.dao.interfaces.UserDao;
 import com.maslen.models.User;
+import com.maslen.models.UserActivity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Date;
 
 @Repository
 @Transactional
@@ -91,8 +90,9 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void addUserActivity(Date endDate, String action, String session, String status) {
-
+    public boolean addUserActivity(UserActivity userActivity) {
+        long idInsertRow = (long) currentSession().save(userActivity);
+        return (idInsertRow > 0) ? true : false;
     }
 
 

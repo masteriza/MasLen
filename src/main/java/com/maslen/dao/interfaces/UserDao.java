@@ -1,8 +1,7 @@
 package com.maslen.dao.interfaces;
 
 import com.maslen.models.User;
-
-import java.util.Date;
+import com.maslen.models.UserActivity;
 
 public interface UserDao {
 
@@ -18,5 +17,5 @@ public interface UserDao {
 
     boolean activateUser(String email);
 
-    void addUserActivity(Date endDate, String action, String session, String status);
+    boolean addUserActivity(UserActivity userActivity);
 }

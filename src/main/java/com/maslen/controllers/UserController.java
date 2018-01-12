@@ -3,10 +3,7 @@ package com.maslen.controllers;
 //import com.maslen.dao.interfaces.UserDao;
 
 import com.maslen.dao.interfaces.UserDao;
-import com.maslen.models.EmailDto;
-import com.maslen.models.MessageResponseBody;
-import com.maslen.models.RegistrationUserDto;
-import com.maslen.models.User;
+import com.maslen.models.*;
 import com.maslen.utils.MailService;
 import com.maslen.utils.interfaces.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @RestController
@@ -61,7 +58,6 @@ public class UserController {
 
         if (!userDao.isRegisteredEmail(email)) {
             bindingResult.rejectValue("email", "error.user.email.nonRegistered", EMAIL_NOT_REGISTERED);
-
         }
 
         if (!userDao.isConfirmationEmail(email)) {
@@ -72,7 +68,13 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             messageResponseBody.setErrorList(bindingResult.getAllErrors());
         } else {
-            userDao.addUserActivity(new Date(), "P", UUID.randomUUID().toString(), "A");
+            UserActivity userActivity = UserActivity.builder()
+                    .endDate(LocalDateTime.now())
+                    .action('R')
+                    .session(UUID.randomUUID().toString())
+                    .status('A').build();
+
+            userDao.addUserActivity(userActivity);
             mailService.sendRestorePasswordEmail(email);
         }
 

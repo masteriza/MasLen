@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -14,16 +14,12 @@ import java.util.List;
 @Builder
 @ToString(exclude = "authorities")
 @Entity
-@Table(name = "User")
+@Table(name = "Users")
 public class User {
 
     @Id
     @Column(name = "UserID", unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "PersonID", foreignKey = @ForeignKey(name = "FK_users_persons_id"))
-//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "personID", cascade = CascadeType.ALL)
     private Long userId;
 
     @Column(name = "UserName", length = 50)
@@ -35,16 +31,6 @@ public class User {
     @NotNull
     @Size(min = 4, max = 100)
     private String password;
-
-//    @Column(name = "FirstName", length = 50)
-//    @NotNull
-//    @Size(min = 4, max = 50)
-//    private String firstname;
-//
-//    @Column(name = "LastName", length = 50)
-//    @NotNull
-//    @Size(min = 4, max = 50)
-//    private String lastname;
 
     @Column(name = "Email", length = 50, unique = true)
     @NotNull
@@ -62,10 +48,10 @@ public class User {
     @Column(name = "LastPasswordResetDate")
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
-    private LocalDateTime lastPasswordResetDate;
+    private Date lastPasswordResetDate;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "UserID", foreignKey = @ForeignKey(name = "FK_user_authority_id")/* , referencedColumnName = "AuthorityID"*/)
+    @JoinColumn(name = "UserID", foreignKey = @ForeignKey(name = "FK_user_authority_id"))
     private List<Authority> authorities;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -75,7 +61,6 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PersonID")
     private Person person;
-
 
     public User(String email) {
         this.email = email;

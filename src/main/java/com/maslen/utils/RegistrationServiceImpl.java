@@ -8,8 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Date;
 
 @Component
 public class RegistrationServiceImpl implements RegistrationService {
@@ -83,7 +83,7 @@ public class RegistrationServiceImpl implements RegistrationService {
                 .email(registrationUserDto.getEmail())
                 .enabled(true)
                 .isActivated(false)
-                .lastPasswordResetDate(LocalDateTime.now())
+                .lastPasswordResetDate(new Date())
                 .authorities(Arrays.asList(Authority.builder().name(AuthorityName.ROLE_USER).build()))
                 .person(person)
                 .build();

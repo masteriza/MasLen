@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -24,17 +25,17 @@ public class UserActivity {
     @JoinColumn(name = "UserID")
     private User user;
 
-    @Column(name = "CreateDate")
+    @Column(name = "CreateDateTime")
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     private Date createDate;
 
-    @Column(name = "EndDate")
-    private Date endDate;
+    @Column(name = "EndDateTime")
+    private LocalDateTime endDate;
 
     @Column(name = "Action", length = 50)
-    @NotNull
-    private String action;
+    @NotNull //R - restore password; E - entrance user; C - confirm email; S - registration user
+    private char action;
 
     @Column(name = "Session", length = 50)
     @NotNull
