@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 @RestController
@@ -53,31 +54,32 @@ public class UserController {
     public MessageResponseBody restorePassword(@Valid @RequestBody EmailDto emailDto, BindingResult bindingResult) {
 
         MessageResponseBody messageResponseBody = new MessageResponseBody();
-
         String email = emailDto.getEmail();
 
         if (!userDao.isRegisteredEmail(email)) {
             bindingResult.rejectValue("email", "error.user.email.nonRegistered", EMAIL_NOT_REGISTERED);
-        }
-
-        if (!userDao.isConfirmationEmail(email)) {
+        } else if (!userDao.isConfirmationEmail(email)) {
             bindingResult.rejectValue("email", "error.user.email.nonConfirmed", EMAIL_NOT_CONFIRMED);
             mailService.sendRegistrationConfirmationEmail(email);
         }
 
         if (bindingResult.hasErrors()) {
             messageResponseBody.setErrorList(bindingResult.getAllErrors());
+            messageResponseBody.setStatus("FAIL");
         } else {
+//            Long userId = userDao.getUserByEmail(email).getUserId();
             UserActivity userActivity = UserActivity.builder()
-                    .endDate(LocalDateTime.now())
+                    .user(userDao.getUserByEmail(email))
+                    .createDate(new Date())
+                    .endDate(LocalDateTime.now().plusDays(1))
                     .action('R')
                     .session(UUID.randomUUID().toString())
                     .status('A').build();
 
             userDao.addUserActivity(userActivity);
-            mailService.sendRestorePasswordEmail(email);
+            mailService.sendRestorePasswordEmail(email, userActivity);
+            messageResponseBody.setStatus("OK");
         }
-
 
         return messageResponseBody;
     }
@@ -93,7 +95,7 @@ public class UserController {
             userDao.addUser(user);
             mailService.sendRegistrationConfirmationEmail(user.getEmail());
 
-            response.setStatus("SUCCESS");
+            response.setStatus("OK");
 //            response.setMessage("YOU HAVE BEEN SUCCESSFULLY REGISTERED...<br>" +
 //                    "Please confirm your registration!\n" +
 //                    "Your information has been sent successfully. In order to complete your registration, please click the confirmation link in the email that we have sent to you.\n" +

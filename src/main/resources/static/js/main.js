@@ -67,6 +67,10 @@ $(document).ready(function () {
     $('#btnRestorePassword').click(function () {
         var userEmail = {};
 
+        $('.errorspan').each(function () {
+            $(this).text("");
+        });
+
         userEmail["email"] = $("#email").val();
 
         $.ajax({
@@ -76,10 +80,19 @@ $(document).ready(function () {
             data: JSON.stringify(userEmail),
             dataType: 'json',
             success: function (responseData) {
-                if (responseData != "") {
-                    $(".errorSummary").empty().append(responseData);
-                } else {
-                    location.href = 'message.jsp';
+                if (responseData !== "" || responseData != null) {
+                    if (responseData.status === "FAIL") {
+                        console.log("FAIL : ", responseData);
+                        for (i = 0; i < responseData.errorList.length; i++) {
+                            $("#" + responseData.errorList[i].field).siblings(".errorspan").text();
+                            $("#" + responseData.errorList[i].field).siblings(".errorspan").text(responseData.errorList[i].defaultMessage);
+                        }
+                    } else if (responseData.status === "OK") {
+                        console.log("OK : ", responseData);
+                        document.location.href = "/registrationSuccess";
+                    }
+
+
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -154,8 +167,8 @@ $(document).ready(function () {
                             $("#" + responseData.errorList[i].field).siblings(".errorspan").text();
                             $("#" + responseData.errorList[i].field).siblings(".errorspan").text(responseData.errorList[i].defaultMessage);
                         }
-                    } else if (responseData.status === "SUCCESS") {
-                        console.log("SUCCESS : ", responseData);
+                    } else if (responseData.status === "OK") {
+                        console.log("OK : ", responseData);
                         document.location.href = "/registrationSuccess";
                     }
 

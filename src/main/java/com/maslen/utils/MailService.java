@@ -1,5 +1,6 @@
 package com.maslen.utils;
 
+import com.maslen.models.UserActivity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.MailSender;
@@ -54,10 +55,11 @@ public class MailService {
 
     }
 
-    public void sendRestorePasswordEmail(String email) {
+    public void sendRestorePasswordEmail(String email, UserActivity userActivity) {
         String subject = "Reset password for Maslen";
         String body = "For password recovery, please, click on the link \n" +
-                "http://localhost:8080/resetPassword?p=" + /*stringEmailAES + */"\n" +
+                "http://localhost:8080/resetPassword?p=" + userActivity.getSession() + "\n" +
+                "This link will be active until " + userActivity.getEndDate() + "\n" +
                 "If this email was sent to you by mistake, please, do not reply.";
         sendMail(OUR_EMAIL, email, subject, body);
 
