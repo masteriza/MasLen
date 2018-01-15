@@ -40,28 +40,35 @@ public class MailService {
         String stringEmailAES = "";
         try {
             stringEmailAES = Aes.encrypt(email, ENCRYPT_KEY);
+
+            String subject = "Confirm your registration on Maslen";
+            String body = "Registration confirmation \n" +
+                    "In order to complete your registration on MessageApp, please, follow this link: " +
+                    "http://localhost:8080/confirmRegistration?p=" + stringEmailAES + "\n" +
+                    "If this email was sent to you by mistake, please, do not reply.";
+            sendMail(OUR_EMAIL, email, subject, body);
+
         } catch (Exception e) {
             //todo: надо нормально залогировать
             System.out.println("Шифронатор дал сбой");
         }
-        //todo: реализовать на "токенах" хранящихся в БД с обределенным сроком
-
-        String subject = "Confirm your registration on Maslen";
-        String body = "Registration confirmation \n" +
-                "In order to complete your registration on MessageApp, please, follow this link: " +
-                "http://localhost:8080/confirmRegistration?p=" + stringEmailAES + "\n" +
-                "If this email was sent to you by mistake, please, do not reply.";
-        sendMail(OUR_EMAIL, email, subject, body);
-
     }
 
-    public void sendRestorePasswordEmail(String email, UserActivity userActivity) {
-        String subject = "Reset password for Maslen";
-        String body = "For password recovery, please, click on the link \n" +
-                "http://localhost:8080/resetPassword?p=" + userActivity.getSession() + "\n" +
-                "This link will be active until " + userActivity.getEndDate() + "\n" +
-                "If this email was sent to you by mistake, please, do not reply.";
-        sendMail(OUR_EMAIL, email, subject, body);
+    public void sendRestorePasswordEmail(String email, long userId, UserActivity userActivity) {
+        try {
+            String encryptUserId = Aes.encrypt(String.valueOf(userId), ENCRYPT_KEY);
+            String subject = "Reset password for Maslen";
+            String body = "For password recovery, please, click on the link \n" +
+                    "http://localhost:8080/resetPassword?id=" + encryptUserId + "&p=" + userActivity.getSession() + "\n" +
+                    "This link will be active until " + userActivity.getEndDate() + "\n" +
+                    "If this email was sent to you by mistake, please, do not reply.";
+            sendMail(OUR_EMAIL, email, subject, body);
+
+        } catch (Exception e) {
+            //todo: надо нормально залогировать
+            System.out.println("Шифронатор дал сбой");
+        }
+
 
     }
 

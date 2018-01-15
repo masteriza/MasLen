@@ -50,7 +50,6 @@ public class UserController {
     }
 
     @PostMapping(value = "/restorePassword")
-//    public EmailResponseBody restorePassword(@Valid @RequestBody EmailDto emailDto, BindingResult bindingResult) {
     public MessageResponseBody restorePassword(@Valid @RequestBody EmailDto emailDto, BindingResult bindingResult) {
 
         MessageResponseBody messageResponseBody = new MessageResponseBody();
@@ -67,9 +66,9 @@ public class UserController {
             messageResponseBody.setErrorList(bindingResult.getAllErrors());
             messageResponseBody.setStatus("FAIL");
         } else {
-//            Long userId = userDao.getUserByEmail(email).getUserId();
+            User user = userDao.getUserByEmail(email);
             UserActivity userActivity = UserActivity.builder()
-                    .user(userDao.getUserByEmail(email))
+                    .user(user)
                     .createDate(new Date())
                     .endDate(LocalDateTime.now().plusDays(1))
                     .action('R')
@@ -77,12 +76,24 @@ public class UserController {
                     .status('A').build();
 
             userDao.addUserActivity(userActivity);
-            mailService.sendRestorePasswordEmail(email, userActivity);
+            mailService.sendRestorePasswordEmail(email, user.getUserId(), userActivity);
             messageResponseBody.setStatus("OK");
         }
 
         return messageResponseBody;
     }
+
+//    @GetMapping(value = "/resetPassword")
+//    public ModelAndView restorePasswordPage() {
+//        return new ModelAndView("restorePassword");
+//    }
+
+//    @RequestMapping(value = "/resetPassword")
+//    public ModelAndView processConfirmationEmailResponse(@RequestParam(value = "p", required = false) String password,
+//                                                         @RequestParam(value = "z", required = false) String ssas) {
+//
+//
+//    }
 
     @PostMapping(value = "/user")
     public MessageResponseBody addUser(@Valid @RequestBody RegistrationUserDto registrationUserDto, BindingResult bindingResult) {
