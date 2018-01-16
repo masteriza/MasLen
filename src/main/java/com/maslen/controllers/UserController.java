@@ -83,10 +83,15 @@ public class UserController {
         return messageResponseBody;
     }
 
-//    @GetMapping(value = "/resetPassword")
-//    public ModelAndView restorePasswordPage() {
-//        return new ModelAndView("restorePassword");
-//    }
+    @GetMapping(value = "/restorePasswordStart")
+    public ModelAndView restorePasswordStartPage() {
+        return new ModelAndView("restorePasswordStart");
+    }
+
+    @GetMapping(value = "/resetPassword")
+    public ModelAndView resetPasswordPage() {
+        return new ModelAndView("resetPassword");
+    }
 
 //    @RequestMapping(value = "/resetPassword")
 //    public ModelAndView processConfirmationEmailResponse(@RequestParam(value = "p", required = false) String password,

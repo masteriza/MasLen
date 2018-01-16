@@ -89,7 +89,7 @@ $(document).ready(function () {
                         }
                     } else if (responseData.status === "OK") {
                         console.log("OK : ", responseData);
-                        document.location.href = "/registrationSuccess";
+                        document.location.href = "/restorePasswordStart";
                     }
 
 
@@ -178,28 +178,11 @@ $(document).ready(function () {
         });
     });
 
-    // $("#form-signin1").submit(function (event) {
-    //     var $form = $(this);
-    //     var data = {
-    //         username: $form.find('input[name="username"]').val(),
-    //         password: $form.find('input[name="password"]').val()
-    //     };
-    //
-    //     $.ajax({
-    //         type: "POST",
-    //         url: "/login",
-    //         data: data,
-    //         success: function (responseData) {
-    //             //window.location.replace("/userPanel");
-    //         },
-    //         error: function (jqXHR, textStatus, errorThrown) {
-    //             if (jqXHR.status === 401) {
-    //                 console.log("Fail");
-    //                 alert(jqXHR.status);
-    //             }
-    //         }
-    //     });
-    // });
+    $('#btnResetPassword').click(function () {
+        // $("#id").val();
+        alert($("#id").val());
+        alert($("#password").val());
+    });
 
 
 });
