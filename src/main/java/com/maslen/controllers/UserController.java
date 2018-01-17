@@ -93,12 +93,11 @@ public class UserController {
         return new ModelAndView("resetPassword");
     }
 
-//    @RequestMapping(value = "/resetPassword")
-//    public ModelAndView processConfirmationEmailResponse(@RequestParam(value = "p", required = false) String password,
-//                                                         @RequestParam(value = "z", required = false) String ssas) {
-//
-//
-//    }
+    @PostMapping(value = "/resetPassword")
+    public MessageResponseBody processResetPassword(@Valid @RequestBody ResetPasswordDto resetPasswordDto, BindingResult bindingResult) {
+        MessageResponseBody response = new MessageResponseBody();
+        return response;
+    }
 
     @PostMapping(value = "/user")
     public MessageResponseBody addUser(@Valid @RequestBody RegistrationUserDto registrationUserDto, BindingResult bindingResult) {
@@ -125,7 +124,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/confirmRegistration")
-    public ModelAndView processConfirmationEmailResponse(@RequestParam(value = "p", required = false) String decryptEmail) {
+    public ModelAndView processConfirmationEmail(@RequestParam(value = "p", required = false) String decryptEmail) {
         ModelAndView modelAndView = new ModelAndView("activationFailed");
         try {
             String email = mailService.decryptEmail(decryptEmail);

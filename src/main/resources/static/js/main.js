@@ -110,23 +110,10 @@ $(document).ready(function () {
         });
 
         var birthday_Day = $("#birthday_Day option:selected").val();
-        // if (typeof birthday_Day !== "number") {
-        //     alert("Не заполнена дата рождения");
-        //     return;
-        // }
         var birthday_Month = $("#birthday_Month option:selected").val();
-        // if (typeof birthday_Month !== "number") {
-        //     alert("Не заполнена месяц рождения");
-        //     return;
-        // }
         var birthday_Year = $("#birthday_Year option:selected").val();
-        // if (typeof birthday_Year !== "number") {
-        //     alert("Не заполнена год рождения");
-        //     return;
-        // }
 
         var user = {};
-        //user["userId"] = 0;
         user["lastName"] = $("#lastName").val();
         user["firstName"] = $("#firstName").val();
         user["middleName"] = $("#middleName").val();
@@ -148,7 +135,6 @@ $(document).ready(function () {
             user["sex"] = $('input[name=sexRadios]:checked').val();
         }
         user["agree"] = document.getElementById("agree").checked;
-        // user["status"] = '';
 
         $.ajax({
             type: "POST",
@@ -179,9 +165,39 @@ $(document).ready(function () {
     });
 
     $('#btnResetPassword').click(function () {
-        // $("#id").val();
-        alert($("#id").val());
-        alert($("#password").val());
+        var passswords = {};
+
+        passswords["id"] = $("#id").val();
+        passswords["uid"] = $("#uid").val();
+        passswords["rawPassword"] = $("#rawPassword").val();
+        passswords["repeatRawPassword"] = $("#repeatRawPassword").val();
+        // alert(passswords);
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "resetPassword",
+            data: JSON.stringify(passswords),
+            dataType: 'json',
+            success: function (responseData) {
+                if (responseData !== "" || responseData != null) {
+                    if (responseData.status === "FAIL") {
+                        console.log("FAIL : ", responseData);
+                        for (i = 0; i < responseData.errorList.length; i++) {
+                            // responseData.errorList[i].code;
+                            // responseData.errorList[i].dafaultMessage;
+                            // responseData.errorList[i].field;
+                            $("#" + responseData.errorList[i].field).siblings(".errorspan").text();
+                            $("#" + responseData.errorList[i].field).siblings(".errorspan").text(responseData.errorList[i].defaultMessage);
+                        }
+                    } else if (responseData.status === "OK") {
+                        console.log("OK : ", responseData);
+                        document.location.href = "/registrationSuccess";
+                    }
+
+
+                }
+            }
+        });
     });
 
 
