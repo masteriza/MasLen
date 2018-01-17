@@ -1,11 +1,8 @@
-package com.maslen.utils.interfaces;
+package com.maslen.services.interfaces;
 
-import com.maslen.models.RegistrationUserDto;
-import com.maslen.models.User;
 import org.springframework.validation.BindingResult;
 
 public interface VerificationService {
-    boolean validateForm(RegistrationUserDto registrationUserDto, BindingResult bindingResult);
 
     boolean isRegisteredEmail(String email);
 
@@ -15,5 +12,4 @@ public interface VerificationService {
 
     String encodePassword(String rawPassword);
 
-    User userDtoToUser(RegistrationUserDto registrationUserDto);
 }

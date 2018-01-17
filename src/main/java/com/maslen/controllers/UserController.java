@@ -4,8 +4,9 @@ package com.maslen.controllers;
 
 import com.maslen.dao.interfaces.UserDao;
 import com.maslen.models.*;
+import com.maslen.services.interfaces.RegistrationService;
+import com.maslen.services.interfaces.VerificationService;
 import com.maslen.utils.MailService;
-import com.maslen.utils.interfaces.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +25,14 @@ public class UserController {
 
     private final UserDao userDao;
     private final RegistrationService registrationService;
+    private final VerificationService verificationService;
     private final MailService mailService;
 
     @Autowired
-    public UserController(UserDao userDao, RegistrationService registrationService, MailService mailService) {
+    public UserController(UserDao userDao, RegistrationService registrationService, VerificationService verificationService, MailService mailService) {
         this.userDao = userDao;
         this.registrationService = registrationService;
+        this.verificationService = verificationService;
         this.mailService = mailService;
     }
 
@@ -106,7 +109,7 @@ public class UserController {
 
         if (registrationService.validateForm(registrationUserDto, bindingResult)) {
             User user = registrationService.userDtoToUser(registrationUserDto);
-            user.setPassword(registrationService.encodePassword(user.getPassword()));
+            user.setPassword(verificationService.encodePassword(user.getPassword()));
             userDao.addUser(user);
             mailService.sendRegistrationConfirmationEmail(user.getEmail());
 
