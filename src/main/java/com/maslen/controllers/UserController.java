@@ -5,6 +5,7 @@ package com.maslen.controllers;
 import com.maslen.dao.interfaces.UserDao;
 import com.maslen.models.*;
 import com.maslen.services.interfaces.RegistrationService;
+import com.maslen.services.interfaces.ResetPasswordService;
 import com.maslen.services.interfaces.VerificationService;
 import com.maslen.utils.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,19 @@ public class UserController {
 
     private final UserDao userDao;
     private final RegistrationService registrationService;
+    private final ResetPasswordService resetPasswordService;
     private final VerificationService verificationService;
     private final MailService mailService;
 
     @Autowired
-    public UserController(UserDao userDao, RegistrationService registrationService, VerificationService verificationService, MailService mailService) {
+    public UserController(UserDao userDao,
+                          RegistrationService registrationService,
+                          ResetPasswordService resetPasswordService,
+                          VerificationService verificationService,
+                          MailService mailService) {
         this.userDao = userDao;
         this.registrationService = registrationService;
+        this.resetPasswordService = resetPasswordService;
         this.verificationService = verificationService;
         this.mailService = mailService;
     }
@@ -99,6 +106,21 @@ public class UserController {
     @PostMapping(value = "/resetPassword")
     public MessageResponseBody processResetPassword(@Valid @RequestBody ResetPasswordDto resetPasswordDto, BindingResult bindingResult) {
         MessageResponseBody response = new MessageResponseBody();
+
+        resetPasswordDto.setId(verificationService.encode(resetPasswordDto.getId()));
+
+        if (resetPasswordService.validateForm(resetPasswordDto, bindingResult)) {
+//            User user = registrationService.userDtoToUser(registrationUserDto);
+//            user.setPassword(verificationService.encodePassword(user.getPassword()));
+//            userDao.addUser(user);
+//            mailService.sendRegistrationConfirmationEmail(user.getEmail());
+
+            response.setStatus("OK");
+        } else {
+            response.setStatus("FAIL");
+            response.setErrorList(bindingResult.getAllErrors());
+        }
+
         return response;
     }
 

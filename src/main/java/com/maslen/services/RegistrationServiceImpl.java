@@ -31,7 +31,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         this.verificationService = verificationService;
     }
 
-
     @Override
     public boolean validateForm(RegistrationUserDto registrationUserDto, BindingResult bindingResult) {
         boolean isValidData = true;
@@ -49,26 +48,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         }
         return isValidData;
     }
-
-//    @Override
-//    public boolean isRegisteredEmail(String email) {
-//        return userDao.isRegisteredEmail(email);
-//    }
-//
-//    @Override
-//    public boolean isPasswordMatch(String rawPassword, String repeatRawPassword, BindingResult bindingResult) {
-//        return rawPassword.equals(repeatRawPassword);
-//    }
-//
-//    @Override
-//    public boolean isRegisteredPhone(String phone) {
-//        return userDao.isRegisteredPhone(phone);
-//    }
-//
-//    @Override
-//    public String encodePassword(String rawPassword) {
-//        return encoder.encode(rawPassword);
-//    }
 
     @Override
     public User userDtoToUser(RegistrationUserDto registrationUserDto) {

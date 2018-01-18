@@ -12,4 +12,8 @@ public interface VerificationService {
 
     String encodePassword(String rawPassword);
 
+    String encode(String parameter);
+
+
+
 }

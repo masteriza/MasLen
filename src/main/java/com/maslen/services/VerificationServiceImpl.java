@@ -23,7 +23,6 @@ public class VerificationServiceImpl implements VerificationService {
         this.encoder = encoder;
     }
 
-
     @Override
     public boolean isRegisteredEmail(String email) {
         return userDao.isRegisteredEmail(email);
@@ -44,5 +43,8 @@ public class VerificationServiceImpl implements VerificationService {
         return encoder.encode(rawPassword);
     }
 
-
+    @Override
+    public String encode(String parameter) {
+        return encoder.encode(parameter);
+    }
 }
