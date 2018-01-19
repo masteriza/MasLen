@@ -9,11 +9,6 @@ import org.springframework.validation.BindingResult;
 
 @Component
 public class VerificationServiceImpl implements VerificationService {
-
-    private static final String EMAIL_NOT_UNIQUE = "Email is not unique!";
-    private static final String PASSWORDS_NOT_MATCH = "Passwords do not match!";
-    private static final String PHONE_NOT_UNIQUE = "Phone is not unique!";
-
     private final UserDao userDao;
     private final BCryptPasswordEncoder encoder;
 
@@ -47,4 +42,11 @@ public class VerificationServiceImpl implements VerificationService {
     public String encode(String parameter) {
         return encoder.encode(parameter);
     }
+
+    @Override
+    public boolean isConfirmationEmail(String email) {
+        return userDao.isConfirmationEmail(email);
+    }
+
+
 }

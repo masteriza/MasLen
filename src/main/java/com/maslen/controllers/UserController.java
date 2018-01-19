@@ -1,7 +1,5 @@
 package com.maslen.controllers;
 
-//import com.maslen.dao.interfaces.UserDao;
-
 import com.maslen.dao.interfaces.UserDao;
 import com.maslen.models.*;
 import com.maslen.services.interfaces.RegistrationService;
@@ -65,9 +63,9 @@ public class UserController {
         MessageResponseBody messageResponseBody = new MessageResponseBody();
         String email = emailDto.getEmail();
 
-        if (!userDao.isRegisteredEmail(email)) {
+        if (!verificationService.isRegisteredEmail(email)) {
             bindingResult.rejectValue("email", "error.user.email.nonRegistered", EMAIL_NOT_REGISTERED);
-        } else if (!userDao.isConfirmationEmail(email)) {
+        } else if (!verificationService.isConfirmationEmail(email)) {
             bindingResult.rejectValue("email", "error.user.email.nonConfirmed", EMAIL_NOT_CONFIRMED);
             mailService.sendRegistrationConfirmationEmail(email);
         }
@@ -110,10 +108,7 @@ public class UserController {
         resetPasswordDto.setId(verificationService.encode(resetPasswordDto.getId()));
 
         if (resetPasswordService.validateForm(resetPasswordDto, bindingResult)) {
-//            User user = registrationService.userDtoToUser(registrationUserDto);
-//            user.setPassword(verificationService.encodePassword(user.getPassword()));
-//            userDao.addUser(user);
-//            mailService.sendRegistrationConfirmationEmail(user.getEmail());
+
 
             response.setStatus("OK");
         } else {
@@ -136,10 +131,6 @@ public class UserController {
             mailService.sendRegistrationConfirmationEmail(user.getEmail());
 
             response.setStatus("OK");
-//            response.setMessage("YOU HAVE BEEN SUCCESSFULLY REGISTERED...<br>" +
-//                    "Please confirm your registration!\n" +
-//                    "Your information has been sent successfully. In order to complete your registration, please click the confirmation link in the email that we have sent to you.\n" +
-//                    "Please check, whether the email is in the junk folder of your email account, since confirmation mails with backlinks are sometimes classified as spam.");
         } else {
             response.setStatus("FAIL");
             response.setErrorList(bindingResult.getAllErrors());

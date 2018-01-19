@@ -14,6 +14,6 @@ public interface VerificationService {
 
     String encode(String parameter);
 
-
+    boolean isConfirmationEmail(String email);
 
 }
