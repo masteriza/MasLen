@@ -10,9 +10,9 @@ public interface VerificationService {
 
     boolean isPasswordMatch(String rawPassword, String repeatPassword, BindingResult bindingResult);
 
-    String encodePassword(String rawPassword);
+    String encryptPassword(String rawPassword);
 
-    String encode(String parameter);
+    String decrypt(String parameter);
 
     boolean isConfirmationEmail(String email);
 

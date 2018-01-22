@@ -32,9 +32,9 @@ public class MailService {
         mailSender.send(message);
     }
 
-    public String decryptEmail(String email) {
-        return Aes.decrypt(email, ENCRYPT_KEY);
-    }
+//    public String decryptEmail(String email) {
+//        return Aes.decrypt(email, ENCRYPT_KEY);
+//    }
 
     public void sendRegistrationConfirmationEmail(String email) {
         String stringEmailAES = "";

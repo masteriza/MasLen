@@ -1,11 +1,9 @@
 package com.maslen.services;
 
-import com.maslen.dao.interfaces.UserDao;
 import com.maslen.models.*;
 import com.maslen.services.interfaces.RegistrationService;
 import com.maslen.services.interfaces.VerificationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
@@ -19,21 +17,15 @@ public class RegistrationServiceImpl implements RegistrationService {
     private static final String PASSWORDS_NOT_MATCH = "Passwords do not match!";
     private static final String PHONE_NOT_UNIQUE = "Phone is not unique!";
 
-    private final UserDao userDao;
-    private final BCryptPasswordEncoder encoder;
     private final VerificationService verificationService;
 
-
     @Autowired
-    public RegistrationServiceImpl(UserDao userDao, BCryptPasswordEncoder encoder, VerificationService verificationService) {
-        this.userDao = userDao;
-        this.encoder = encoder;
+    public RegistrationServiceImpl(VerificationService verificationService) {
         this.verificationService = verificationService;
     }
 
     @Override
-    public boolean validateForm(RegistrationUserDto registrationUserDto, BindingResult bindingResult) {
-        boolean isValidData = true;
+    public BindingResult validateForm(RegistrationUserDto registrationUserDto, BindingResult bindingResult) {
         if (verificationService.isRegisteredEmail(registrationUserDto.getEmail())) {
             bindingResult.rejectValue("email", "error.user.email.nonUnique", EMAIL_NOT_UNIQUE);
         }
@@ -43,10 +35,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (verificationService.isRegisteredPhone(registrationUserDto.getPhone())) {
             bindingResult.rejectValue("phone", "error.user.phone.nonUnique", PHONE_NOT_UNIQUE);
         }
-        if (bindingResult.hasErrors()) {
-            isValidData = false;
-        }
-        return isValidData;
+        return bindingResult;
     }
 
     @Override

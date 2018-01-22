@@ -7,7 +7,7 @@ public class SecurityConfigTest {
     @Test
     public void bCryptPasswordEncoder() throws Exception {
 //        for (int i = 0; i < 100000; i++) {
-//            System.out.println(i + "    " + new BCryptPasswordEncoder().encode("111111"));
+//            System.out.println(i + "    " + new BCryptPasswordEncoder().decrypt("111111"));
 //        }
         System.out.println(new BCryptPasswordEncoder().encode("1111111"));
     }
