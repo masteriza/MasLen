@@ -39,16 +39,17 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
         try {
             String email = commonService.decrypt(resetPasswordDto.getId());
             resetPasswordDto.setId(email);
+            if (!verificationService.isPasswordMatch(resetPasswordDto.getRawPassword(), resetPasswordDto.getRepeatRawPassword(), bindingResult)) {
+                bindingResult.rejectValue("rawPassword", "error.user.password.missMatch", PASSWORDS_NOT_MATCH);
+            }
         } catch (RuntimeException e) {
             bindingResult.rejectValue("id", "error.data.response.notValid", RESPONSE_DATA_NOT_VALID);
         }
 
         if (!bindingResult.hasErrors()) {
-            if (verificationService.isRegisteredEmail(resetPasswordDto.getId())) {
+            if (verificationService.isValidSessionForEmail(resetPasswordDto.getId(), resetPasswordDto.getUid())) {
 
-                if (!verificationService.isPasswordMatch(resetPasswordDto.getRawPassword(), resetPasswordDto.getRepeatRawPassword(), bindingResult)) {
-                    bindingResult.rejectValue("rawPassword", "error.user.password.missMatch", PASSWORDS_NOT_MATCH);
-                }
+
 
             } else {
                 bindingResult.rejectValue("email", "error.user.email.notExist", EMAIL_NOT_EXIST);

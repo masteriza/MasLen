@@ -18,4 +18,6 @@ public interface UserDao {
     boolean activateUser(String email);
 
     boolean addUserActivity(UserActivity userActivity);
+
+    boolean isValidSessionForEmail(String email, String session);
 }

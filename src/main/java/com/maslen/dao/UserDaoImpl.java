@@ -95,5 +95,15 @@ public class UserDaoImpl implements UserDao {
         return (idInsertRow > 0) ? true : false;
     }
 
+    @Override
+    public boolean isValidSessionForEmail(String email, String session) {
+        long rowCount = (long) currentSession()
+                .createQuery("select count(*) from User u inner join FETCH UserActivity ua ON u.userId = ua.user where u.email =:email and ua.session =:session and isActivated = true")
+                .setParameter("email", email)
+                .setParameter("session", session)
+                .uniqueResult();
+        return (rowCount > 0) ? true : false;
+    }
+
 
 }

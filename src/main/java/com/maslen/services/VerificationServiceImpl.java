@@ -2,7 +2,6 @@ package com.maslen.services;
 
 import com.maslen.dao.interfaces.UserDao;
 import com.maslen.services.interfaces.VerificationService;
-import com.maslen.utils.Aes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -36,20 +35,24 @@ public class VerificationServiceImpl implements VerificationService {
         return userDao.isRegisteredPhone(phone);
     }
 
-    @Override
-    public String encryptPassword(String rawPassword) {
-        return encoder.encode(rawPassword);
-    }
+//    @Override
+//    public String encryptPassword(String rawPassword) {
+//        return encoder.encode(rawPassword);
+//    }
 
-    @Override
-    public String decrypt(String parameter) {
-        return Aes.decrypt(parameter, ENCRYPT_KEY);
-    }
+//    @Override
+//    public String decrypt(String parameter) {
+//        return Aes.decrypt(parameter, ENCRYPT_KEY);
+//    }
 
     @Override
     public boolean isConfirmationEmail(String email) {
         return userDao.isConfirmationEmail(email);
     }
 
+    @Override
+    public boolean isValidSessionForEmail(String email, String session) {
+        return userDao.isValidSessionForEmail(email, session);
+    }
 
 }

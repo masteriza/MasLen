@@ -44,7 +44,9 @@ public class RootConfig {
     Properties properties() {
         Properties properties = new Properties();
 //        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL57Dialect");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL55Dialect");
+//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+//        properties.setProperty("hibernate.dialect.storage_engine", "innodb");
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.show_sql", "true");
         properties.setProperty("hibernate.jdbc.fetch_size", "50");
