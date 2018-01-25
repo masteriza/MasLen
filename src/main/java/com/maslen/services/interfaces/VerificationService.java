@@ -16,6 +16,6 @@ public interface VerificationService {
 
     boolean isConfirmationEmail(String email);
 
-    boolean isValidSessionForEmail(String email, String session);
+    boolean isValidSessionForUserId(String userId, String session);
 
 }

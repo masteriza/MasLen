@@ -51,8 +51,8 @@ public class VerificationServiceImpl implements VerificationService {
     }
 
     @Override
-    public boolean isValidSessionForEmail(String email, String session) {
-        return userDao.isValidSessionForEmail(email, session);
+    public boolean isValidSessionForUserId(String userId, String session) {
+        return userDao.isValidSessionForUserId(userId, session);
     }
 
 }

@@ -19,5 +19,7 @@ public interface UserDao {
 
     boolean addUserActivity(UserActivity userActivity);
 
-    boolean isValidSessionForEmail(String email, String session);
+    boolean isValidSessionForUserId(String userId, String session);
+
+    boolean updateUserPassword(String userId, String encryptPassword);
 }

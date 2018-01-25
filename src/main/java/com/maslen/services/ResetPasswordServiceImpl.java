@@ -18,6 +18,7 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
 
     private static final String RESPONSE_DATA_NOT_VALID = "Response data is not valid.";
     private static final String EMAIL_NOT_EXIST = "Email is not exist";
+    private static final String SESSION_NOT_EXIST = "Session is not exist";
 
     private final UserDao userDao;
     private final BCryptPasswordEncoder encoder;
@@ -35,10 +36,11 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
     @Override
     public BindingResult validateForm(ResetPasswordDto resetPasswordDto, BindingResult bindingResult) {
 
+        String userId = null;
 
         try {
-            String email = commonService.decrypt(resetPasswordDto.getId());
-            resetPasswordDto.setId(email);
+            userId = commonService.decrypt(resetPasswordDto.getId());
+            resetPasswordDto.setId(userId);
             if (!verificationService.isPasswordMatch(resetPasswordDto.getRawPassword(), resetPasswordDto.getRepeatRawPassword(), bindingResult)) {
                 bindingResult.rejectValue("rawPassword", "error.user.password.missMatch", PASSWORDS_NOT_MATCH);
             }
@@ -47,12 +49,13 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
         }
 
         if (!bindingResult.hasErrors()) {
-            if (verificationService.isValidSessionForEmail(resetPasswordDto.getId(), resetPasswordDto.getUid())) {
+            if (verificationService.isValidSessionForUserId(resetPasswordDto.getId(), resetPasswordDto.getUid())) {
 
-
+                String encryptPassword = commonService.encryptPassword(resetPasswordDto.getRawPassword());
+                userDao.updateUserPassword(userId, encryptPassword);
 
             } else {
-                bindingResult.rejectValue("email", "error.user.email.notExist", EMAIL_NOT_EXIST);
+                bindingResult.rejectValue("error", "error.user.session.notExist", SESSION_NOT_EXIST);
             }
 
 

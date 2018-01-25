@@ -12,7 +12,7 @@ public class CommonServiceImpl implements CommonService {
     private final UserDao userDao;
     private final BCryptPasswordEncoder encoder;
 
-    private static final String ENCRYPT_KEY = "Why_did_you_do_that?";
+    private static final String AES_KEY = "Why_did_you_do_that?";
 
     @Autowired
     public CommonServiceImpl(UserDao userDao, BCryptPasswordEncoder encoder) {
@@ -27,11 +27,11 @@ public class CommonServiceImpl implements CommonService {
 
     @Override
     public String decrypt(String parameter) {
-        return Aes.decrypt(parameter, ENCRYPT_KEY);
+        return Aes.decrypt(parameter, AES_KEY);
     }
 
     @Override
     public String encrypt(String parameter) {
-        return Aes.encrypt(parameter, ENCRYPT_KEY);
+        return Aes.encrypt(parameter, AES_KEY);
     }
 }

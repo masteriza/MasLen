@@ -96,12 +96,23 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean isValidSessionForEmail(String email, String session) {
+    public boolean isValidSessionForUserId(String userId, String session) {
         long rowCount = (long) currentSession()
-                .createQuery("select count(*) from User u inner join FETCH UserActivity ua ON u.userId = ua.user where u.email =:email and ua.session =:session and isActivated = true")
-                .setParameter("email", email)
+                .createQuery("select count(*) from User u inner join FETCH UserActivity ua ON u.userId = ua.user " +
+                        "where u.userId =:userId and ua.session =:session and isActivated = true and NOW() < ua.endDate")
+                .setParameter("userId", Long.parseLong(userId))
                 .setParameter("session", session)
                 .uniqueResult();
+        return (rowCount > 0) ? true : false;
+    }
+
+    @Override
+    public boolean updateUserPassword(String userId, String encryptPassword) {
+        long rowCount = (long) currentSession()
+                .createQuery("update User u set u.password = :encryptPassword where u.userId =:userId")
+                .setParameter("userId", userId)
+                .setParameter("encryptPassword", encryptPassword)
+                .executeUpdate();
         return (rowCount > 0) ? true : false;
     }
 
