@@ -48,6 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/restorePassword",
                         "/restorePasswordStart",
                         "/resetPassword",
+                        "/resetPasswordSuccess",
+
 
                         "/").permitAll()
                 .antMatchers(HttpMethod.POST, "/user").permitAll()

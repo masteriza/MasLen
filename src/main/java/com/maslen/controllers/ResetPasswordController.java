@@ -56,5 +56,10 @@ public class ResetPasswordController {
         return response;
     }
 
+    @GetMapping(value = "/resetPasswordSuccess")
+    public ModelAndView resetPasswordSuccessPage() {
+        return new ModelAndView("resetPasswordSuccess");
+    }
+
 
 }

@@ -110,7 +110,7 @@ public class UserDaoImpl implements UserDao {
     public boolean updateUserPassword(String userId, String encryptPassword) {
         long rowCount = (long) currentSession()
                 .createQuery("update User u set u.password = :encryptPassword where u.userId =:userId")
-                .setParameter("userId", userId)
+                .setParameter("userId", Long.parseLong(userId))
                 .setParameter("encryptPassword", encryptPassword)
                 .executeUpdate();
         return (rowCount > 0) ? true : false;

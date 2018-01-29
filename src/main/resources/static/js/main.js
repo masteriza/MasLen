@@ -171,7 +171,7 @@ $(document).ready(function () {
         passswords["uid"] = $("#uid").val();
         passswords["rawPassword"] = $("#rawPassword").val();
         passswords["repeatRawPassword"] = $("#repeatRawPassword").val();
-        // alert(passswords);
+
         $.ajax({
             type: "POST",
             contentType: "application/json",
@@ -183,18 +183,13 @@ $(document).ready(function () {
                     if (responseData.status === "FAIL") {
                         console.log("FAIL : ", responseData);
                         for (i = 0; i < responseData.errorList.length; i++) {
-                            // responseData.errorList[i].code;
-                            // responseData.errorList[i].dafaultMessage;
-                            // responseData.errorList[i].field;
                             $("#" + responseData.errorList[i].field).siblings(".errorspan").text();
                             $("#" + responseData.errorList[i].field).siblings(".errorspan").text(responseData.errorList[i].defaultMessage);
                         }
                     } else if (responseData.status === "OK") {
                         console.log("OK : ", responseData);
-                        document.location.href = "/registrationSuccess";
+                        document.location.href = "/resetPasswordSuccess";
                     }
-
-
                 }
             }
         });
