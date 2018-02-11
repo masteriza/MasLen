@@ -6,7 +6,10 @@ import com.maslen.services.interfaces.ResetPasswordService;
 import com.maslen.services.interfaces.VerificationService;
 import com.maslen.utils.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class UserController {
@@ -146,10 +149,10 @@ public class UserController {
 //    }
 
 
-//    //    @PreAuthorize("hasRole('USER')")
-//    @RequestMapping(value = "/userPanel", method = {RequestMethod.GET, RequestMethod.POST})
-//    public ModelAndView userPanelPage() {
-//        return new ModelAndView("userPanel");
-//    }
+    //    @PreAuthorize("hasRole('USER')")
+    @RequestMapping(value = "/userPanel", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView userPanelPage() {
+        return new ModelAndView("userPanel");
+    }
 
 }
